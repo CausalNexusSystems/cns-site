@@ -44,4 +44,7 @@ node_modules
 .next
 VSCode-darwin-universal.dmg
 *.mp4
+!public/brand/cns_canvas.mp4
+!public/brand/earth_rotation.mp4
+
 
