@@ -746,7 +746,7 @@ export default function Home() {
             >
               <div className="absolute h-[84px] w-[84px] rounded-2xl bg-[radial-gradient(circle_at_35%_35%,rgba(56,189,248,0.22),transparent_60%)]" />
               <Image
-                src={safeSrc("/brand/cns_logo.png")}
+                src={safeSrc("/brand/cns_logo_v2.png")}
                 alt="CNS"
                 width={180}
                 height={180}
