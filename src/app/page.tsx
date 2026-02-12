@@ -757,7 +757,7 @@ export default function Home() {
             </div>
 
             <div className="leading-tight">
-              <div className="text-3xl font-semibold tracking-wide">CNS</div>
+              <div className="text-3xl font-semibold tracking-wide"></div>
               <div className="text-sm text-white/70">Causal Nexus Systems LLC</div>
               <div className="mt-1 text-[11px] text-white/55">
                 Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666
