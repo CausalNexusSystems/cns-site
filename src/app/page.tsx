@@ -467,3 +467,256 @@ function RocketMetricsCard() {
     </div>
   );
 }
+
+// ==================== MODULE MODAL (NEW - rich version with images) ====================
+function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: () => void }) {
+  if (!module) return null;
+
+  return (
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
+      <div className="glass w-full max-w-5xl rounded-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className="grid md:grid-cols-5">
+          {/* Image */}
+          <div className="md:col-span-2 bg-black/30 p-8 flex items-center justify-center">
+            <div className="relative w-full aspect-square max-h-[420px]">
+              <Image 
+                src={safeSrc(module.imgSrc)} 
+                alt={module.acronym} 
+                fill 
+                className="object-contain" 
+              />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="md:col-span-3 p-8">
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <div style={{ color: module.color }} className="text-5xl font-bold tracking-[-1.5px]">{module.acronym}</div>
+                <div className="text-2xl text-white/80 mt-1">{module.fullName}</div>
+              </div>
+              <button onClick={onClose} className="text-4xl text-white/40 hover:text-white">×</button>
+            </div>
+
+            <div className="space-y-6 text-sm">
+              <div>
+                <div className="text-xs tracking-[2px] text-white/50 mb-1">DEFINITION</div>
+                <p className="text-white/90 leading-relaxed">{module.definition}</p>
+              </div>
+
+              <div>
+                <div className="text-xs tracking-[2px] text-white/50 mb-1">CREATED FOR</div>
+                <p className="text-white/90 leading-relaxed">{module.createdFor}</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                  <div className="text-xs tracking-[2px] text-white/50 mb-1">INDEPENDENT USE</div>
+                  <p className="text-white/90 leading-relaxed">{module.independentUse}</p>
+                </div>
+                <div>
+                  <div className="text-xs tracking-[2px] text-white/50 mb-1">ECOSYSTEM USE</div>
+                  <p className="text-white/90 leading-relaxed">{module.ecosystemUse}</p>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                  <div>
+                    <div className="text-white/50 mb-2 tracking-widest">SECTORS</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {module.sectors.map((s, i) => <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/10">{s}</span>)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 mb-2 tracking-widest">SIGNALS</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {module.signals.map((s, i) => <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/10">{s}</span>)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 mb-2 tracking-widest">OUTPUTS</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {module.outputs.map((s, i) => <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/10">{s}</span>)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 mb-2 tracking-widest">EVIDENCE</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {module.evidence.map((s, i) => <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/10">{s}</span>)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== MAIN PAGE ====================
+export default function Home() {
+  const [selectedModule, setSelectedModule] = useState<EcoModule | null>(null);
+  const [hoverFocus, setHoverFocus] = useState<SectionKey | null>(null);
+  const focus = hoverFocus ?? "top";
+
+  return (
+    <main className="min-h-screen text-white">
+      <GlobalStyles />
+      <CausalBackground intensity={0.8} focus={focus} />
+
+      {/* HEADER with Horizontal Menu */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#03030A]/95 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            <div className="grid h-[84px] w-[84px] place-items-center overflow-hidden rounded-2xl ring-1 ring-white/20" style={{
+              background: "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))",
+              boxShadow: "0 0 46px rgba(56,189,248,0.16)",
+            }}>
+              <div className="absolute h-[84px] w-[84px] rounded-2xl bg-[radial-gradient(circle_at_35%_35%,rgba(56,189,248,0.22),transparent_60%)]" />
+              <Image src={safeSrc("/brand/cns_logo_v2.png")} alt="CNS" width={180} height={180}
+                     className="relative h-[60px] w-[60px] object-contain" style={{ animation: "logoPulse 2.8s ease-in-out infinite" }} priority />
+            </div>
+            <div className="leading-tight">
+              <div className="text-3xl font-semibold tracking-wide">CNS</div>
+              <div className="text-sm text-white/70">Causal Nexus Systems LLC</div>
+              <div className="mt-1 text-[11px] text-white/55">Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666</div>
+            </div>
+          </div>
+
+          <TopNav />
+
+          <button onClick={() => scrollToId("contact")} className="btnPrimary text-sm px-6 py-2.5">
+            NDA Access
+          </button>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-28 pb-10">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+          <div>
+            <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
+            <h1 className="mt-4 text-4xl font-semibold leading-tight md:text-6xl">CNS MEASURES CAUSE,<br />NOT EFFECT.</h1>
+            <p className="mt-4 max-w-xl text-white/75">
+              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Modules →</button>
+              <button className="btnGhost" onClick={() => scrollToId("business")}>Kernel licensing model</button>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs text-white/60">
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Public layer</span>
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Sealed outputs</span>
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">No kernel exposure</span>
+            </div>
+          </div>
+
+          <div onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
+            <RocketMetricsCard />
+          </div>
+        </div>
+      </section>
+
+      {/* MODULES (NEW) */}
+      <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <div className="sectionTitle">PUBLIC MODULE LAYER</div>
+            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Modules</h2>
+            <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {ECO_MODULES.map((mod, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedModule(mod)}
+              onMouseEnter={() => setHoverFocus("modules")}
+              onMouseLeave={() => setHoverFocus(null)}
+              className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7"
+            >
+              <div className="flex items-center gap-4">
+                <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                  <Image src={safeSrc(mod.imgSrc)} alt={mod.acronym} width={90} height={90} className="h-10 w-10 object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
+                  <div className="truncate text-sm text-white/65">{mod.fullName}</div>
+                </div>
+              </div>
+              <div className="mt-4 line-clamp-3 text-sm text-white/75">{mod.desc}</div>
+              <div className="mt-5 text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
+                View full module details <span className="text-lg leading-none">→</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* BUSINESS, DEMOS, COMMUNITY, CONTACT (kept exact from your original) */}
+      <section id="business" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">BUSINESS</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Kernel licensing</h2>
+        <p className="mt-3 max-w-3xl text-white/72">
+          CNS is not offered as a public SaaS platform. The Kernel operates as a licensed, cloud-hosted causal engine. Access is granted exclusively under NDA and domain-specific licensing agreements.
+        </p>
+        <div className="mt-7 grid gap-5 md:grid-cols-3">
+          {[
+            { t: "NDA-First Access", d: "Kernel access is granted only under strict confidentiality agreements. No source access, reverse engineering, or internal inspection is permitted." },
+            { t: "Public Proofs", d: "All public outputs are cryptographically sealed using SHA-256 + Merkle root verification without exposing private Kernel mechanics." },
+            { t: "High-Stakes Focus", d: "Designed for systems where failure is not an option: Aerospace, critical infrastructure, financial, healthcare, and security-sensitive environments." },
+          ].map((x, i) => (
+            <div key={i} className="glass rounded-3xl p-5" onMouseEnter={() => setHoverFocus("business")} onMouseLeave={() => setHoverFocus(null)}>
+              <div className="text-lg font-semibold">{x.t}</div>
+              <div className="mt-2 text-sm text-white/70">{x.d}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="demos" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">DEMOS</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Verified Public Demonstrations</h2>
+        <p className="mt-3 max-w-3xl text-white/72">Public evidence of operational capability. Internal logic remains protected.</p>
+        <div className="mt-7 grid gap-5 md:grid-cols-3">
+          {[
+            { t: "ASTRA Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7415229373039230976/" },
+            { t: "CNS Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7397122628907417600/" },
+            { t: "SQS Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7414403427432325121/" },
+          ].map((d, i) => (
+            <a key={i} href={d.href} target="_blank" rel="noreferrer" className="glass rounded-3xl p-5 transition hover:bg-white/7"
+               onMouseEnter={() => setHoverFocus("demos")} onMouseLeave={() => setHoverFocus(null)}>
+              <div className="text-lg font-semibold">{d.t}</div>
+              <div className="mt-2 text-sm text-white/70">Open →</div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section id="community" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">COMMUNITY</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Build the Public Layer</h2>
+        <div className="glass mt-7 rounded-3xl p-6" onMouseEnter={() => setHoverFocus("community")} onMouseLeave={() => setHoverFocus(null)}>
+          <div className="text-white/80">Coming soon: public runs feed + pinned updates.</div>
+          <div className="mt-2 text-sm text-white/60">CNS keeps the public layer transparent without exposing kernel internals.</div>
+        </div>
+      </section>
+
+      <section id="contact" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">CONTACT</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Contact</h2>
+        <p className="mt-3 max-w-3xl text-white/72">For partnerships, licensing, and high-stakes deployments. Public layer only — kernel access is NDA-first.</p>
+        <div className="glass mt-7 rounded-3xl p-6" onMouseEnter={() => setHoverFocus("contact")} onMouseLeave={() => setHoverFocus(null)}>
+          <div className="text-white/85">Email: admin@causalnexussystems.com</div>
+        </div>
+        <footer className="mt-10 pb-10 text-center text-xs text-white/40">© {new Date().getFullYear()} Causal Nexus Systems LLC</footer>
+      </section>
+
+      <ModuleModal module={selectedModule} onClose={() => setSelectedModule(null)} />
+    </main>
+  );
+}
