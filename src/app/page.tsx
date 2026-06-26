@@ -30,7 +30,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Runtime Sovereign Authority",
     badge: "Authority",
     color: "#8BA0C0",
-    imgSrc: "/brand/06-k24_1-RS.png",
+    imgSrc: "/brand/06-K24_1-RS.png",     // ← CORREGIDO
     desc: "Command authority for the CNS ecosystem. Integrates module evidence and emits the final deterministic causal decision.",
     definition: "K24.1-RS is the authority layer that consolidates module-level evidence, resolves decision pressure, and produces the final system posture under a bounded runtime contract.",
     createdFor: "Created to prevent fragmented module outputs from becoming uncontrolled operational decisions. It centralizes authority without exposing the underlying kernel.",
@@ -46,7 +46,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Adaptive Causal Decision Kernel",
     badge: "Decision",
     color: "#B83232",
-    imgSrc: "/brand/04-ACDK.png",
+    imgSrc: "/brand/04-ACDK.png",           // ← CORREGIDO
     desc: "Strategic causal decision governance for complex operating conditions, mission planning, and adaptive risk posture.",
     definition: "ACDK is the decision kernel for strategic causal interpretation. It converts multi-condition operational context into bounded decision options.",
     createdFor: "Created for environments where risk changes across time, domain, and mission priority, and where decision posture must remain explainable.",
@@ -62,7 +62,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Nexus Causal Module",
     badge: "Edge",
     color: "#00A85E",
-    imgSrc: "/brand/09-NCM.png",
+    imgSrc: "/brand/09-NCM.png",            // ← CORREGIDO
     desc: "Compact deterministic causal operation for edge devices, robotics, drones, and autonomous platforms.",
     definition: "NCM is the edge causal module. It evaluates local operational state close to the physical system without relying on cloud availability.",
     createdFor: "Created for local, embedded, or constrained environments where latency, connectivity, and autonomy are operational constraints.",
@@ -78,7 +78,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Multi-Domain Fusion Engine",
     badge: "Fusion",
     color: "#6C32D4",
-    imgSrc: "/brand/08-MDFE.png",
+    imgSrc: "/brand/08-MDFE.png",           // ← CORREGIDO
     desc: "Transforms fragmented operational streams into one coherent multi-domain causal context.",
     definition: "MDFE is the fusion layer that aligns heterogeneous telemetry into a coherent causal context before downstream decisions are made.",
     createdFor: "Created because critical systems rarely operate in one domain. It reduces fragmented interpretation across sensors, sectors, and operational layers.",
@@ -94,7 +94,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Kinetic Entropy Coherence System",
     badge: "Coherence",
     color: "#4D94FF",
-    imgSrc: "/brand/07-KECS.png",
+    imgSrc: "/brand/07-KECS.png",           // ← CORREGIDO
     desc: "Causal coherence evaluation, kinetic entropy analysis, cascade stability, fault detection, and safe-state containment.",
     definition: "KECS is the coherence and entropy module. It evaluates whether system behavior remains structurally coherent or is drifting toward instability.",
     createdFor: "Created to identify instability before it appears as an uncontrolled effect, especially in systems where small deviations can cascade.",
@@ -110,7 +110,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Deterministic Integrity Kernel",
     badge: "Integrity",
     color: "#C85A18",
-    imgSrc: "/brand/05-ADIK.png",
+    imgSrc: "/brand/05-ADIK.png",           // ← CORREGIDO
     desc: "Preserves trust between physical operational state and evidence-supported deterministic output.",
     definition: "ADIK is the integrity kernel that protects consistency between input state, timing, computation path, and repeatable output.",
     createdFor: "Created to reduce ambiguity between what the physical system produced, what the runtime processed, and what evidence later proves.",
@@ -126,7 +126,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Runtime Enforcement and Protection Shield",
     badge: "Protection",
     color: "#C8A84B",
-    imgSrc: "/brand/02-IRON_GUARDIAN.png",
+    imgSrc: "/brand/02-IRON_GUARDIAN.png",  // ← CORREGIDO
     desc: "Runtime enforcement, containment, integrity monitoring, autonomous response logic, and bounded execution protection.",
     definition: "Iron Guardian is the runtime shield. It enforces bounded execution and protects the environment where deterministic CNS decisions operate.",
     createdFor: "Created to keep causal decisions from becoming exposed, unbounded, or unsafe at runtime when operational pressure changes.",
@@ -142,7 +142,7 @@ const ECO_MODULES: EcoModule[] = [
     fullName: "Sealed Quality System / Deterministic Evidence and Execution Ledger",
     badge: "Evidence",
     color: "#007A6E",
-    imgSrc: "/brand/03-SQS_-_DEEL.png",
+    imgSrc: "/brand/03-SQS_-_DEEL.png",     // ← CORREGIDO
     desc: "Sealed evidence boundaries, deterministic evidence packaging, traceability, auditability, and external review support.",
     definition: "SQS/DEEL is the evidence and ledger layer that packages CNS outputs into reviewable, sealed, and hash-verifiable records.",
     createdFor: "Created so outputs are not only operationally useful, but also inspectable after the fact by reviewers, partners, or institutional evaluators.",
