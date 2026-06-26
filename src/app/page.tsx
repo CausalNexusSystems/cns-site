@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ==================== TYPES ====================
 type SectionKey = "top" | "modules" | "business" | "demos" | "community" | "contact";
@@ -23,7 +23,7 @@ type EcoModule = {
   evidence: string[];
 };
 
-// ==================== NEW MODULES DATA ====================
+// ==================== NEW MODULES (from your ECO_MODULES) ====================
 const ECO_MODULES: EcoModule[] = [
   {
     acronym: "K24.1-RS",
@@ -172,12 +172,14 @@ function scrollToId(id: SectionKey) {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// ==================== STYLES (from original v3) ====================
+// ==================== STYLES (exact from your original) ====================
 function GlobalStyles() {
   return (
     <style jsx global>{`
       :root {
         --cns-blue: rgba(56, 189, 248, 1);
+        --cns-blue-soft: rgba(56, 189, 248, 0.22);
+        --cns-purple-soft: rgba(168, 85, 247, 0.18);
         --glass: rgba(255, 255, 255, 0.06);
         --ring: rgba(255, 255, 255, 0.12);
       }
@@ -240,63 +242,47 @@ function GlobalStyles() {
       .glass {
         background: var(--glass);
         border: 1px solid var(--ring);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(10px);
       }
 
       .btnPrimary {
         display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-        padding: 11px 22px; border-radius: 999px;
+        padding: 10px 14px; border-radius: 999px;
         background: rgba(56, 189, 248, 0.18);
         border: 1px solid rgba(56, 189, 248, 0.35);
-        color: white; font-size: 13px; font-weight: 600;
-        transition: all 180ms ease;
+        color: white;
+        transition: transform 180ms ease, background 180ms ease, border 180ms ease;
       }
       .btnPrimary:hover {
         transform: translateY(-1px);
         background: rgba(56, 189, 248, 0.24);
-        border-color: rgba(56, 189, 248, 0.55);
+        border: 1px solid rgba(56, 189, 248, 0.55);
       }
 
       .btnGhost {
         display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-        padding: 11px 22px; border-radius: 999px;
+        padding: 10px 14px; border-radius: 999px;
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        color: rgba(255, 255, 255, 0.9); font-size: 13px; font-weight: 500;
-        transition: all 180ms ease;
+        color: rgba(255, 255, 255, 0.9);
+        transition: transform 180ms ease, background 180ms ease, border 180ms ease;
       }
       .btnGhost:hover {
+        transform: translateY(-1px);
         background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
       }
 
       .sectionTitle {
-        font-size: 11px;
-        letter-spacing: 0.3em;
-        color: rgba(255, 255, 255, 0.5);
-        text-transform: uppercase;
-      }
-
-      .module-card {
-        transition: transform 0.2s ease, border-color 0.2s ease;
-      }
-      .module-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(255,255,255,0.2);
-      }
-
-      .module-modal {
-        animation: modalPop 0.2s ease forwards;
-      }
-      @keyframes modalPop {
-        from { opacity: 0; transform: scale(0.96) translateY(20px); }
-        to { opacity: 1; transform: scale(1) translateY(0); }
+        font-size: 12px;
+        letter-spacing: 0.28em;
+        color: rgba(255, 255, 255, 0.55);
       }
     `}</style>
   );
 }
 
-// ==================== BACKGROUND (from original v3 - kept intact) ====================
+// ==================== BACKGROUND (EXACT from your original - DO NOT TOUCH) ====================
 function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: number; focus?: SectionKey }) {
   const focusMap: Record<SectionKey, { x: number; y: number }> = {
     top: { x: 25, y: 20 },
@@ -306,6 +292,7 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
     community: { x: 35, y: 75 },
     contact: { x: 55, y: 85 },
   };
+
   const p = focusMap[focus] ?? focusMap.top;
 
   return (
@@ -353,8 +340,8 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
   );
 }
 
-// ==================== HORIZONTAL NAV (new) ====================
-function TopNavigation() {
+// ==================== HORIZONTAL NAV (new - in header) ====================
+function TopNav() {
   return (
     <nav className="hidden md:flex items-center gap-x-8 text-sm font-medium text-white/80">
       <button onClick={() => scrollToId("modules")} className="hover:text-white transition-colors">Modules</button>
@@ -365,7 +352,7 @@ function TopNavigation() {
   );
 }
 
-// ==================== ROCKET METRICS CARD (kept from original) ====================
+// ==================== ROCKET METRICS CARD (kept exact) ====================
 function RocketMetricsCard() {
   const [phase, setPhase] = useState<"metrics" | "launch">("metrics");
   const t1 = useRef<number | null>(null);
@@ -423,6 +410,7 @@ function RocketMetricsCard() {
               <div className="absolute left-1/2 top-[152px] -translate-x-1/2">
                 <div className="h-[60px] w-[26px] rounded-full" style={{
                   background: "radial-gradient(circle at 50% 20%, rgba(255,255,255,0.85), rgba(56,189,248,0.35) 35%, rgba(168,85,247,0.18) 65%, rgba(0,0,0,0) 75%)",
+                  filter: "blur(0.2px)",
                   animation: "flameFlicker 200ms ease-in-out infinite",
                 }} />
               </div>
@@ -447,59 +435,58 @@ function RocketMetricsCard() {
   );
 }
 
-// ==================== MODULE MODAL (NEW - rich version) ====================
+// ==================== MODULE MODAL (NEW - rich version with images) ====================
 function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: () => void }) {
   if (!module) return null;
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
-      <div className="module-modal glass w-full max-w-5xl rounded-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
+      <div className="glass w-full max-w-5xl rounded-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="grid md:grid-cols-5">
-          {/* Image Side */}
-          <div className="md:col-span-2 bg-black/40 p-6 flex items-center justify-center">
+          {/* Image */}
+          <div className="md:col-span-2 bg-black/30 p-8 flex items-center justify-center">
             <div className="relative w-full aspect-square max-h-[420px]">
               <Image 
-                src={safeSrc(module.imgSrc, "/brand/cns_logo.png")} 
+                src={safeSrc(module.imgSrc)} 
                 alt={module.acronym} 
                 fill 
-                className="object-contain p-8" 
+                className="object-contain" 
               />
             </div>
           </div>
 
-          {/* Content Side */}
+          {/* Content */}
           <div className="md:col-span-3 p-8">
             <div className="flex justify-between items-start mb-6">
               <div>
                 <div style={{ color: module.color }} className="text-5xl font-bold tracking-[-1.5px]">{module.acronym}</div>
                 <div className="text-2xl text-white/80 mt-1">{module.fullName}</div>
               </div>
-              <button onClick={onClose} className="text-4xl text-white/40 hover:text-white leading-none">×</button>
+              <button onClick={onClose} className="text-4xl text-white/40 hover:text-white">×</button>
             </div>
 
             <div className="space-y-6 text-sm">
               <div>
-                <div className="text-xs tracking-[2px] text-white/50 mb-1.5">DEFINITION</div>
+                <div className="text-xs tracking-[2px] text-white/50 mb-1">DEFINITION</div>
                 <p className="text-white/90 leading-relaxed">{module.definition}</p>
               </div>
 
               <div>
-                <div className="text-xs tracking-[2px] text-white/50 mb-1.5">CREATED FOR</div>
+                <div className="text-xs tracking-[2px] text-white/50 mb-1">CREATED FOR</div>
                 <p className="text-white/90 leading-relaxed">{module.createdFor}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <div className="text-xs tracking-[2px] text-white/50 mb-1.5">INDEPENDENT USE</div>
+                  <div className="text-xs tracking-[2px] text-white/50 mb-1">INDEPENDENT USE</div>
                   <p className="text-white/90 leading-relaxed">{module.independentUse}</p>
                 </div>
                 <div>
-                  <div className="text-xs tracking-[2px] text-white/50 mb-1.5">ECOSYSTEM USE</div>
+                  <div className="text-xs tracking-[2px] text-white/50 mb-1">ECOSYSTEM USE</div>
                   <p className="text-white/90 leading-relaxed">{module.ecosystemUse}</p>
                 </div>
               </div>
 
-              {/* Tags */}
               <div className="pt-4 border-t border-white/10">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
                   <div>
@@ -540,29 +527,33 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
 export default function Home() {
   const [selectedModule, setSelectedModule] = useState<EcoModule | null>(null);
   const [hoverFocus, setHoverFocus] = useState<SectionKey | null>(null);
-
-  // For background focus (kept from original)
   const focus = hoverFocus ?? "top";
 
   return (
-    <main className="min-h-screen text-white bg-[#03030A]">
+    <main className="min-h-screen text-white">
       <GlobalStyles />
       <CausalBackground intensity={0.8} focus={focus} />
 
-      {/* HEADER */}
+      {/* HEADER with Horizontal Menu */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#03030A]/95 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-screen-2xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center ring-1 ring-white/20">
-              <Image src="/brand/cns_logo_v2.png" alt="CNS" width={42} height={42} className="object-contain" />
+          <div className="flex items-center gap-5">
+            <div className="grid h-[84px] w-[84px] place-items-center overflow-hidden rounded-2xl ring-1 ring-white/20" style={{
+              background: "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))",
+              boxShadow: "0 0 46px rgba(56,189,248,0.16)",
+            }}>
+              <div className="absolute h-[84px] w-[84px] rounded-2xl bg-[radial-gradient(circle_at_35%_35%,rgba(56,189,248,0.22),transparent_60%)]" />
+              <Image src={safeSrc("/brand/cns_logo_v2.png")} alt="CNS" width={180} height={180}
+                     className="relative h-[60px] w-[60px] object-contain" style={{ animation: "logoPulse 2.8s ease-in-out infinite" }} priority />
             </div>
-            <div>
-              <div className="font-semibold text-xl tracking-tight">Causal Nexus Systems</div>
-              <div className="text-[10px] text-white/50 -mt-1">SOVEREIGN DETERMINISTIC ECOSYSTEM</div>
+            <div className="leading-tight">
+              <div className="text-3xl font-semibold tracking-wide">CNS</div>
+              <div className="text-sm text-white/70">Causal Nexus Systems LLC</div>
+              <div className="mt-1 text-[11px] text-white/55">Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666</div>
             </div>
           </div>
 
-          <TopNavigation />
+          <TopNav />
 
           <button onClick={() => scrollToId("contact")} className="btnPrimary text-sm px-6 py-2.5">
             NDA Access
@@ -570,20 +561,23 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO + ROCKET */}
-      <section className="max-w-screen-2xl mx-auto px-6 pt-28 pb-12">
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-12 items-center">
+      {/* HERO */}
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-28 pb-10">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
-            <div className="sectionTitle mb-3">CAUSAL OBSERVABILITY • LIVE SYSTEMS</div>
-            <h1 className="text-6xl md:text-7xl font-semibold tracking-tighter leading-none">
-              CNS MEASURES<br />CAUSE, NOT EFFECT.
-            </h1>
-            <p className="mt-6 max-w-lg text-lg text-white/70">
-              A sovereign deterministic causal ecosystem for high-stakes environments where decisions must be explainable, bounded, and verifiable.
+            <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
+            <h1 className="mt-4 text-4xl font-semibold leading-tight md:text-6xl">CNS MEASURES CAUSE,<br />NOT EFFECT.</h1>
+            <p className="mt-4 max-w-xl text-white/75">
+              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
             </p>
-            <div className="mt-8 flex gap-4">
-              <button onClick={() => scrollToId("modules")} className="btnPrimary">Explore Modules</button>
-              <button onClick={() => scrollToId("business")} className="btnGhost">Kernel Licensing</button>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Modules →</button>
+              <button className="btnGhost" onClick={() => scrollToId("business")}>Kernel licensing model</button>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-2 text-xs text-white/60">
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Public layer</span>
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Sealed outputs</span>
+              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">No kernel exposure</span>
             </div>
           </div>
 
@@ -593,36 +587,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MODULES SECTION (NEW) */}
-      <section id="modules" className="max-w-screen-2xl mx-auto px-6 py-16 border-t border-white/10">
-        <div className="mb-10">
-          <div className="sectionTitle">PUBLIC MODULE LAYER</div>
-          <h2 className="text-4xl font-semibold tracking-tight mt-2">Eight Sovereign Modules</h2>
-          <p className="mt-3 max-w-2xl text-white/70">
-            Each module operates independently or as part of the integrated CNS ecosystem. Click any card to see full technical details.
-          </p>
+      {/* MODULES (NEW) */}
+      <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <div className="sectionTitle">PUBLIC MODULE LAYER</div>
+            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Modules</h2>
+            <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ECO_MODULES.map((mod, index) => (
             <button
               key={index}
               onClick={() => setSelectedModule(mod)}
               onMouseEnter={() => setHoverFocus("modules")}
               onMouseLeave={() => setHoverFocus(null)}
-              className="module-card glass text-left rounded-3xl p-6 border border-white/10 hover:border-white/25 transition-all group"
+              className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7"
             >
-              <div className="flex items-center justify-between mb-5">
-                <div style={{ color: mod.color }} className="text-2xl font-bold tracking-tight">{mod.acronym}</div>
-                <div className="text-xs px-3 py-1 rounded-full border" style={{ borderColor: mod.color, color: mod.color, opacity: 0.8 }}>
-                  {mod.badge}
+              <div className="flex items-center gap-4">
+                <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                  <Image src={safeSrc(mod.imgSrc)} alt={mod.acronym} width={90} height={90} className="h-10 w-10 object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
+                  <div className="truncate text-sm text-white/65">{mod.fullName}</div>
                 </div>
               </div>
-
-              <div className="font-semibold text-lg mb-1 pr-4">{mod.fullName}</div>
-              <p className="text-sm text-white/70 line-clamp-3 mb-6">{mod.desc}</p>
-
-              <div className="text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
+              <div className="mt-4 line-clamp-3 text-sm text-white/75">{mod.desc}</div>
+              <div className="mt-5 text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
                 View full module details <span className="text-lg leading-none">→</span>
               </div>
             </button>
@@ -630,59 +624,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BUSINESS (kept from original) */}
-      <section id="business" className="max-w-screen-2xl mx-auto px-6 py-16 border-t border-white/10">
-        <div className="max-w-3xl">
-          <div className="sectionTitle">BUSINESS</div>
-          <h2 className="text-4xl font-semibold tracking-tight mt-2">Kernel Licensing Model</h2>
-          <p className="mt-4 text-white/70">
-            CNS is not offered as public SaaS. The Kernel operates under strict NDA and domain-specific licensing. All public outputs are cryptographically sealed.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-5 mt-10">
+      {/* BUSINESS, DEMOS, COMMUNITY, CONTACT (kept exact from your original) */}
+      <section id="business" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">BUSINESS</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Kernel licensing</h2>
+        <p className="mt-3 max-w-3xl text-white/72">
+          CNS is not offered as a public SaaS platform. The Kernel operates as a licensed, cloud-hosted causal engine. Access is granted exclusively under NDA and domain-specific licensing agreements.
+        </p>
+        <div className="mt-7 grid gap-5 md:grid-cols-3">
           {[
-            { title: "NDA-First Access", desc: "Kernel access is granted exclusively under confidentiality agreements. No source access or reverse engineering permitted." },
-            { title: "Public Proofs", desc: "Every output is sealed with SHA-256 + Merkle root verification. Full auditability without exposing internal logic." },
-            { title: "High-Stakes Focus", desc: "Built for aerospace, defense, critical infrastructure, and environments where failure is not an option." },
-          ].map((item, i) => (
-            <div key={i} className="glass rounded-3xl p-7" onMouseEnter={() => setHoverFocus("business")} onMouseLeave={() => setHoverFocus(null)}>
-              <div className="font-semibold text-xl mb-3">{item.title}</div>
-              <p className="text-white/70 text-sm leading-relaxed">{item.desc}</p>
+            { t: "NDA-First Access", d: "Kernel access is granted only under strict confidentiality agreements. No source access, reverse engineering, or internal inspection is permitted." },
+            { t: "Public Proofs", d: "All public outputs are cryptographically sealed using SHA-256 + Merkle root verification without exposing private Kernel mechanics." },
+            { t: "High-Stakes Focus", d: "Designed for systems where failure is not an option: Aerospace, critical infrastructure, financial, healthcare, and security-sensitive environments." },
+          ].map((x, i) => (
+            <div key={i} className="glass rounded-3xl p-5" onMouseEnter={() => setHoverFocus("business")} onMouseLeave={() => setHoverFocus(null)}>
+              <div className="text-lg font-semibold">{x.t}</div>
+              <div className="mt-2 text-sm text-white/70">{x.d}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* DEMOS + COMMUNITY + CONTACT (kept from original) */}
-      <section id="demos" className="max-w-screen-2xl mx-auto px-6 py-16 border-t border-white/10">
-        <div className="sectionTitle mb-3">DEMOS</div>
-        <h2 className="text-3xl font-semibold tracking-tight">Verified Public Demonstrations</h2>
-        <div className="grid md:grid-cols-3 gap-4 mt-8">
+      <section id="demos" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">DEMOS</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Verified Public Demonstrations</h2>
+        <p className="mt-3 max-w-3xl text-white/72">Public evidence of operational capability. Internal logic remains protected.</p>
+        <div className="mt-7 grid gap-5 md:grid-cols-3">
           {[
-            { label: "ASTRA Demo", url: "https://www.linkedin.com/feed/update/urn:li:activity:7415229373039230976/" },
-            { label: "CNS Full Demo", url: "https://www.linkedin.com/feed/update/urn:li:activity:7397122628907417600/" },
-            { label: "SQS Demo", url: "https://www.linkedin.com/feed/update/urn:li:activity:7414403427432325121/" },
-          ].map((demo, i) => (
-            <a key={i} href={demo.url} target="_blank" className="glass rounded-3xl p-6 hover:bg-white/5 transition block">
-              <div className="font-medium">{demo.label}</div>
-              <div className="text-sm text-white/60 mt-1">Open on LinkedIn →</div>
+            { t: "ASTRA Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7415229373039230976/" },
+            { t: "CNS Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7397122628907417600/" },
+            { t: "SQS Demo Video", href: "https://www.linkedin.com/feed/update/urn:li:activity:7414403427432325121/" },
+          ].map((d, i) => (
+            <a key={i} href={d.href} target="_blank" rel="noreferrer" className="glass rounded-3xl p-5 transition hover:bg-white/7"
+               onMouseEnter={() => setHoverFocus("demos")} onMouseLeave={() => setHoverFocus(null)}>
+              <div className="text-lg font-semibold">{d.t}</div>
+              <div className="mt-2 text-sm text-white/70">Open →</div>
             </a>
           ))}
         </div>
       </section>
 
-      <section id="contact" className="max-w-screen-2xl mx-auto px-6 py-20 border-t border-white/10 text-center">
-        <div className="max-w-xl mx-auto">
-          <div className="sectionTitle mb-3">CONTACT</div>
-          <h2 className="text-4xl font-semibold tracking-tight">Kernel access is NDA-first.</h2>
-          <p className="mt-4 text-white/70">For partnerships, licensing, and high-stakes deployments.</p>
-          <a href="mailto:admin@causalnexussystems.com" className="mt-8 inline-block btnPrimary">admin@causalnexussystems.com</a>
+      <section id="community" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">COMMUNITY</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Build the Public Layer</h2>
+        <div className="glass mt-7 rounded-3xl p-6" onMouseEnter={() => setHoverFocus("community")} onMouseLeave={() => setHoverFocus(null)}>
+          <div className="text-white/80">Coming soon: public runs feed + pinned updates.</div>
+          <div className="mt-2 text-sm text-white/60">CNS keeps the public layer transparent without exposing kernel internals.</div>
         </div>
-        <footer className="mt-20 text-xs text-white/40">© {new Date().getFullYear()} Causal Nexus Systems LLC — Public layer only</footer>
       </section>
 
-      {/* MODULE MODAL */}
+      <section id="contact" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="sectionTitle">CONTACT</div>
+        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Contact</h2>
+        <p className="mt-3 max-w-3xl text-white/72">For partnerships, licensing, and high-stakes deployments. Public layer only — kernel access is NDA-first.</p>
+        <div className="glass mt-7 rounded-3xl p-6" onMouseEnter={() => setHoverFocus("contact")} onMouseLeave={() => setHoverFocus(null)}>
+          <div className="text-white/85">Email: admin@causalnexussystems.com</div>
+        </div>
+        <footer className="mt-10 pb-10 text-center text-xs text-white/40">© {new Date().getFullYear()} Causal Nexus Systems LLC</footer>
+      </section>
+
       <ModuleModal module={selectedModule} onClose={() => setSelectedModule(null)} />
     </main>
   );
