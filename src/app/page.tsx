@@ -10,74 +10,43 @@ type EcoModule = {
   imgSrc: string;
   desc: string;
   definition: string;
-  createdFor: string;
   independentUse: string;
   ecosystemUse: string;
   sectors: string[];
-  signals: string[];
-  outputs: string[];
   evidence: string[];
 };
 
-type Metric = {
-  v: string;
-  l: string;
-  cyan?: boolean;
+type AssetFrameProps = {
+  src: string;
+  alt: string;
+  label?: string;
+  className?: string;
 };
 
 const NAV_ITEMS = [
   { id: "ecosystem", label: "Ecosystem" },
   { id: "modules", label: "Modules" },
+  { id: "cns", label: "CNS" },
+  { id: "runs", label: "RUNS" },
   { id: "cnl", label: "CNL" },
-  { id: "business", label: "Licensing" },
+  { id: "ces", label: "CES" },
+  { id: "licensing", label: "Licensing" },
   { id: "contact", label: "Contact" },
 ];
 
-const METRICS: Metric[] = [
-  { v: "8/8", l: "Active Modules" },
-  { v: "32", l: "Telemetry Domains" },
-  { v: "24,606", l: "Records Processed" },
-  { v: "196,848", l: "Module Rows" },
-  { v: "PASS", l: "Validation Status", cyan: true },
-];
-
-const RUN_DETAILS = [
-  ["Run ID", "CNS_K24_TRUE_GLOBAL_CRITICAL_INFRASTRUCTURE_ENTROPY_32_DOMAIN"],
-  ["Authority", "K24.1-RS"],
-  ["Runtime", "Iron Guardian V3"],
-  ["Records", "24,606"],
-  ["Module Rows", "196,848"],
-  ["Validation", "PASS"],
-];
-
-const TELEMETRY_FEEDS = [
-  ["Energy Grid", "LIVE", "#00A85E"],
-  ["Aerospace", "LIVE", "#00C8FF"],
-  ["Industrial Control", "LIVE", "#C8A84B"],
-  ["Cyber Physical", "LIVE", "#B83232"],
-  ["Logistics", "LIVE", "#8BA0C0"],
-];
-
-const ECO_MODULES: EcoModule[] = [
+const MODULES: EcoModule[] = [
   {
     acronym: "K24.1-RS",
     fullName: "Runtime Sovereign Authority",
     badge: "Authority",
     color: "#8BA0C0",
     imgSrc: "/06-K24_1-RS.png",
-    desc: "Command authority for the CNS ecosystem. Integrates module evidence and emits the final deterministic causal decision.",
-    definition:
-      "K24.1-RS is the authority layer that consolidates module-level evidence, resolves decision pressure, and produces the final system posture under a bounded runtime contract.",
-    createdFor:
-      "Created to prevent fragmented module outputs from becoming uncontrolled operational decisions. It centralizes authority without exposing the underlying kernel.",
-    independentUse:
-      "As an independent module, K24.1-RS applies where a mission system needs a deterministic authority layer to classify, approve, reject, or escalate operational states.",
-    ecosystemUse:
-      "Inside CNS, K24.1-RS is the final authority that receives evidence from NCM, MDFE, ACDK, KECS, ADIK, Iron Guardian, and SQS/DEEL before a runtime posture is emitted.",
-    sectors: ["Defense operations", "Critical infrastructure", "Mission governance", "Sovereign systems"],
-    signals: ["Module verdicts", "Runtime status", "Policy boundaries", "Evidence hashes"],
-    outputs: ["Final decision posture", "Authority trace", "Escalation status", "Rejected-action accounting"],
-    evidence: ["Decision ledger", "Run manifest", "Merkle root", "Authority chain"],
+    desc: "Command authority for CNS. Integrates module evidence and emits the final deterministic causal posture.",
+    definition: "Authority layer that consolidates module-level evidence, resolves pressure, and emits the final bounded runtime posture.",
+    independentUse: "Used where a system needs a deterministic authority layer for approval, escalation, containment, or rejection of operational states.",
+    ecosystemUse: "Inside CNS it acts as the final decision authority after module outputs are evaluated and evidence is assembled.",
+    sectors: ["Defense operations", "Mission governance", "Critical infrastructure", "Sovereign systems"],
+    evidence: ["Authority trace", "Decision ledger", "Run manifest", "Merkle-linked output"],
   },
   {
     acronym: "ACDK v4.1",
@@ -85,19 +54,12 @@ const ECO_MODULES: EcoModule[] = [
     badge: "Decision",
     color: "#B83232",
     imgSrc: "/04-ACDK.png",
-    desc: "Strategic causal decision governance for complex operating conditions, mission planning, and adaptive risk posture.",
-    definition:
-      "ACDK is the decision kernel for strategic causal interpretation. It converts multi-condition operational context into bounded decision options.",
-    createdFor:
-      "Created for environments where risk changes across time, domain, and mission priority, and where decision posture must remain explainable.",
-    independentUse:
-      "As an independent module, ACDK applies to mission planning, scenario evaluation, infrastructure prioritization, and risk-aware operational governance.",
-    ecosystemUse:
-      "Inside CNS, ACDK contributes strategic decision pressure and scenario interpretation to the sovereign authority layer.",
-    sectors: ["Mission planning", "Defense analysis", "Infrastructure risk", "Emergency operations"],
-    signals: ["Scenario context", "Risk indicators", "Priority rules", "Operational constraints"],
-    outputs: ["Decision posture", "Risk class", "Scenario ranking", "Escalation recommendation"],
-    evidence: ["Decision trace", "Criteria map", "Policy context", "Scenario audit frame"],
+    desc: "Strategic causal decision governance for complex conditions, mission planning, and adaptive risk posture.",
+    definition: "Decision kernel that converts operational conditions into bounded decision options under explicit criteria.",
+    independentUse: "Used for mission planning, scenario evaluation, infrastructure prioritization, and risk-aware governance.",
+    ecosystemUse: "Inside CNS it contributes strategic decision pressure to K24.1-RS and the runtime authority chain.",
+    sectors: ["Mission planning", "Defense analysis", "Emergency operations", "Critical infrastructure"],
+    evidence: ["Scenario trace", "Criteria map", "Risk class", "Decision contribution"],
   },
   {
     acronym: "NCM v2.1",
@@ -106,18 +68,11 @@ const ECO_MODULES: EcoModule[] = [
     color: "#00A85E",
     imgSrc: "/09-NCM.png",
     desc: "Compact deterministic causal operation for edge devices, robotics, drones, and autonomous platforms.",
-    definition:
-      "NCM is the edge causal module. It evaluates local operational state close to the physical system without relying on cloud availability.",
-    createdFor:
-      "Created for local, embedded, or constrained environments where latency, connectivity, and autonomy are operational constraints.",
-    independentUse:
-      "As an independent module, NCM applies to drones, robotics, sensors, industrial controllers, and autonomous systems that need local bounded decisions.",
-    ecosystemUse:
-      "Inside CNS, NCM provides edge-level causal pressure and local state evidence to the full ecosystem authority chain.",
-    sectors: ["Drones", "Robotics", "Embedded platforms", "Autonomous systems", "Industrial edge"],
-    signals: ["Local telemetry", "Sensor state", "Edge constraints", "Latency-sensitive events"],
-    outputs: ["Local verdict", "Edge risk class", "Containment hint", "State transition"],
-    evidence: ["Edge event record", "Module contribution row", "Replay input", "Hash-linked output"],
+    definition: "Edge causal module for local decisions close to physical systems without depending on remote cloud availability.",
+    independentUse: "Used in drones, robotics, embedded sensors, industrial controllers, and autonomous edge platforms.",
+    ecosystemUse: "Inside CNS it supplies edge-state evidence and local causal pressure to the integrated authority layer.",
+    sectors: ["Drones", "Robotics", "Industrial edge", "Autonomous systems"],
+    evidence: ["Edge event record", "Local verdict", "Module row", "Replayable input"],
   },
   {
     acronym: "MDFE v3.1",
@@ -125,19 +80,12 @@ const ECO_MODULES: EcoModule[] = [
     badge: "Fusion",
     color: "#6C32D4",
     imgSrc: "/08-MDFE.png",
-    desc: "Transforms fragmented operational streams into one coherent multi-domain causal context.",
-    definition:
-      "MDFE is the fusion layer that aligns heterogeneous telemetry into a coherent causal context before downstream decisions are made.",
-    createdFor:
-      "Created because critical systems rarely operate in one domain. It reduces fragmented interpretation across sensors, sectors, and operational layers.",
-    independentUse:
-      "As an independent module, MDFE applies to sensor fusion, situational awareness, infrastructure monitoring, aerospace streams, and cyber-physical correlation.",
-    ecosystemUse:
-      "Inside CNS, MDFE feeds unified cross-domain context to ACDK, KECS, K24.1-RS, and evidence packaging layers.",
-    sectors: ["Sensor fusion", "Aerospace", "Energy systems", "Cyber-physical systems", "Situational awareness"],
-    signals: ["Multi-domain feeds", "Sensor streams", "Temporal context", "Operational metadata"],
-    outputs: ["Fused causal context", "Domain alignment", "Signal conflict flags", "Cross-domain contribution"],
-    evidence: ["Fusion matrix", "Contribution rows", "Source mapping", "Hash-linked manifest"],
+    desc: "Transforms fragmented telemetry streams into one coherent multi-domain causal context.",
+    definition: "Fusion layer that aligns heterogeneous streams before downstream causal decisions are made.",
+    independentUse: "Used for sensor fusion, multi-domain monitoring, situational awareness, and cyber-physical correlation.",
+    ecosystemUse: "Inside CNS it supplies unified context to ACDK, KECS, K24.1-RS, and evidence packaging layers.",
+    sectors: ["Aerospace", "Energy", "Sensor fusion", "Cyber-physical systems"],
+    evidence: ["Fusion matrix", "Source map", "Contribution rows", "Context frame"],
   },
   {
     acronym: "KECS",
@@ -145,39 +93,25 @@ const ECO_MODULES: EcoModule[] = [
     badge: "Coherence",
     color: "#4D94FF",
     imgSrc: "/07-KECS.png",
-    desc: "Causal coherence evaluation, kinetic entropy analysis, cascade stability, fault detection, and safe-state containment.",
-    definition:
-      "KECS is the coherence and entropy module. It evaluates whether system behavior remains structurally coherent or is drifting toward instability.",
-    createdFor:
-      "Created to identify instability before it appears as an uncontrolled effect, especially in systems where small deviations can cascade.",
-    independentUse:
-      "As an independent module, KECS applies to energy grids, industrial process control, aerospace systems, logistics networks, financial infrastructure, and safety monitoring.",
-    ecosystemUse:
-      "Inside CNS, KECS contributes coherence pressure, cascade risk, fault detection, and containment evidence to the final authority layer.",
-    sectors: ["Energy grid", "Industrial control", "Aerospace systems", "Critical infrastructure", "Safety operations"],
-    signals: ["Entropy drift", "Coherence loss", "Cascade indicators", "Fault signatures"],
-    outputs: ["Coherence verdict", "Cascade risk", "Safe-state signal", "Containment trigger"],
-    evidence: ["Entropy frame", "Coherence score", "Fault trace", "Replayable event record"],
+    desc: "Evaluates coherence, kinetic entropy, cascade risk, fault signals, and safe-state containment.",
+    definition: "Coherence and entropy module that evaluates whether behavior remains structurally stable or is drifting toward instability.",
+    independentUse: "Used in energy grids, industrial process control, aerospace systems, logistics networks, and safety monitoring.",
+    ecosystemUse: "Inside CNS it contributes coherence pressure, cascade risk, and containment evidence to the final authority layer.",
+    sectors: ["Energy grid", "Industrial control", "Aerospace", "Critical infrastructure"],
+    evidence: ["Entropy frame", "Coherence score", "Fault trace", "Containment signal"],
   },
   {
-    acronym: "ADIK / AetherCore",
-    fullName: "Deterministic Integrity Kernel",
+    acronym: "ADIK",
+    fullName: "AetherCore Deterministic Integrity Kernel",
     badge: "Integrity",
     color: "#C85A18",
     imgSrc: "/05-ADIK.png",
-    desc: "Preserves trust between physical operational state and evidence-supported deterministic output.",
-    definition:
-      "ADIK is the integrity kernel that protects consistency between input state, timing, computation path, and repeatable output.",
-    createdFor:
-      "Created to reduce ambiguity between what the physical system produced, what the runtime processed, and what evidence later proves.",
-    independentUse:
-      "As an independent module, ADIK applies to physical control systems, industrial automation, robotics, aerospace instrumentation, and evidence-sensitive execution.",
-    ecosystemUse:
-      "Inside CNS, ADIK reinforces state integrity and repeatability for module outputs before they are integrated into final decisions.",
-    sectors: ["Physical control", "Aerospace", "Energy infrastructure", "Robotics", "Industrial automation"],
-    signals: ["Timing state", "Input consistency", "Execution path", "Output determinism"],
-    outputs: ["Integrity verdict", "Repeatability status", "Timing consistency", "State validation"],
-    evidence: ["Integrity seal", "Timing trace", "Input-output hash", "Deterministic proof frame"],
+    desc: "Preserves trust between physical operational state and deterministic evidence-supported output.",
+    definition: "Integrity kernel that protects consistency between input state, timing, execution path, and repeatable output.",
+    independentUse: "Used in physical control, industrial automation, robotics, aerospace instrumentation, and evidence-sensitive execution.",
+    ecosystemUse: "Inside CNS it reinforces repeatability and state integrity before module outputs are integrated.",
+    sectors: ["Physical control", "Industrial automation", "Robotics", "Aerospace"],
+    evidence: ["Integrity seal", "Timing trace", "Input-output hash", "Repeatability status"],
   },
   {
     acronym: "Iron Guardian V3",
@@ -185,19 +119,12 @@ const ECO_MODULES: EcoModule[] = [
     badge: "Protection",
     color: "#C8A84B",
     imgSrc: "/02-IRON_GUARDIAN.png",
-    desc: "Runtime enforcement, containment, integrity monitoring, autonomous response logic, and bounded execution protection.",
-    definition:
-      "Iron Guardian is the runtime shield. It enforces bounded execution and protects the environment where deterministic CNS decisions operate.",
-    createdFor:
-      "Created to keep causal decisions from becoming exposed, unbounded, or unsafe at runtime when operational pressure changes.",
-    independentUse:
-      "As an independent module, Iron Guardian applies to secure compute environments, embedded protection, mission systems, industrial control, and sovereign infrastructure.",
-    ecosystemUse:
-      "Inside CNS, Iron Guardian acts as runtime executor and protection layer after authority decisions are emitted.",
-    sectors: ["Secure compute", "Mission systems", "Industrial control", "Embedded protection", "Sovereign infrastructure"],
-    signals: ["Runtime integrity", "Threat status", "Execution boundary", "Containment rules"],
-    outputs: ["Runtime enforcement", "Containment action", "Protection status", "Escalation block"],
-    evidence: ["Runtime log", "Containment trace", "Executor field", "Protection seal"],
+    desc: "Runtime enforcement, containment, integrity monitoring, autonomous response, and bounded protection.",
+    definition: "Runtime shield that enforces bounded execution and protects the environment where CNS decisions operate.",
+    independentUse: "Used in secure compute, mission systems, industrial control, embedded protection, and sovereign infrastructure.",
+    ecosystemUse: "Inside CNS it acts as runtime executor and protection layer after authority decisions are emitted.",
+    sectors: ["Secure compute", "Mission systems", "Industrial control", "Embedded protection"],
+    evidence: ["Runtime log", "Containment trace", "Executor field", "Protection status"],
   },
   {
     acronym: "SQS / DEEL",
@@ -205,48 +132,66 @@ const ECO_MODULES: EcoModule[] = [
     badge: "Evidence",
     color: "#007A6E",
     imgSrc: "/03-SQS_-_DEEL.png",
-    desc: "Sealed evidence boundaries, deterministic evidence packaging, traceability, auditability, and external review support.",
-    definition:
-      "SQS/DEEL is the evidence and ledger layer that packages CNS outputs into reviewable, sealed, and hash-verifiable records.",
-    createdFor:
-      "Created so outputs are not only operationally useful, but also inspectable after the fact by reviewers, partners, or institutional evaluators.",
-    independentUse:
-      "As an independent module, SQS/DEEL applies to audit systems, compliance workflows, evidence packaging, quality systems, and external attestation.",
-    ecosystemUse:
-      "Inside CNS, SQS/DEEL preserves the evidence chain across module outputs, final authority decisions, manifests, hashes, and audit packages.",
-    sectors: ["Audit systems", "Compliance", "Institutional review", "Quality systems", "Evidence packaging"],
-    signals: ["Module output", "Manifest data", "Hash records", "Disclosure boundaries"],
-    outputs: ["Sealed package", "Evidence ledger", "Review packet", "Audit trace"],
-    evidence: ["SHA-256", "Merkle root", "Run seal", "External audit package"],
+    desc: "Evidence packaging, traceability, auditability, disclosure boundaries, and external review support.",
+    definition: "Evidence layer that packages CNS outputs into sealed, traceable, and hash-verifiable records.",
+    independentUse: "Used in audit systems, compliance workflows, quality systems, evidence packaging, and external attestation.",
+    ecosystemUse: "Inside CNS it preserves the evidence chain across module outputs, authority decisions, manifests, hashes, and audit packages.",
+    sectors: ["Audit", "Compliance", "Institutional review", "Evidence packaging"],
+    evidence: ["SHA-256", "Merkle root", "Run seal", "External package"],
   },
 ];
 
-function scrollToSection(id: string) {
-  if (id === "top") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
+const RUN_METRICS = [
+  ["Domains", "32"],
+  ["Records", "24,606"],
+  ["Module Rows", "196,848"],
+  ["Authority", "K24.1-RS"],
+  ["Runtime", "Iron Guardian V3"],
+  ["Validation", "PASS"],
+];
 
+const RUN_LAYERS = [
+  ["Signal intake", "Multi-sector telemetry normalized into deterministic event records."],
+  ["Module execution", "Eight module families produce bounded contribution rows."],
+  ["Authority integration", "K24.1-RS separates final authority from module pressure drivers."],
+  ["Runtime enforcement", "Iron Guardian preserves bounded execution and containment status."],
+  ["Evidence boundary", "Manifest, hash, Merkle, replay, and package fields define reviewability."],
+];
+
+function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function AssetFrame({ src, alt, label, className }: AssetFrameProps) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className={`asset-fallback ${className ?? ""}`}>
+        <span>{label ?? alt}</span>
+      </div>
+    );
+  }
+
+  return <img className={className} src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} />;
+}
+
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [selectedModule, setSelectedModule] = useState<EcoModule | null>(null);
 
   useEffect(() => {
     if (!selectedModule) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
+    const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") setSelectedModule(null);
     };
 
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", close);
 
     return () => {
       document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keydown", close);
     };
   }, [selectedModule]);
 
@@ -255,863 +200,425 @@ export default function Home() {
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
-        *, *::before, *::after {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; background: #02030a; }
+        body { background: #02030a; color: #edf1ff; font-family: "Inter", sans-serif; overflow-x: hidden; }
+        button, a { -webkit-tap-highlight-color: transparent; }
 
-        html {
-          scroll-behavior: smooth;
-          background: #03030a;
-        }
-
-        body {
-          background: #03030a;
-          color: #edf1ff;
-          font-family: "Inter", sans-serif;
-          overflow-x: hidden;
-        }
-
-        body::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          background-image:
-            linear-gradient(rgba(26, 111, 255, 0.018) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(26, 111, 255, 0.018) 1px, transparent 1px);
-          background-size: 80px 80px;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        button,
-        a {
-          -webkit-tap-highlight-color: transparent;
-        }
-
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.22; }
-        }
-
-        @keyframes tick {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        @keyframes liftIn {
-          0% { opacity: 0; transform: translateY(18px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes scan {
-          0% { transform: translateY(-100%); opacity: 0; }
-          20% { opacity: 0.55; }
-          100% { transform: translateY(320%); opacity: 0; }
-        }
+        @keyframes tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.32; } }
+        @keyframes scan { 0% { transform: translateY(-120%); opacity: 0; } 25% { opacity: 0.42; } 100% { transform: translateY(360%); opacity: 0; } }
+        @keyframes rise { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
 
         main {
           min-height: 100vh;
-          color: white;
-          background: #03030a;
+          background: #02030a;
+          color: #fff;
           overflow-x: hidden;
         }
 
-        .video-bg {
+        .bg-video {
           position: fixed;
           inset: 0;
           z-index: 0;
           pointer-events: none;
+          background: #02030a;
         }
 
-        .video-bg video {
+        .bg-video video {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          opacity: 0.35;
+          opacity: 0.58;
+          filter: saturate(1.08) contrast(1.08);
         }
 
-        .video-bg::after {
+        .bg-video::after {
           content: "";
           position: absolute;
           inset: 0;
           background:
-            linear-gradient(180deg, rgba(3, 3, 10, 0.3) 0%, rgba(3, 3, 10, 0.68) 58%, rgba(3, 3, 10, 0.94) 100%),
-            radial-gradient(ellipse 70% 50% at 50% 30%, rgba(26, 111, 255, 0.09) 0%, transparent 72%);
+            linear-gradient(90deg, rgba(2,3,10,0.92) 0%, rgba(2,3,10,0.56) 38%, rgba(2,3,10,0.78) 100%),
+            linear-gradient(180deg, rgba(2,3,10,0.12) 0%, rgba(2,3,10,0.74) 76%, #02030a 100%);
         }
 
-        .nav {
+        .top-nav {
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
-          z-index: 200;
-          height: 68px;
-          padding: 0 48px;
-          display: flex;
+          z-index: 100;
+          min-height: 68px;
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 24px;
           align-items: center;
-          justify-content: space-between;
-          background: rgba(3, 3, 10, 0.94);
-          backdrop-filter: blur(24px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 0 40px;
+          background: rgba(2, 3, 10, 0.78);
+          border-bottom: 1px solid rgba(255,255,255,0.09);
+          backdrop-filter: blur(22px);
         }
 
         .brand {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: 12px;
-          border: 0;
           background: transparent;
+          border: 0;
           color: white;
           cursor: pointer;
           text-align: left;
+          min-width: 218px;
         }
 
         .brand-mark {
-          width: 34px;
-          height: 34px;
+          width: 36px;
+          height: 36px;
+          display: grid;
+          place-items: center;
           border: 1px solid #1a6fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 11px;
-          font-weight: 700;
-          color: #1a6fff;
+          font: 700 11px "Space Grotesk", sans-serif;
+          color: #50a0ff;
           position: relative;
-          flex: 0 0 auto;
         }
 
         .brand-mark::after {
           content: "";
           position: absolute;
-          top: -4px;
-          right: -4px;
           width: 6px;
           height: 6px;
+          top: -4px;
+          right: -4px;
           border-radius: 50%;
           background: #00c8ff;
-          box-shadow: 0 0 6px #00c8ff;
-          animation: blink 2s infinite;
+          box-shadow: 0 0 9px #00c8ff;
+          animation: pulse 1.8s infinite;
         }
 
-        .brand-name {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 15px;
-          font-weight: 600;
+        .brand-title {
+          display: block;
+          font: 700 14px "Space Grotesk", sans-serif;
           letter-spacing: 0.04em;
         }
 
         .brand-sub {
+          display: block;
           margin-top: 2px;
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
+          font: 400 9px "Space Mono", monospace;
           letter-spacing: 0.12em;
-          color: rgba(255, 255, 255, 0.4);
           text-transform: uppercase;
+          color: rgba(255,255,255,0.42);
         }
 
-        .nav-links {
-          display: flex;
-          gap: 36px;
-          align-items: center;
-        }
-
-        .nav-link {
-          color: rgba(255, 255, 255, 0.55);
-          text-decoration: none;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          transition: color 0.2s;
-          cursor: pointer;
-          background: none;
-          border: none;
-        }
-
-        .nav-link:hover,
-        .nav-link:focus-visible {
-          color: white;
-          outline: none;
-        }
-
-        .menu-btn {
-          display: none;
-          width: 40px;
-          height: 40px;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          background: rgba(255, 255, 255, 0.04);
-          color: white;
-          font-family: "Space Mono", monospace;
-          font-size: 18px;
-          cursor: pointer;
-        }
-
-        .mobile-menu {
-          display: none;
-        }
-
-        .btn-primary,
-        .btn-ghost {
-          min-height: 44px;
-          padding: 13px 26px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.07em;
-          text-transform: uppercase;
-          cursor: pointer;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-        }
-
-        .btn-primary {
-          background: #1a6fff;
-          color: #fff;
-          border: none;
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus-visible {
-          background: #4d94ff;
-          transform: translateY(-1px);
-          outline: none;
-        }
-
-        .btn-ghost {
-          background: transparent;
-          color: white;
-          border: 1px solid rgba(255, 255, 255, 0.16);
-        }
-
-        .btn-ghost:hover,
-        .btn-ghost:focus-visible {
-          border-color: #1a6fff;
-          color: #4d94ff;
-          outline: none;
-        }
-
-        .ticker-shell {
-          position: relative;
-          z-index: 1;
-          padding-top: 68px;
-        }
-
-        .ticker-bar {
-          background: #07070f;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-          height: 44px;
-          overflow: hidden;
-        }
-
-        .ticker-inner {
+        .nav-strip {
           display: flex;
           align-items: center;
-          height: 100%;
-          animation: tick 42s linear infinite;
-          white-space: nowrap;
-        }
-
-        .t-item {
-          display: inline-flex;
-          align-items: center;
+          justify-content: flex-end;
           gap: 8px;
-          padding: 0 32px;
-          height: 100%;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
+          overflow-x: auto;
+          scrollbar-width: none;
+          padding: 14px 0;
+        }
+
+        .nav-strip::-webkit-scrollbar { display: none; }
+
+        .nav-chip {
+          flex: 0 0 auto;
+          min-height: 36px;
+          padding: 0 13px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.035);
+          color: rgba(255,255,255,0.66);
+          font: 700 10px "Space Mono", monospace;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.45);
-          border-right: 1px solid rgba(255, 255, 255, 0.06);
+          cursor: pointer;
+          transition: border-color .2s, color .2s, background .2s;
         }
 
-        .t-v {
-          color: #00c8ff;
-          font-weight: 700;
-        }
-
-        .t-p {
-          color: #00a85e;
-          font-weight: 700;
-        }
-
-        .prop-bar {
-          display: flex;
-          justify-content: center;
-          gap: 34px;
-          flex-wrap: wrap;
-          padding: 16px 48px;
-          background: rgba(10, 10, 22, 0.82);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-          position: relative;
-          z-index: 1;
-        }
-
-        .prop {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.09em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.52);
+        .nav-chip:hover,
+        .nav-chip:focus-visible {
+          border-color: rgba(0,200,255,0.5);
+          color: white;
+          background: rgba(0,200,255,0.07);
+          outline: none;
         }
 
         .hero {
           position: relative;
           z-index: 1;
-          max-width: 1320px;
-          margin: 0 auto;
-          padding: 92px 48px 86px;
-          animation: liftIn 0.7s ease both;
+          min-height: 100svh;
+          padding: 108px 42px 56px;
+          display: grid;
+          grid-template-rows: auto minmax(0, 1fr) auto;
+          gap: 28px;
         }
 
-        .hero-grid {
+        .hero-inner {
+          max-width: 1340px;
+          width: 100%;
+          margin: 0 auto;
           display: grid;
-          grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
-          gap: 72px;
+          grid-template-columns: minmax(320px, 0.78fr) minmax(460px, 1.22fr);
+          gap: 56px;
           align-items: center;
+          animation: rise .65s ease both;
         }
 
         .eyebrow {
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.16em;
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #1a6fff;
+          color: #4d94ff;
           margin-bottom: 14px;
         }
 
-        .hero-title {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: clamp(64px, 10vw, 112px);
-          font-weight: 700;
-          line-height: 0.92;
+        .hero h1 {
+          font: 700 clamp(78px, 12vw, 150px) / 0.88 "Space Grotesk", sans-serif;
           letter-spacing: 0;
           margin-bottom: 16px;
         }
 
-        .hero-title span {
-          background: linear-gradient(130deg, #ffffff 0%, #4d94ff 48%, #00c8ff 100%);
+        .hero h1 span {
+          background: linear-gradient(130deg, #fff 0%, #6fb0ff 45%, #00c8ff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
 
         .hero-subtitle {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: clamp(12px, 1.4vw, 15px);
-          font-weight: 500;
-          letter-spacing: 0.18em;
+          font: 600 clamp(12px, 1.45vw, 16px) "Space Grotesk", sans-serif;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.5);
+          color: rgba(255,255,255,0.58);
           margin-bottom: 42px;
         }
 
-        .hero-line {
+        .hero-statement {
           max-width: 620px;
-          margin-bottom: 46px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: clamp(22px, 2.8vw, 34px);
-          font-weight: 300;
-          line-height: 1.35;
-          color: rgba(237, 241, 255, 0.88);
+          font: 300 clamp(24px, 3.1vw, 42px) / 1.22 "Space Grotesk", sans-serif;
+          color: rgba(237,241,255,0.92);
+          margin-bottom: 40px;
         }
 
-        .hero-line strong {
+        .hero-statement strong {
           color: #00c8ff;
-          font-weight: 600;
+          font-weight: 700;
         }
 
         .hero-actions {
           display: flex;
-          flex-wrap: wrap;
           gap: 12px;
+          flex-wrap: wrap;
         }
 
-        .hero-panel-stack {
-          display: grid;
-          gap: 14px;
-        }
-
-        .metrics-panel,
-        .live-panel {
-          background: rgba(10, 10, 22, 0.76);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(20px);
-        }
-
-        .metrics-panel {
-          padding: 34px;
-        }
-
-        .metrics-title {
-          margin-bottom: 24px;
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: #1a6fff;
-        }
-
-        .metrics-row {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          margin-bottom: 26px;
-        }
-
-        .metric {
-          padding: 18px 10px;
-          text-align: center;
-          border-right: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .metric:last-child {
-          border-right: none;
-        }
-
-        .metric-value {
-          display: block;
-          font-family: "Space Mono", monospace;
-          font-size: 20px;
-          font-weight: 700;
+        .btn {
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 13px 25px;
+          border: 1px solid rgba(255,255,255,0.16);
+          background: transparent;
           color: white;
-        }
-
-        .metric-value.cyan {
-          color: #00c8ff;
-        }
-
-        .metric-label {
-          margin-top: 4px;
-          font-family: "Space Mono", monospace;
-          font-size: 8px;
+          text-decoration: none;
+          cursor: pointer;
+          font: 700 12px "Space Grotesk", sans-serif;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.35);
+          transition: background .2s, border-color .2s, transform .2s;
         }
 
-        .detail-list {
+        .btn.primary {
+          background: #1a6fff;
+          border-color: #1a6fff;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+          transform: translateY(-1px);
+          border-color: #00c8ff;
+          outline: none;
+        }
+
+        .module-constellation {
           display: grid;
-          gap: 0;
-        }
-
-        .detail-row {
-          display: flex;
-          justify-content: space-between;
-          gap: 16px;
-          padding: 9px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .detail-row span:first-child {
-          flex: 0 0 auto;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.42);
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-        }
-
-        .detail-row span:last-child {
-          min-width: 0;
-          text-align: right;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.82);
-          font-weight: 700;
-          overflow-wrap: anywhere;
-        }
-
-        .status-pill {
-          margin-top: 18px;
-          padding: 10px 14px;
-          background: rgba(0, 168, 94, 0.08);
-          border: 1px solid rgba(0, 168, 94, 0.25);
-          display: flex;
-          align-items: center;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 10px;
         }
 
-        .status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #00a85e;
-          box-shadow: 0 0 6px #00a85e;
-          animation: blink 1.5s infinite;
-          flex-shrink: 0;
-        }
-
-        .status-pill span {
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          color: #00a85e;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .live-panel {
+        .hero-module {
+          min-height: 172px;
+          border: 1px solid rgba(255,255,255,0.09);
+          background: rgba(4,8,18,0.52);
           overflow: hidden;
-        }
-
-        .live-video {
           position: relative;
-          aspect-ratio: 16 / 9;
-          background: #050812;
-          overflow: hidden;
+          cursor: pointer;
+          text-align: left;
+          color: white;
+          transition: transform .22s, border-color .22s, background .22s;
         }
 
-        .live-video video {
+        .hero-module:hover,
+        .hero-module:focus-visible {
+          transform: translateY(-4px);
+          border-color: rgba(0,200,255,0.42);
+          background: rgba(4,8,18,0.72);
+          outline: none;
+        }
+
+        .hero-module img,
+        .asset-fallback {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
-          opacity: 0.9;
+          filter: brightness(.8) saturate(.92);
         }
 
-        .live-video::before {
+        .hero-module::after {
           content: "";
           position: absolute;
           inset: 0;
-          background:
-            linear-gradient(180deg, transparent 0%, rgba(3, 3, 10, 0.5) 100%),
-            linear-gradient(90deg, rgba(0, 200, 255, 0.08) 1px, transparent 1px);
-          background-size: 100% 100%, 28px 28px;
+          background: linear-gradient(180deg, rgba(2,3,10,0.04), rgba(2,3,10,0.72));
           pointer-events: none;
+        }
+
+        .hero-module-info {
+          position: absolute;
+          left: 14px;
+          right: 14px;
+          bottom: 13px;
           z-index: 1;
         }
 
-        .live-video::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          height: 34%;
-          background: linear-gradient(180deg, transparent, rgba(0, 200, 255, 0.16), transparent);
-          animation: scan 4.5s linear infinite;
-          pointer-events: none;
-          z-index: 2;
+        .hero-module-info strong {
+          display: block;
+          font: 700 15px "Space Grotesk", sans-serif;
+          margin-bottom: 3px;
         }
 
-        .live-overlay {
-          position: absolute;
-          left: 18px;
-          right: 18px;
-          bottom: 16px;
-          z-index: 3;
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          gap: 18px;
-        }
-
-        .live-copy {
-          max-width: 360px;
-        }
-
-        .live-copy div:first-child {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.12em;
+        .hero-module-info span {
+          display: block;
+          font: 700 8px "Space Mono", monospace;
+          letter-spacing: .1em;
           text-transform: uppercase;
-          color: #00c8ff;
-          margin-bottom: 6px;
+          color: rgba(255,255,255,.58);
         }
 
-        .live-copy div:last-child {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 17px;
-          font-weight: 700;
-          line-height: 1.15;
-          color: white;
+        .ticker {
+          max-width: 1340px;
+          width: 100%;
+          margin: 0 auto;
+          height: 44px;
+          overflow: hidden;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          border-bottom: 1px solid rgba(255,255,255,0.08);
+          background: rgba(2,3,10,0.58);
         }
 
-        .feed-stack {
-          display: grid;
-          gap: 5px;
-          min-width: 166px;
-        }
-
-        .feed-row {
+        .ticker-inner {
+          height: 100%;
           display: flex;
-          justify-content: space-between;
-          gap: 14px;
-          padding: 5px 8px;
-          background: rgba(3, 3, 10, 0.72);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          font-family: "Space Mono", monospace;
-          font-size: 8px;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-
-        .live-caption {
-          padding: 14px 18px 16px;
-          display: flex;
-          justify-content: space-between;
           align-items: center;
-          gap: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          animation: tick 42s linear infinite;
+          white-space: nowrap;
         }
 
-        .live-caption p {
-          max-width: 560px;
-          color: rgba(255, 255, 255, 0.56);
-          font-size: 12px;
-          line-height: 1.5;
-        }
-
-        .live-caption span {
-          flex: 0 0 auto;
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.1em;
+        .ticker-item {
+          height: 100%;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 0 32px;
+          border-right: 1px solid rgba(255,255,255,0.08);
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .1em;
           text-transform: uppercase;
-          color: #00c8ff;
+          color: rgba(255,255,255,.48);
         }
+
+        .ticker-item span { color: #00c8ff; }
+        .ticker-item .pass { color: #00a85e; }
 
         .section {
           position: relative;
           z-index: 1;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid rgba(255,255,255,0.08);
+          background: rgba(2,3,10,0.9);
         }
 
-        .section.alt {
-          background: rgba(7, 7, 16, 0.72);
-        }
-
-        .section.dim {
-          background: rgba(10, 10, 22, 0.62);
-        }
+        .section.alt { background: rgba(7,10,20,0.92); }
 
         .section-inner {
           max-width: 1280px;
           margin: 0 auto;
-          padding: 96px 48px;
+          padding: 96px 42px;
         }
 
         .section-head {
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1fr);
-          gap: 80px;
+          grid-template-columns: minmax(0, .9fr) minmax(320px, 1fr);
+          gap: 76px;
           align-items: end;
-          margin-bottom: 58px;
+          margin-bottom: 56px;
         }
 
         h2 {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: clamp(30px, 4vw, 48px);
-          font-weight: 700;
-          line-height: 1.1;
+          font: 700 clamp(34px, 5vw, 58px) / 1.02 "Space Grotesk", sans-serif;
           letter-spacing: 0;
         }
 
-        .section-copy {
+        .copy {
+          color: rgba(255,255,255,0.62);
           font-size: 15px;
           line-height: 1.75;
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        .ecosystem-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-          align-items: start;
-        }
-
-        .qa-list {
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          margin-top: 36px;
-        }
-
-        .qa-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-          padding: 16px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .qa-row div:first-child {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 13px;
-          font-weight: 600;
-          color: white;
-        }
-
-        .qa-row div:last-child {
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.55);
-          line-height: 1.55;
-        }
-
-        .principles-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2px;
-        }
-
-        .principle {
-          background: rgba(15, 15, 28, 0.78);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 22px;
-        }
-
-        .principle div:first-child {
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #1a6fff;
-          margin-bottom: 8px;
-        }
-
-        .principle div:last-child {
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.55);
-          line-height: 1.5;
-        }
-
-        .layer-list {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-        }
-
-        .layer-row {
-          display: grid;
-          grid-template-columns: 100px 46px 1fr;
-          align-items: stretch;
-        }
-
-        .layer-label {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.3);
-          text-align: right;
-          padding-right: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-        }
-
-        .layer-num {
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: "Space Grotesk", sans-serif;
-          font-weight: 700;
-          font-size: 12px;
-          margin: auto;
-          flex-shrink: 0;
-        }
-
-        .layer-body {
-          margin-left: 14px;
-          padding: 14px 22px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 14px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .layer-title {
-          font-family: "Space Grotesk", sans-serif;
-          font-weight: 700;
-          font-size: 14px;
-          margin-bottom: 3px;
-        }
-
-        .layer-desc {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        .tag-row {
-          display: flex;
-          gap: 5px;
-          flex-wrap: wrap;
-          justify-content: flex-end;
-          flex-shrink: 0;
-          max-width: 250px;
-        }
-
-        .tag {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          padding: 3px 8px;
-          opacity: 0.68;
         }
 
         .module-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 2px;
         }
 
         .module-card {
-          text-align: left;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.035);
           color: white;
           overflow: hidden;
+          text-align: left;
           cursor: pointer;
           display: flex;
           flex-direction: column;
           min-height: 100%;
-          transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+          transition: transform .22s, border-color .22s, background .22s;
         }
 
         .module-card:hover,
         .module-card:focus-visible {
           transform: translateY(-4px);
-          border-color: rgba(255, 255, 255, 0.18);
-          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(0,200,255,0.34);
+          background: rgba(255,255,255,0.055);
           outline: none;
         }
 
-        .module-img-wrap {
-          width: 100%;
+        .module-card-media {
           aspect-ratio: 1.25 / 1;
           overflow: hidden;
-          background: #07070f;
+          background: #050812;
         }
 
-        .module-img-wrap img {
+        .module-card-media img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          display: block;
-          filter: brightness(0.84);
-          transition: transform 0.45s ease, filter 0.3s ease;
+          filter: brightness(.84);
+          transition: transform .35s, filter .35s;
         }
 
-        .module-card:hover img,
-        .module-card:focus-visible img {
-          transform: scale(1.035);
-          filter: brightness(1);
-        }
+        .module-card:hover img { transform: scale(1.035); filter: brightness(1); }
 
-        .module-body {
+        .module-card-body {
           padding: 20px;
           flex: 1;
           display: flex;
@@ -1120,373 +627,430 @@ export default function Home() {
 
         .module-top {
           display: flex;
-          align-items: flex-start;
           justify-content: space-between;
-          gap: 8px;
+          gap: 10px;
+          align-items: flex-start;
           margin-bottom: 8px;
         }
 
         .module-name {
-          font-family: "Space Grotesk", sans-serif;
-          font-weight: 700;
-          font-size: 16px;
+          font: 700 17px "Space Grotesk", sans-serif;
         }
 
-        .module-badge {
-          font-family: "Space Mono", monospace;
-          font-size: 8px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
+        .badge {
+          flex: 0 0 auto;
           padding: 3px 8px;
-          white-space: nowrap;
-          flex-shrink: 0;
-          opacity: 0.75;
+          border: 1px solid currentColor;
+          font: 700 8px "Space Mono", monospace;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          opacity: .72;
         }
 
         .module-full {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 10px;
-          font-weight: 500;
-          letter-spacing: 0.06em;
+          font: 600 10px "Space Grotesk", sans-serif;
+          letter-spacing: .06em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.42);
+          color: rgba(255,255,255,.42);
           margin-bottom: 10px;
         }
 
         .module-desc {
           font-size: 12.5px;
           line-height: 1.55;
-          color: rgba(255, 255, 255, 0.62);
+          color: rgba(255,255,255,.62);
           margin-bottom: 14px;
           flex: 1;
         }
 
-        .module-action {
-          margin-top: auto;
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.1em;
+        .open-brief {
+          font: 700 9px "Space Mono", monospace;
+          letter-spacing: .1em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.56);
+          color: rgba(255,255,255,.5);
         }
 
-        .cnl-grid {
+        .cns-grid {
           display: grid;
-          grid-template-columns: 0.78fr 1.22fr;
-          gap: 74px;
+          grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr);
+          gap: 72px;
           align-items: start;
         }
 
-        .cnl-image {
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          overflow: hidden;
-          background: rgba(15, 15, 28, 0.8);
+        .qa {
+          margin-top: 34px;
+          border-top: 1px solid rgba(255,255,255,.08);
         }
 
-        .cnl-image img {
-          width: 100%;
-          display: block;
-          object-fit: cover;
-          filter: brightness(0.94);
-        }
-
-        .cnl-status {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(0, 168, 94, 0.08);
-          border: 1px solid rgba(0, 168, 94, 0.25);
-          padding: 6px 14px;
-          margin-bottom: 22px;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #00a85e;
-        }
-
-        .cnl-status::before {
-          content: "";
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #00a85e;
-          animation: blink 1.5s infinite;
-        }
-
-        .cnl-metrics {
+        .qa-row {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 2px;
-          margin: 28px 0 2px;
+          grid-template-columns: .9fr 1.1fr;
+          gap: 22px;
+          padding: 17px 0;
+          border-bottom: 1px solid rgba(255,255,255,.06);
         }
 
-        .cnl-metric {
-          background: rgba(15, 15, 28, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 16px 10px;
-          text-align: center;
+        .qa-row strong {
+          font: 700 13px "Space Grotesk", sans-serif;
         }
 
-        .cnl-metric div:first-child {
-          font-family: "Space Mono", monospace;
-          font-size: 18px;
-          font-weight: 700;
-          color: #00a85e;
-          margin-bottom: 3px;
-        }
-
-        .cnl-metric div:last-child {
-          font-family: "Space Mono", monospace;
-          font-size: 8px;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          color: rgba(255, 255, 255, 0.35);
-        }
-
-        .cnl-feature {
-          margin-top: 2px;
-          padding: 14px 16px;
-          background: rgba(15, 15, 28, 0.62);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .cnl-feature div:first-child {
-          font-family: "Space Grotesk", sans-serif;
+        .qa-row span {
+          color: rgba(255,255,255,.56);
           font-size: 13px;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 3px;
+          line-height: 1.55;
         }
 
-        .cnl-feature div:last-child {
-          font-size: 12px;
+        .principles {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2px;
+        }
+
+        .principle {
+          border: 1px solid rgba(255,255,255,.07);
+          background: rgba(255,255,255,.035);
+          padding: 22px;
+        }
+
+        .principle strong {
+          display: block;
+          color: #4d94ff;
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          margin-bottom: 9px;
+        }
+
+        .principle span {
+          color: rgba(255,255,255,.56);
+          font-size: 13px;
           line-height: 1.5;
-          color: rgba(255, 255, 255, 0.52);
         }
 
-        .business-grid {
+        .runs-grid {
+          display: grid;
+          grid-template-columns: minmax(0, .92fr) minmax(360px, 1.08fr);
+          gap: 60px;
+          align-items: stretch;
+        }
+
+        .run-panel {
+          border: 1px solid rgba(255,255,255,.1);
+          background: rgba(4,8,18,.64);
+          overflow: hidden;
+          position: relative;
+        }
+
+        .run-panel::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(90deg, rgba(0,200,255,.08) 1px, transparent 1px),
+            linear-gradient(rgba(0,200,255,.08) 1px, transparent 1px);
+          background-size: 34px 34px;
+          pointer-events: none;
+          opacity: .42;
+        }
+
+        .run-visual {
+          min-height: 420px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .run-visual video {
+          width: 100%;
+          height: 100%;
+          min-height: 420px;
+          object-fit: cover;
+          display: block;
+          opacity: .76;
+        }
+
+        .run-visual::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          height: 36%;
+          background: linear-gradient(180deg, transparent, rgba(0,200,255,.16), transparent);
+          animation: scan 4.8s linear infinite;
+          z-index: 2;
+        }
+
+        .run-overlay {
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 22px;
+          z-index: 3;
+        }
+
+        .run-overlay strong {
+          display: block;
+          max-width: 560px;
+          font: 700 clamp(26px, 4vw, 44px) / 1.02 "Space Grotesk", sans-serif;
+          margin-bottom: 12px;
+        }
+
+        .run-overlay span {
+          color: rgba(255,255,255,.64);
+          font-size: 13px;
+          line-height: 1.5;
+          max-width: 560px;
+          display: block;
+        }
+
+        .run-metrics {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2px;
+          margin-bottom: 18px;
+        }
+
+        .run-metric {
+          background: rgba(255,255,255,.035);
+          border: 1px solid rgba(255,255,255,.07);
+          padding: 20px 16px;
+        }
+
+        .run-metric strong {
+          display: block;
+          color: #00c8ff;
+          font: 700 24px "Space Mono", monospace;
+          margin-bottom: 4px;
+        }
+
+        .run-metric span {
+          font: 700 9px "Space Mono", monospace;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,.42);
+        }
+
+        .run-layer {
+          display: grid;
+          grid-template-columns: 150px 1fr;
+          gap: 18px;
+          padding: 15px 0;
+          border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .run-layer strong {
+          font: 700 11px "Space Mono", monospace;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          color: #8ba0c0;
+        }
+
+        .run-layer span {
+          color: rgba(255,255,255,.6);
+          font-size: 13px;
+          line-height: 1.5;
+        }
+
+        .media-pair {
+          display: grid;
+          grid-template-columns: .72fr 1.28fr;
+          gap: 24px;
+          align-items: stretch;
+        }
+
+        .media-frame {
+          border: 1px solid rgba(255,255,255,.1);
+          background: rgba(255,255,255,.035);
+          overflow: hidden;
+          min-height: 100%;
+        }
+
+        .media-frame img {
+          width: 100%;
+          height: 100%;
+          min-height: 360px;
+          object-fit: cover;
+          display: block;
+          filter: brightness(.93);
+        }
+
+        .asset-fallback {
+          min-height: 360px;
+          display: grid;
+          place-items: center;
+          border: 1px solid rgba(0,200,255,.16);
+          background:
+            linear-gradient(135deg, rgba(26,111,255,.12), rgba(0,0,0,.2)),
+            rgba(255,255,255,.035);
+          color: rgba(255,255,255,.68);
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .12em;
+          text-align: center;
+          text-transform: uppercase;
+          padding: 24px;
+        }
+
+        .media-copy {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 18px;
+        }
+
+        .media-copy p {
+          color: rgba(255,255,255,.62);
+          font-size: 15px;
+          line-height: 1.75;
+        }
+
+        .feature-list {
+          display: grid;
+          gap: 2px;
+        }
+
+        .feature {
+          border: 1px solid rgba(255,255,255,.07);
+          background: rgba(255,255,255,.035);
+          padding: 16px 18px;
+        }
+
+        .feature strong {
+          display: block;
+          font: 700 13px "Space Grotesk", sans-serif;
+          margin-bottom: 4px;
+        }
+
+        .feature span {
+          color: rgba(255,255,255,.56);
+          font-size: 12.5px;
+          line-height: 1.5;
+        }
+
+        .licensing-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 2px;
         }
 
-        .license-card {
-          background: rgba(15, 15, 28, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 34px 26px;
-          position: relative;
+        .license {
+          border: 1px solid rgba(255,255,255,.08);
+          background: rgba(255,255,255,.035);
+          padding: 32px 26px;
         }
 
-        .license-card.featured {
-          background: rgba(26, 111, 255, 0.05);
-          border-color: rgba(26, 111, 255, 0.4);
+        .license.featured {
+          background: rgba(26,111,255,.055);
+          border-color: rgba(26,111,255,.36);
         }
 
-        .flag {
-          position: absolute;
-          top: -1px;
-          right: 18px;
-          background: #1a6fff;
-          color: #fff;
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          padding: 4px 10px;
-        }
-
-        .license-eye {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.12em;
+        .license small {
+          display: block;
+          color: #4d94ff;
+          font: 700 9px "Space Mono", monospace;
+          letter-spacing: .12em;
           text-transform: uppercase;
-          color: #1a6fff;
           margin-bottom: 10px;
         }
 
-        .license-title {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 12px;
-          line-height: 1.2;
+        .license strong {
+          display: block;
           white-space: pre-line;
+          font: 700 22px / 1.16 "Space Grotesk", sans-serif;
+          margin-bottom: 12px;
         }
 
-        .license-desc {
+        .license p {
+          color: rgba(255,255,255,.58);
           font-size: 13px;
-          color: rgba(255, 255, 255, 0.55);
           line-height: 1.6;
-          margin-bottom: 20px;
+          margin-bottom: 18px;
         }
 
-        .license-card ul {
+        .license ul {
           list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .license-card li {
-          font-size: 13px;
-          color: rgba(237, 241, 255, 0.65);
-          display: flex;
-          align-items: flex-start;
+          display: grid;
           gap: 9px;
         }
 
-        .license-card li span {
-          color: #1a6fff;
-          flex-shrink: 0;
-          font-family: "Space Mono", monospace;
-          font-size: 11px;
+        .license li {
+          color: rgba(255,255,255,.66);
+          font-size: 13px;
+          line-height: 1.4;
         }
 
-        .nda-strip {
-          margin-top: 24px;
-          padding: 18px 24px;
-          background: rgba(15, 15, 28, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 18px;
-          flex-wrap: wrap;
+        .license li::before {
+          content: "- ";
+          color: #4d94ff;
         }
 
-        .nda-strip strong {
-          display: block;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 14px;
-          margin-bottom: 4px;
-        }
-
-        .nda-strip p {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        .contact-inner {
-          max-width: 820px;
+        .contact-panel {
+          max-width: 900px;
           margin: 0 auto;
-          padding: 96px 48px;
           text-align: center;
         }
 
-        .contact-inner p {
+        .contact-panel p {
+          max-width: 720px;
+          margin: 18px auto 28px;
+          color: rgba(255,255,255,.64);
           font-size: 16px;
-          color: rgba(255, 255, 255, 0.55);
-          line-height: 1.7;
-          margin: 16px auto 34px;
-        }
-
-        .security-note {
-          display: inline-flex;
-          align-items: center;
-          background: rgba(200, 168, 75, 0.07);
-          border: 1px solid rgba(200, 168, 75, 0.25);
-          padding: 9px 18px;
-          margin-bottom: 30px;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #c8a84b;
+          line-height: 1.75;
         }
 
         .contact-email {
-          display: block;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 18px;
-          font-weight: 600;
+          display: inline-flex;
+          margin-top: 8px;
           color: white;
           text-decoration: none;
-          margin-bottom: 26px;
-        }
-
-        .entity-row {
-          display: flex;
-          justify-content: center;
-          gap: 44px;
-          flex-wrap: wrap;
-          margin-top: 44px;
-          padding-top: 44px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .entity-label {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.3);
-          margin-bottom: 4px;
-        }
-
-        .entity-value {
-          font-family: "Space Grotesk", sans-serif;
-          font-size: 13px;
-          font-weight: 500;
-          color: white;
+          font: 700 20px "Space Grotesk", sans-serif;
         }
 
         footer {
           position: relative;
           z-index: 1;
-          background: #03030a;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 26px 48px;
+          border-top: 1px solid rgba(255,255,255,.08);
+          background: #02030a;
+          padding: 26px 42px;
           display: flex;
-          align-items: center;
           justify-content: space-between;
+          gap: 14px;
           flex-wrap: wrap;
-          gap: 10px;
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          color: rgba(255, 255, 255, 0.3);
-          letter-spacing: 0.06em;
+          color: rgba(255,255,255,.36);
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .07em;
+          text-transform: uppercase;
         }
 
         .modal-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 500;
-          background: rgba(0, 0, 0, 0.72);
+          z-index: 400;
+          padding: 34px;
+          background: rgba(0,0,0,.76);
           backdrop-filter: blur(18px);
-          padding: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: grid;
+          place-items: center;
         }
 
         .modal {
           width: min(1120px, 100%);
-          max-height: min(820px, calc(100vh - 72px));
+          max-height: min(820px, calc(100vh - 68px));
           overflow: auto;
-          background: #070711;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          color: white;
           display: grid;
-          grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
-          box-shadow: 0 26px 80px rgba(0, 0, 0, 0.5);
+          grid-template-columns: minmax(330px,.9fr) minmax(0,1.1fr);
+          background: #070a14;
+          border: 1px solid rgba(255,255,255,.12);
         }
 
-        .modal-media {
-          min-height: 100%;
-          background: #03030a;
-          border-right: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .modal-media img {
+        .modal img {
           width: 100%;
           height: 100%;
-          min-height: 520px;
+          min-height: 540px;
           object-fit: cover;
           display: block;
         }
 
-        .modal-content {
+        .modal-body {
           padding: 34px;
         }
 
@@ -1494,482 +1058,330 @@ export default function Home() {
           float: right;
           width: 38px;
           height: 38px;
-          border: 1px solid rgba(255, 255, 255, 0.16);
-          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255,255,255,.16);
+          background: rgba(255,255,255,.04);
           color: white;
           cursor: pointer;
-          font-family: "Space Mono", monospace;
-          font-size: 18px;
+          font: 700 18px "Space Mono", monospace;
         }
 
         .modal-title {
-          padding-right: 56px;
-          font-family: "Space Grotesk", sans-serif;
-          font-size: clamp(30px, 4vw, 46px);
-          font-weight: 700;
-          line-height: 1;
-          margin-bottom: 10px;
+          padding-right: 54px;
+          font: 700 clamp(32px, 4vw, 48px) / .98 "Space Grotesk", sans-serif;
+          margin-bottom: 8px;
         }
 
-        .modal-full {
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.12em;
+        .modal-sub {
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .12em;
           text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.45);
+          color: rgba(255,255,255,.44);
           margin-bottom: 24px;
         }
 
         .modal-section {
-          padding: 18px 0;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 17px 0;
+          border-top: 1px solid rgba(255,255,255,.08);
         }
 
         .modal-section h3 {
-          font-family: "Space Mono", monospace;
-          font-size: 10px;
-          letter-spacing: 0.12em;
+          font: 700 10px "Space Mono", monospace;
+          letter-spacing: .12em;
           text-transform: uppercase;
           margin-bottom: 8px;
         }
 
-        .modal-section p {
+        .modal-section p,
+        .modal-section li {
+          color: rgba(255,255,255,.64);
           font-size: 14px;
           line-height: 1.65;
-          color: rgba(255, 255, 255, 0.66);
         }
 
-        .modal-columns {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 2px;
-          margin-top: 18px;
-        }
-
-        .modal-list {
-          background: rgba(255, 255, 255, 0.035);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          padding: 16px;
-        }
-
-        .modal-list h4 {
-          font-family: "Space Mono", monospace;
-          font-size: 9px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          margin-bottom: 10px;
-        }
-
-        .modal-list ul {
+        .modal-section ul {
           list-style: none;
-          display: grid;
+          display: flex;
+          flex-wrap: wrap;
           gap: 8px;
         }
 
-        .modal-list li {
-          font-size: 12.5px;
-          color: rgba(255, 255, 255, 0.58);
-          line-height: 1.4;
-        }
-
-        .modal-list li::before {
-          content: "- ";
-          color: currentColor;
+        .modal-section li {
+          border: 1px solid rgba(255,255,255,.09);
+          background: rgba(255,255,255,.035);
+          padding: 6px 10px;
+          font-size: 12px;
         }
 
         @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.001ms !important;
+          *, *::before, *::after {
+            animation-duration: .001ms !important;
             animation-iteration-count: 1 !important;
+            transition-duration: .001ms !important;
             scroll-behavior: auto !important;
-            transition-duration: 0.001ms !important;
           }
         }
 
         @media (max-width: 1180px) {
-          .module-grid {
-            grid-template-columns: repeat(3, 1fr);
+          .top-nav {
+            grid-template-columns: 1fr;
+            gap: 0;
+            padding: 0 24px;
           }
 
-          .hero-grid {
+          .brand {
+            padding-top: 12px;
+          }
+
+          .nav-strip {
+            justify-content: flex-start;
+          }
+
+          .hero {
+            padding-top: 128px;
+          }
+
+          .hero-inner,
+          .runs-grid {
             grid-template-columns: 1fr;
           }
 
-          .hero-panel-stack {
-            max-width: 780px;
+          .module-constellation,
+          .module-grid {
+            grid-template-columns: repeat(4, minmax(190px, 1fr));
+            overflow-x: auto;
+            padding-bottom: 6px;
+          }
+
+          .hero-module,
+          .module-card {
+            min-width: 190px;
+          }
+
+          .section-head,
+          .cns-grid,
+          .media-pair {
+            grid-template-columns: 1fr;
+            gap: 36px;
           }
         }
 
-        @media (max-width: 900px) {
-          .nav {
-            padding: 0 20px;
+        @media (max-width: 820px) {
+          .top-nav {
+            min-height: 92px;
+            padding: 0 14px;
+          }
+
+          .brand {
+            min-width: 0;
           }
 
           .brand-sub {
             display: none;
           }
 
-          .nav-links,
-          .nav-cta {
-            display: none;
-          }
-
-          .menu-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          .mobile-menu {
-            display: grid;
-            position: fixed;
-            top: 68px;
-            left: 0;
-            right: 0;
-            z-index: 190;
-            background: rgba(3, 3, 10, 0.97);
-            backdrop-filter: blur(22px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 14px 20px 20px;
-            gap: 8px;
-          }
-
-          .mobile-menu .nav-link,
-          .mobile-menu .btn-primary {
-            width: 100%;
-            justify-content: flex-start;
-          }
-
-          .hero,
-          .section-inner,
-          .contact-inner {
-            padding-left: 20px;
-            padding-right: 20px;
+          .nav-chip {
+            min-height: 34px;
+            padding: 0 10px;
+            font-size: 9px;
           }
 
           .hero {
-            padding-top: 74px;
+            padding: 124px 18px 42px;
           }
 
-          .prop-bar {
-            justify-content: flex-start;
-            gap: 14px;
-            padding: 14px 20px;
+          .section-inner {
+            padding: 72px 18px;
           }
 
-          .section-head,
-          .ecosystem-grid,
-          .cnl-grid,
-          .business-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
-          }
-
-          .principles-grid,
-          .qa-row,
-          .cnl-metrics {
-            grid-template-columns: 1fr 1fr;
-          }
-
-          .module-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .layer-row {
-            grid-template-columns: 34px 1fr;
-            gap: 12px;
-          }
-
-          .layer-label {
-            display: none;
-          }
-
-          .layer-body {
-            margin-left: 0;
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .tag-row {
-            justify-content: flex-start;
-            max-width: 100%;
-          }
-
-          .metrics-row {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .metric {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-          }
-
-          .metric:nth-child(even) {
-            border-right: none;
-          }
-
-          .metric:last-child {
-            grid-column: 1 / -1;
-          }
-
-          .live-overlay {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-
-          .feed-stack {
-            width: 100%;
-          }
-
-          .live-caption {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-
-          .modal-backdrop {
-            padding: 18px;
-            align-items: stretch;
-          }
-
-          .modal {
-            max-height: calc(100vh - 36px);
-            grid-template-columns: 1fr;
-          }
-
-          .modal-media {
-            border-right: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          }
-
-          .modal-media img {
-            min-height: 0;
-            aspect-ratio: 1.25 / 1;
-          }
-        }
-
-        @media (max-width: 560px) {
-          .brand-name {
-            font-size: 13px;
-          }
-
-          .hero-title {
-            font-size: 62px;
+          .hero h1 {
+            font-size: 78px;
           }
 
           .hero-subtitle {
-            letter-spacing: 0.11em;
+            letter-spacing: .12em;
           }
 
           .hero-actions,
-          .hero-actions .btn-primary,
-          .hero-actions .btn-ghost,
-          .nda-strip .btn-primary {
+          .hero-actions .btn {
             width: 100%;
           }
 
-          .metrics-panel {
-            padding: 22px;
+          .btn {
+            width: 100%;
           }
 
-          .detail-row {
-            display: grid;
+          .ticker {
+            height: 40px;
           }
 
-          .detail-row span:last-child {
-            text-align: left;
+          .ticker-item {
+            padding: 0 22px;
+            font-size: 9px;
           }
 
-          .module-grid,
-          .principles-grid,
-          .qa-row,
-          .cnl-metrics,
-          .modal-columns {
+          .principles,
+          .run-metrics,
+          .licensing-grid {
             grid-template-columns: 1fr;
           }
 
-          .module-body {
-            padding: 18px;
+          .qa-row,
+          .run-layer {
+            grid-template-columns: 1fr;
+            gap: 6px;
           }
 
-          .modal-content {
+          .media-frame img,
+          .asset-fallback {
+            min-height: 280px;
+          }
+
+          .modal-backdrop {
+            padding: 16px;
+          }
+
+          .modal {
+            grid-template-columns: 1fr;
+            max-height: calc(100vh - 32px);
+          }
+
+          .modal img {
+            min-height: 0;
+            aspect-ratio: 1.25 / 1;
+          }
+
+          .modal-body {
             padding: 24px;
           }
 
           footer {
-            padding: 24px 20px;
+            padding: 24px 18px;
           }
         }
       `}</style>
 
-      <div className="video-bg" aria-hidden="true">
+      <div className="bg-video" aria-hidden="true">
         <video src="/brand/cns_canvas.mp4" autoPlay loop muted playsInline preload="metadata" />
       </div>
 
-      <nav className="nav" aria-label="Primary navigation">
-        <button className="brand" onClick={() => scrollToSection("top")} aria-label="Go to top">
+      <nav className="top-nav" aria-label="CNS navigation">
+        <button className="brand" onClick={() => scrollToSection("ecosystem")} aria-label="Go to CNS ecosystem">
           <span className="brand-mark">CNS</span>
           <span>
-            <span className="brand-name">Causal Nexus Systems</span>
-            <span className="brand-sub">Sovereign Deterministic Ecosystem</span>
+            <span className="brand-title">Causal Nexus Systems</span>
+            <span className="brand-sub">Sovereign deterministic ecosystem</span>
           </span>
         </button>
 
-        <div className="nav-links">
+        <div className="nav-strip">
           {NAV_ITEMS.map((item) => (
-            <button key={item.id} className="nav-link" onClick={() => scrollToSection(item.id)}>
+            <button key={item.id} className="nav-chip" onClick={() => scrollToSection(item.id)}>
               {item.label}
             </button>
           ))}
         </div>
-
-        <button className="btn-primary nav-cta" style={{ minHeight: 38, padding: "9px 20px", fontSize: 11 }} onClick={() => scrollToSection("contact")}>
-          NDA Access
-        </button>
-
-        <button className="menu-btn" onClick={() => setMenuOpen((open) => !open)} aria-label="Open navigation" aria-expanded={menuOpen}>
-          {menuOpen ? "x" : "="}
-        </button>
       </nav>
 
-      {menuOpen && (
-        <div className="mobile-menu">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.id}
-              className="nav-link"
-              onClick={() => {
-                setMenuOpen(false);
-                scrollToSection(item.id);
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-          <button
-            className="btn-primary"
-            onClick={() => {
-              setMenuOpen(false);
-              scrollToSection("contact");
-            }}
-          >
-            NDA Access
-          </button>
-        </div>
-      )}
+      <section id="ecosystem" className="hero">
+        <div className="hero-inner">
+          <div>
+            <div className="eyebrow">Causal Nexus Systems LLC</div>
+            <h1>
+              <span>CNS</span>
+            </h1>
+            <div className="hero-subtitle">Sovereign causal execution for critical environments</div>
+            <p className="hero-statement">
+              <strong>CNS mide la causa.</strong>
+              <br />
+              No espera a que el efecto llegue al sistema.
+            </p>
+            <div className="hero-actions">
+              <button className="btn primary" onClick={() => scrollToSection("modules")}>
+                View Modules
+              </button>
+              <button className="btn" onClick={() => scrollToSection("runs")}>
+                32-Domain Run
+              </button>
+            </div>
+          </div>
 
-      <div id="top" className="ticker-shell">
-        <div className="ticker-bar">
+          <div className="module-constellation" aria-label="CNS module visual entry">
+            {MODULES.map((mod) => (
+              <button key={mod.acronym} className="hero-module" onClick={() => setSelectedModule(mod)}>
+                <AssetFrame src={mod.imgSrc} alt={mod.acronym} label={mod.acronym} />
+                <span className="hero-module-info">
+                  <strong style={{ color: mod.color }}>{mod.acronym}</strong>
+                  <span>{mod.badge}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="ticker">
           <div className="ticker-inner">
             {[
-              ["Run ID", "32-DOMAIN", false],
-              ["Authority", "K24.1-RS", false],
-              ["Runtime", "Iron Guardian V3", false],
-              ["Records", "24,606", false],
-              ["Module Rows", "196,848", false],
-              ["Validation", "PASS", true],
-              ["Evidence", "SHA-256 + Merkle", false],
-              ["Access", "NDA-first", false],
-            ].flatMap((item, index) => [
-              <div key={`${index}-a`} className="t-item">
-                {item[0]} <span className={item[2] ? "t-p" : "t-v"}>{item[1] as string}</span>
+              ["Modules", "8 active"],
+              ["Telemetry", "32 domains"],
+              ["Records", "24,606"],
+              ["Module Rows", "196,848"],
+              ["Authority", "K24.1-RS"],
+              ["Runtime", "Iron Guardian V3"],
+              ["Validation", "PASS"],
+              ["Evidence", "SHA-256 + Merkle"],
+            ].flatMap(([k, v], index) => [
+              <div className="ticker-item" key={`${index}-a`}>
+                {k} <span className={v === "PASS" ? "pass" : ""}>{v}</span>
               </div>,
-              <div key={`${index}-b`} className="t-item">
-                {item[0]} <span className={item[2] ? "t-p" : "t-v"}>{item[1] as string}</span>
+              <div className="ticker-item" key={`${index}-b`}>
+                {k} <span className={v === "PASS" ? "pass" : ""}>{v}</span>
               </div>,
             ])}
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="prop-bar">
-        <div className="prop">Deterministic causal</div>
-        <div className="prop">Local execution path</div>
-        <div className="prop">Sovereign deployment boundary</div>
-        <div className="prop">SHA-256 and Merkle evidence</div>
-        <div className="prop">NDA-first technical access</div>
-      </div>
-
-      <section className="hero">
-        <div className="hero-grid">
-          <div>
-            <div className="eyebrow">Causal Nexus Systems LLC</div>
-            <h1 className="hero-title">
-              <span>CNS</span>
-            </h1>
-            <div className="hero-subtitle">Next-generation sovereign deterministic ecosystem</div>
-            <p className="hero-line">
-              <strong>CNS measures the cause.</strong>
-              <br />
-              It does not wait for the effect.
-            </p>
-            <div className="hero-actions">
-              <button className="btn-primary" onClick={() => scrollToSection("modules")}>
-                Explore Modules
-              </button>
-              <button className="btn-ghost" onClick={() => scrollToSection("contact")}>
-                Request NDA Access
-              </button>
+      <section id="modules" className="section alt">
+        <div className="section-inner">
+          <div className="section-head">
+            <div>
+              <div className="eyebrow">Modules</div>
+              <h2>
+                CNS as independent modules.
+                <br />
+                CNS as one ecosystem.
+              </h2>
             </div>
+            <p className="copy">
+              Each module has a standalone operational purpose and a defined role inside the CNS causal chain. Click a module to inspect definition, sector fit, ecosystem function, and evidence outputs.
+            </p>
           </div>
 
-          <div className="hero-panel-stack">
-            <div className="metrics-panel">
-              <div className="metrics-title">K24 unified run - public metrics layer</div>
-              <div className="metrics-row">
-                {METRICS.map((metric) => (
-                  <div key={metric.l} className="metric">
-                    <span className={`metric-value ${metric.cyan ? "cyan" : ""}`}>{metric.v}</span>
-                    <span className="metric-label">{metric.l}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="detail-list">
-                {RUN_DETAILS.map(([key, value]) => (
-                  <div key={key} className="detail-row">
-                    <span>{key}</span>
-                    <span>{value}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="status-pill">
-                <span className="status-dot" />
-                <span>Validation: PASS - public evidence boundary</span>
-              </div>
-            </div>
-
-            <div className="live-panel">
-              <div className="live-video">
-                <video src="/brand/cns_live_telemetry_panel.mp4" autoPlay loop muted playsInline preload="metadata" />
-                <div className="live-overlay">
-                  <div className="live-copy">
-                    <div>Live telemetry intake</div>
-                    <div>CNS panel connected to multi-sector operational feeds.</div>
-                  </div>
-                  <div className="feed-stack">
-                    {TELEMETRY_FEEDS.map(([sector, status, color]) => (
-                      <div key={sector} className="feed-row">
-                        <span>{sector}</span>
-                        <span style={{ color }}>{status}</span>
-                      </div>
-                    ))}
-                  </div>
+          <div className="module-grid">
+            {MODULES.map((mod) => (
+              <button key={mod.acronym} className="module-card" onClick={() => setSelectedModule(mod)}>
+                <div style={{ height: 3, background: mod.color }} />
+                <div className="module-card-media">
+                  <AssetFrame src={mod.imgSrc} alt={mod.acronym} label={mod.acronym} />
                 </div>
-              </div>
-              <div className="live-caption">
-                <p>
-                  Place the live panel recording at <strong>/public/brand/cns_live_telemetry_panel.mp4</strong>. The page keeps the current background video and adds this operational telemetry layer inside the hero.
-                </p>
-                <span>PC + phone ready</span>
-              </div>
-            </div>
+                <div className="module-card-body">
+                  <div className="module-top">
+                    <div className="module-name" style={{ color: mod.color }}>{mod.acronym}</div>
+                    <div className="badge" style={{ color: mod.color }}>{mod.badge}</div>
+                  </div>
+                  <div className="module-full">{mod.fullName}</div>
+                  <div className="module-desc">{mod.desc}</div>
+                  <div className="open-brief">Open module brief</div>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="ecosystem" className="section dim">
+      <section id="cns" className="section">
         <div className="section-inner">
-          <div className="ecosystem-grid">
+          <div className="cns-grid">
             <div>
               <div className="eyebrow">What is CNS</div>
               <h2>
@@ -1979,37 +1391,36 @@ export default function Home() {
                 <br />
                 Causal governance.
               </h2>
-              <p className="section-copy" style={{ marginTop: 20 }}>
-                CNS is a sovereign deterministic causal ecosystem for critical environments where operational decisions, evidence, continuity, and system trust must be structured, bounded, verifiable, and reviewable.
+              <p className="copy" style={{ marginTop: 22 }}>
+                CNS is a deterministic causal ecosystem for critical environments where operational decisions, evidence, continuity, and system trust must be structured, bounded, verifiable, and reviewable.
               </p>
-              <div className="qa-list">
+              <div className="qa">
                 {[
-                  ["Is the system state coherent?", "CNS evaluates whether the operational state remains causally aligned and structurally valid."],
-                  ["Is the system bounded?", "CNS classifies outputs into controlled operational states rather than opaque reactions."],
-                  ["Is runtime trustworthy?", "CNS validates execution path, module context, and deployment state before action."],
-                  ["Is the result reviewable?", "CNS generates evidence packages for replay, audit, and institutional review."],
-                  ["Can evidence be trusted later?", "CNS supports hash-based integrity, sealed packages, and reviewable chain-of-custody."],
-                ].map(([question, answer]) => (
-                  <div key={question} className="qa-row">
-                    <div>{question}</div>
-                    <div>{answer}</div>
+                  ["Is the state coherent?", "CNS evaluates whether an operational state remains causally aligned and structurally valid."],
+                  ["Is the state bounded?", "Outputs are classified into controlled postures instead of opaque reactions."],
+                  ["Is runtime trustworthy?", "Execution path, module context, and deployment boundary are part of the review chain."],
+                  ["Is the result reviewable?", "Runs can produce manifests, hashes, Merkle roots, replay paths, and evidence packages."],
+                ].map(([q, a]) => (
+                  <div className="qa-row" key={q}>
+                    <strong>{q}</strong>
+                    <span>{a}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="principles-grid">
+            <div className="principles">
               {[
-                ["Deterministic", "Same validated input and same execution boundary should produce the same reviewable output."],
-                ["Bounded", "Outputs are classified into controlled operational states with explicit review boundaries."],
-                ["Sovereign", "Designed for local, private, air-gapped, or embedded deployment profiles under defined scope."],
-                ["Falsifiable", "Evidence can be packaged through hashes, manifests, Merkle roots, and replay artifacts."],
-                ["Traceable", "Module-level contribution records preserve the authority path from signal to runtime posture."],
-                ["Modular", "Each module can be scoped independently or integrated into the CNS ecosystem."],
-              ].map(([title, description]) => (
-                <div key={title} className="principle">
-                  <div>{title}</div>
-                  <div>{description}</div>
+                ["Deterministic", "Validated input and bounded execution should produce reproducible output."],
+                ["Sovereign", "Designed for local, private, air-gapped, embedded, or controlled deployment boundaries."],
+                ["Traceable", "Module-level contributions preserve the path from signal to authority decision."],
+                ["Falsifiable", "Evidence is structured so external review can inspect hashes, manifests, and replay outputs."],
+                ["Operational", "The ecosystem separates signal intake, module judgment, authority, runtime, and evidence."],
+                ["Institutional", "Positioned for technical review, procurement discussion, and high-assurance evaluation."],
+              ].map(([title, text]) => (
+                <div className="principle" key={title}>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
                 </div>
               ))}
             </div>
@@ -2017,302 +1428,261 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section alt">
+      <section id="runs" className="section alt">
         <div className="section-inner">
           <div className="section-head">
             <div>
-              <div className="eyebrow">Architecture</div>
+              <div className="eyebrow">32-Domain Execution Run</div>
               <h2>
-                Eight-layer
+                Live telemetry pressure.
                 <br />
-                sovereign ecosystem.
+                Deterministic evidence.
               </h2>
             </div>
-            <p className="section-copy">
-              Each layer serves a precise institutional role. The value is not a list of tools, but a coherent authority, runtime, integrity, and evidence chain.
+            <p className="copy">
+              This section replaces the old eight-layer block with an execution-centered view: telemetry intake, module rows, authority integration, runtime enforcement, and evidence packaging.
             </p>
           </div>
 
-          <div className="layer-list">
+          <div className="runs-grid">
+            <div className="run-panel">
+              <div className="run-visual">
+                <video src="/brand/cns_live_telemetry_panel.mp4" autoPlay loop muted playsInline preload="metadata" />
+                <div className="run-overlay">
+                  <strong>32 domains connected into one causal execution path.</strong>
+                  <span>Place the live CNS panel recording at /public/brand/cns_live_telemetry_panel.mp4. The background video remains active behind the full page.</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="run-metrics">
+                {RUN_METRICS.map(([label, value]) => (
+                  <div className="run-metric" key={label}>
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {RUN_LAYERS.map(([title, text]) => (
+                <div className="run-layer" key={title}>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cnl" className="section">
+        <div className="section-inner">
+          <div className="section-head">
+            <div>
+              <div className="eyebrow">CNL</div>
+              <h2>
+                Causal Nexus Ledger.
+                <br />
+                Consensus evidence layer.
+              </h2>
+            </div>
+            <p className="copy">
+              CNL should be framed as the ledger and consensus validation path for CNS: canonical state, commit evidence, verifier records, and reviewable recovery behavior.
+            </p>
+          </div>
+
+          <div className="media-pair">
+            <div className="media-frame">
+              <AssetFrame src="/01-CNL.png" alt="CNL primary module image" label="CNL primary image" />
+            </div>
+            <div className="media-frame">
+              <AssetFrame src="/CNL_LEDGER_EXECUTION.png" alt="CNL ledger execution image" label="Upload second CNL image as CNL_LEDGER_EXECUTION.png" />
+            </div>
+          </div>
+
+          <div className="feature-list" style={{ marginTop: 24 }}>
             {[
-              { lbl: "Authority", num: "RS", color: "#8BA0C0", mod: "K24.1-RS - Runtime Sovereign Authority", desc: "Integrates module verdicts and emits the final deterministic decision.", tags: ["Command Authority", "Mission Governance"] },
-              { lbl: "Decision", num: "2", color: "#B83232", mod: "ACDK v4.1 - Adaptive Causal Decision Kernel", desc: "Strategic decision governance for mission planning and multi-domain coordination.", tags: ["Decision", "Risk"] },
-              { lbl: "Edge", num: "3", color: "#00A85E", mod: "NCM v2.1 - Nexus Causal Module", desc: "Compact causal operation for edge devices, robotics, drones, and autonomous systems.", tags: ["Edge", "Embedded"] },
-              { lbl: "Fusion", num: "4", color: "#6C32D4", mod: "MDFE v3.1 - Multi-Domain Fusion Engine", desc: "Fuses heterogeneous streams into unified causal context.", tags: ["Fusion", "Signals"] },
-              { lbl: "Coherence", num: "5", color: "#4D94FF", mod: "KECS - Kinetic Entropy Coherence System", desc: "Evaluates entropy, coherence, cascade risk, and safe-state containment.", tags: ["Safety", "Resilience"] },
-              { lbl: "Integrity", num: "6", color: "#C85A18", mod: "ADIK / AetherCore - Deterministic Integrity Kernel", desc: "Protects timing consistency, output determinism, and state integrity.", tags: ["Integrity", "Repeatability"] },
-              { lbl: "Protection", num: "7", color: "#C8A84B", mod: "Iron Guardian V3 - Runtime Enforcement Shield", desc: "Enforces bounded execution and protects deterministic runtime operation.", tags: ["Protection", "Runtime"] },
-              { lbl: "Evidence", num: "8", color: "#007A6E", mod: "SQS / DEEL - Evidence and Execution Ledger", desc: "Packages CNS outputs as traceable, sealed, reviewable institutional evidence.", tags: ["Audit", "Evidence"] },
-            ].map((row) => (
-              <div key={row.mod} className="layer-row">
-                <div className="layer-label">{row.lbl}</div>
-                <div className="layer-num" style={{ background: `${row.color}18`, border: `1px solid ${row.color}`, color: row.color }}>
-                  {row.num}
-                </div>
-                <div className="layer-body" style={{ borderLeft: `2px solid ${row.color}`, background: "rgba(15, 15, 28, 0.6)" }}>
-                  <div>
-                    <div className="layer-title" style={{ color: row.color }}>
-                      {row.mod}
-                    </div>
-                    <div className="layer-desc">{row.desc}</div>
-                  </div>
-                  <div className="tag-row">
-                    {row.tags.map((tag) => (
-                      <span key={tag} className="tag" style={{ border: `1px solid ${row.color}`, color: row.color }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              ["Canonical state", "Ledger boundary for committed execution state and reviewable system history."],
+              ["Verifier path", "External review path for manifests, hashes, commit records, and evidence artifacts."],
+              ["Recovery behavior", "Claims should remain tied to testnet and multi-machine evidence as the CNL path matures."],
+            ].map(([title, text]) => (
+              <div className="feature" key={title}>
+                <strong>{title}</strong>
+                <span>{text}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="modules" className="section dim">
+      <section id="ces" className="section alt">
         <div className="section-inner">
           <div className="section-head">
             <div>
-              <div className="eyebrow">Module Ecosystem</div>
+              <div className="eyebrow">CES</div>
               <h2>
-                Click any module.
+                Causal Execution System.
                 <br />
-                Inspect its role.
+                Ecosystem test execution.
               </h2>
             </div>
-            <p className="section-copy">
-              Each CNS module has an independent operational purpose and a specific role inside the integrated ecosystem. The public page should show both without exposing kernel logic.
+            <p className="copy">
+              CES is positioned here as the execution-facing layer for ecosystem trials, module orchestration, telemetry intake, run production, and institutional evaluation packages.
             </p>
           </div>
 
-          <div className="module-grid">
-            {ECO_MODULES.map((mod) => (
-              <button key={mod.acronym} className="module-card" onClick={() => setSelectedModule(mod)}>
-                <div style={{ height: 3, background: mod.color }} />
-                <div className="module-img-wrap">
-                  <img src={mod.imgSrc} alt={mod.acronym} loading="lazy" />
-                </div>
-                <div className="module-body">
-                  <div className="module-top">
-                    <div className="module-name" style={{ color: mod.color }}>
-                      {mod.acronym}
-                    </div>
-                    <div className="module-badge" style={{ border: `1px solid ${mod.color}`, color: mod.color }}>
-                      {mod.badge}
-                    </div>
-                  </div>
-                  <div className="module-full">{mod.fullName}</div>
-                  <div className="module-desc">{mod.desc}</div>
-                  <div className="module-action">Open module brief</div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="cnl" className="section alt">
-        <div className="section-inner">
-          <div className="eyebrow">Causal Nexus Ledger</div>
-          <h2 style={{ marginBottom: 48 }}>
-            CNL v1.0 - ledger and
-            <br />
-            consensus validation track.
-          </h2>
-
-          <div className="cnl-grid">
-            <div className="cnl-image">
-              <img src="/01-CNL.png" alt="CNL v1.0" loading="lazy" />
+          <div className="media-pair">
+            <div className="media-frame">
+              <AssetFrame src="/CES_CAUSAL_EXECUTION_SYSTEM_01.png" alt="CES module image one" label="Upload CES image 1 as CES_CAUSAL_EXECUTION_SYSTEM_01.png" />
             </div>
-
-            <div>
-              <div className="cnl-status">Validation track - approaching production readiness</div>
-              <p className="section-copy" style={{ marginBottom: 18 }}>
-                CNL is the ledger and consensus direction for extending CNS from local sovereign execution into a reviewable network state. Public wording should stay precise: CNL is presented as a validation track unless production evidence is published.
+            <div className="media-copy">
+              <p>
+                CES should communicate how CNS is exercised: selected domains, telemetry streams, module execution, authority integration, and evidence output. It is the right section for trials, demonstrations, and controlled ecosystem tests.
               </p>
-              <p className="section-copy">
-                The role of CNL is to preserve canonical state, commit evidence, verifier records, and recovery behavior so external review can inspect what was decided, when it was committed, and under which boundary.
-              </p>
-
-              <div className="cnl-metrics">
+              <div className="feature-list">
                 {[
-                  ["<50ms", "Commit latency target"],
-                  ["1K+", "Batches/min target"],
-                  ["<500ms", "Finalization target"],
-                  ["Rust", "Verifier path"],
-                ].map(([value, label]) => (
-                  <div key={label} className="cnl-metric">
-                    <div>{value}</div>
-                    <div>{label}</div>
+                  ["Trial orchestration", "Defines what is being tested, which modules participate, and what evidence must be produced."],
+                  ["Run governance", "Connects telemetry intake, module rows, authority decisions, runtime enforcement, and package validation."],
+                  ["Institutional evaluation", "Supports partner-facing trials without exposing protected kernel internals."],
+                ].map(([title, text]) => (
+                  <div className="feature" key={title}>
+                    <strong>{title}</strong>
+                    <span>{text}</span>
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
 
-              {[
-                ["Deterministic commit design", "CNL is framed around bounded commit certificates and reproducible ledger state rather than probabilistic public-chain language."],
-                ["Canonical ledger boundary", "The ledger becomes the reviewable source of committed state once the deployment scope and verifier package are defined."],
-                ["Recovery and partition behavior", "Recovery claims should be tied to testnet evidence, multi-machine runs, and documented failure scenarios."],
-                ["External verification", "Rust verifier artifacts can be positioned as the independent review path when the verifier package is included in the evidence boundary."],
-              ].map(([title, description]) => (
-                <div key={title} className="cnl-feature">
-                  <div>{title}</div>
-                  <div>{description}</div>
-                </div>
-              ))}
+          <div className="media-pair" style={{ marginTop: 24 }}>
+            <div className="media-frame">
+              <AssetFrame src="/CES_CAUSAL_EXECUTION_SYSTEM_02.png" alt="CES module image two" label="Upload CES image 2 as CES_CAUSAL_EXECUTION_SYSTEM_02.png" />
+            </div>
+            <div className="media-frame">
+              <AssetFrame src="/CES_CAUSAL_EXECUTION_SYSTEM_03.png" alt="CES module image three" label="Upload CES image 3 as CES_CAUSAL_EXECUTION_SYSTEM_03.png" />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="business" className="section dim">
+      <section id="licensing" className="section">
         <div className="section-inner">
-          <div className="eyebrow">Licensing Model</div>
-          <h2 style={{ marginBottom: 18 }}>
-            Three paths to sovereign
-            <br />
-            causal governance.
-          </h2>
-          <p className="section-copy" style={{ maxWidth: 620, marginBottom: 58 }}>
-            CNS is not positioned as public SaaS. Access is NDA-first, scoped per domain, deployment boundary, and evidence disclosure level.
-          </p>
+          <div className="section-head">
+            <div>
+              <div className="eyebrow">Licensing Model</div>
+              <h2>
+                Three paths to evaluate
+                <br />
+                and deploy CNS.
+              </h2>
+            </div>
+            <p className="copy">
+              CNS is presented for structured technical trials, scoped module evaluation, ecosystem licensing, and sovereign or institutional deployment discussions.
+            </p>
+          </div>
 
-          <div className="business-grid">
+          <div className="licensing-grid">
             {[
               {
                 eye: "Module License",
-                title: "Single Module\nDeployment",
-                desc: "Deploy one CNS module for a specific operational domain, use case, or mission need.",
-                items: ["One module, one operational domain", "NDA-first access agreement", "Defined license scope", "Local or sovereign deployment", "Evidence packaging included"],
+                title: "Single Module\nEvaluation",
+                desc: "Evaluate one CNS module against a defined sector, domain, or operational use case.",
+                items: ["Scoped module boundary", "Controlled test objective", "Evidence package", "Partner review path"],
               },
               {
                 eye: "Ecosystem License",
-                title: "Full CNS Ecosystem\nPlatform",
-                desc: "Access the integrated deterministic causal ecosystem across authority, runtime, integrity, fusion, and evidence layers.",
-                items: ["All core modules", "Unified authority path", "Multi-domain operational scope", "Public/private evidence boundary", "Dedicated institutional engagement"],
+                title: "Full CNS\nEcosystem Trial",
+                desc: "Run CNS as an integrated causal ecosystem across multiple modules and telemetry sources.",
+                items: ["Multi-module execution", "Authority integration", "Runtime enforcement", "Run evidence and replay"],
                 featured: true,
               },
               {
-                eye: "Sovereign Nation License",
-                title: "Country-Level\nDeployment",
-                desc: "CNS licensed at national scale for governments, defense ministries, and sovereign institutions.",
-                items: ["National-scope license", "Sovereign deployment architecture", "Air-gapped or private options", "Critical sector coverage", "Government-level engagement"],
+                eye: "Institutional Deployment",
+                title: "Sovereign or\nEnterprise Scope",
+                desc: "Engage CNS for national, defense, aerospace, energy, financial, or critical infrastructure contexts.",
+                items: ["Deployment architecture", "Security boundary", "Evaluation package", "Institutional engagement"],
               },
-            ].map((card) => (
-              <div key={card.eye} className={`license-card ${card.featured ? "featured" : ""}`}>
-                {card.featured && <div className="flag">FLAGSHIP</div>}
-                <div className="license-eye">{card.eye}</div>
-                <div className="license-title">{card.title}</div>
-                <div className="license-desc">{card.desc}</div>
+            ].map((item) => (
+              <div className={`license ${item.featured ? "featured" : ""}`} key={item.eye}>
+                <small>{item.eye}</small>
+                <strong>{item.title}</strong>
+                <p>{item.desc}</p>
                 <ul>
-                  {card.items.map((item) => (
-                    <li key={item}>
-                      <span>-</span>
-                      {item}
-                    </li>
+                  {item.items.map((entry) => (
+                    <li key={entry}>{entry}</li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
-
-          <div className="nda-strip">
-            <div>
-              <strong>All technical access is NDA-first.</strong>
-              <p>No public source exposure. Public outputs should show results, evidence boundaries, hashes, and review paths without exposing protected kernel logic.</p>
-            </div>
-            <button className="btn-primary" onClick={() => scrollToSection("contact")}>
-              Request Access
-            </button>
-          </div>
         </div>
       </section>
 
       <section id="contact" className="section alt">
-        <div className="contact-inner">
-          <div className="eyebrow">Access and Partnerships</div>
-          <h2>
-            Kernel access
-            <br />
-            is NDA-first.
-          </h2>
-          <p>
-            CNS is designed for high-stakes evaluation in aerospace, defense, critical infrastructure, financial systems, and sovereign institutions. Partnerships, licensing, and technical review begin under confidentiality.
-          </p>
-          <div className="security-note">No source access - no kernel exposure - no reverse engineering permitted</div>
-          <a className="contact-email" href="mailto:admin@causalnexussystems.com">
-            admin@causalnexussystems.com
-          </a>
-          <a href="mailto:admin@causalnexussystems.com" className="btn-primary">
-            Request NDA Access
-          </a>
-
-          <div className="entity-row">
-            {[
-              ["Entity", "Causal Nexus Systems LLC"],
-              ["Location", "Orlando, Florida - USA"],
-              ["Patents", "#63/896,666 - #64/043,866 - #64/067,492"],
-              ["Founder", "Anthony Moreno"],
-            ].map(([label, value]) => (
-              <div key={label}>
-                <div className="entity-label">{label}</div>
-                <div className="entity-value">{value}</div>
-              </div>
-            ))}
+        <div className="section-inner">
+          <div className="contact-panel">
+            <div className="eyebrow">Contact</div>
+            <h2>
+              CNS ecosystem trials,
+              <br />
+              evaluation, and business model.
+            </h2>
+            <p>
+              For controlled ecosystem testing, module evaluation, licensing discussions, or institutional deployment review, contact the CNS team. Technical access, demonstrations, and evidence packages should be scoped through a formal engagement.
+            </p>
+            <a className="contact-email" href="mailto:admin@causalnexussystems.com">
+              admin@causalnexussystems.com
+            </a>
           </div>
         </div>
       </section>
 
       <footer>
-        <div>Copyright 2026 Causal Nexus Systems LLC - All rights reserved - Public layer only - kernel access is NDA-first</div>
-        <div>
-          CNS <span style={{ color: "#1A6FFF" }}>K24</span> - 32 Domains - 24,606 Records - Validation <span style={{ color: "#1A6FFF" }}>PASS</span>
-        </div>
+        <div>Causal Nexus Systems LLC - sovereign deterministic ecosystem</div>
+        <div>Modules - Runs - CNL - CES - Licensing - Contact</div>
       </footer>
 
       {selectedModule && (
         <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label={`${selectedModule.acronym} module brief`} onClick={() => setSelectedModule(null)}>
           <div className="modal" onClick={(event) => event.stopPropagation()}>
-            <div className="modal-media">
-              <img src={selectedModule.imgSrc} alt={selectedModule.acronym} />
-            </div>
-            <div className="modal-content">
-              <button className="modal-close" onClick={() => setSelectedModule(null)} aria-label="Close module brief">
-                x
-              </button>
-              <div className="modal-title" style={{ color: selectedModule.color }}>
-                {selectedModule.acronym}
+            <AssetFrame src={selectedModule.imgSrc} alt={selectedModule.acronym} label={selectedModule.acronym} />
+            <div className="modal-body">
+              <button className="modal-close" onClick={() => setSelectedModule(null)} aria-label="Close module brief">x</button>
+              <div className="modal-title" style={{ color: selectedModule.color }}>{selectedModule.acronym}</div>
+              <div className="modal-sub">{selectedModule.fullName}</div>
+
+              <div className="modal-section">
+                <h3 style={{ color: selectedModule.color }}>Definition</h3>
+                <p>{selectedModule.definition}</p>
               </div>
-              <div className="modal-full">{selectedModule.fullName}</div>
 
-              {[
-                ["Definition", selectedModule.definition],
-                ["Created For", selectedModule.createdFor],
-                ["As Independent Module", selectedModule.independentUse],
-                ["Inside CNS Ecosystem", selectedModule.ecosystemUse],
-              ].map(([title, text]) => (
-                <div key={title} className="modal-section">
-                  <h3 style={{ color: selectedModule.color }}>{title}</h3>
-                  <p>{text}</p>
-                </div>
-              ))}
+              <div className="modal-section">
+                <h3 style={{ color: selectedModule.color }}>Independent Module</h3>
+                <p>{selectedModule.independentUse}</p>
+              </div>
 
-              <div className="modal-columns">
-                {[
-                  ["Applicable Sectors", selectedModule.sectors],
-                  ["Input Signals", selectedModule.signals],
-                  ["Operational Outputs", selectedModule.outputs],
-                  ["Evidence Produced", selectedModule.evidence],
-                ].map(([title, items]) => (
-                  <div key={title as string} className="modal-list">
-                    <h4 style={{ color: selectedModule.color }}>{title as string}</h4>
-                    <ul>
-                      {(items as string[]).map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+              <div className="modal-section">
+                <h3 style={{ color: selectedModule.color }}>Inside CNS Ecosystem</h3>
+                <p>{selectedModule.ecosystemUse}</p>
+              </div>
+
+              <div className="modal-section">
+                <h3 style={{ color: selectedModule.color }}>Applicable Sectors</h3>
+                <ul>
+                  {selectedModule.sectors.map((sector) => (
+                    <li key={sector}>{sector}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="modal-section">
+                <h3 style={{ color: selectedModule.color }}>Evidence Produced</h3>
+                <ul>
+                  {selectedModule.evidence.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
