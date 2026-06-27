@@ -341,7 +341,7 @@ function GlobalStyles() {
       .copy-inj { font-size: 15px; line-height: 1.75; color: rgba(255, 255, 255, 0.6); }
 
       /* runs */
-      .metrics-panel-inj { background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); padding: 34px; }
+      .metrics-panel-inj { background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); padding: 34px; border-radius: 16px; }
       .metrics-title-inj { margin-bottom: 24px; font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: #1a6fff; }
       .metrics-row-inj { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid rgba(255,255,255,0.06); margin-bottom: 26px; }
       .metric-inj { padding: 18px 10px; text-align: center; border-right: 1px solid rgba(255,255,255,0.06); }
@@ -353,17 +353,17 @@ function GlobalStyles() {
       .detail-row-inj { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
       .detail-row-inj span:first-child { flex: 0 0 auto; font-family: "Space Mono", monospace; font-size: 10px; color: rgba(255,255,255,0.42); text-transform: uppercase; letter-spacing: 0.06em; }
       .detail-row-inj span:last-child { min-width: 0; text-align: right; font-family: "Space Mono", monospace; font-size: 10px; color: rgba(255,255,255,0.82); font-weight: 700; overflow-wrap: anywhere; }
-      .status-pill-inj { margin-top: 18px; padding: 10px 14px; background: rgba(0,168,94,0.08); border: 1px solid rgba(0,168,94,0.25); display: flex; align-items: center; gap: 10px; }
+      .status-pill-inj { margin-top: 18px; padding: 10px 14px; background: rgba(0,168,94,0.08); border: 1px solid rgba(0,168,94,0.25); display: flex; align-items: center; gap: 10px; border-radius: 10px; }
       .status-dot-inj { width: 6px; height: 6px; border-radius: 50%; background: #00a85e; box-shadow: 0 0 6px #00a85e; animation: blink 1.5s infinite; flex-shrink: 0; }
       .status-pill-inj span { font-family: "Space Mono", monospace; font-size: 10px; color: #00a85e; letter-spacing: 0.1em; text-transform: uppercase; }
-      .live-panel-inj { overflow: hidden; background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); margin-top: 14px; }
-      .live-video-inj { position: relative; background: #050812; overflow: hidden; aspect-ratio: 16/9; }
+      .live-panel-inj { overflow: hidden; background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); margin-top: 14px; border-radius: 16px; }
+      .live-video-inj { position: relative; background: #050812; overflow: hidden; aspect-ratio: 16/9; border-radius: 16px 16px 0 0; }
       .live-video-inj img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .live-overlay-inj { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
       .live-copy-inj div:first-child { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #00c8ff; margin-bottom: 6px; }
       .live-copy-inj div:last-child { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; color: white; }
       .feed-stack-inj { display: grid; gap: 5px; min-width: 166px; }
-      .feed-row-inj { display: flex; justify-content: space-between; gap: 14px; padding: 5px 8px; background: rgba(3,3,10,0.72); border: 1px solid rgba(255,255,255,0.08); font-family: "Space Mono", monospace; font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
+      .feed-row-inj { display: flex; justify-content: space-between; gap: 14px; padding: 5px 8px; background: rgba(3,3,10,0.72); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; font-family: "Space Mono", monospace; font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
       .live-caption-inj { padding: 14px 18px 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
       .live-caption-inj p { max-width: 560px; color: rgba(255,255,255,0.56); font-size: 12px; line-height: 1.5; }
       .live-caption-inj span { flex: 0 0 auto; font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #00c8ff; }
@@ -374,36 +374,36 @@ function GlobalStyles() {
       .qa-row-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
       .qa-row-inj div:first-child { font-size: 13px; font-weight: 600; color: white; }
       .qa-row-inj div:last-child { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.55; }
-      .principles-grid-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-      .principle-inj { background: rgba(15,15,28,0.78); border: 1px solid rgba(255,255,255,0.06); padding: 22px; }
+      .principles-grid-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .principle-inj { background: rgba(15,15,28,0.78); border: 1px solid rgba(255,255,255,0.08); padding: 22px; border-radius: 16px; }
       .principle-inj div:first-child { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a6fff; margin-bottom: 8px; }
       .principle-inj div:last-child { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
 
       /* cnl */
       .cnl-grid-inj { display: grid; grid-template-columns: 0.78fr 1.22fr; gap: 74px; align-items: start; }
-      .cnl-image-inj { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; background: rgba(15,15,28,0.8); }
+      .cnl-image-inj { border: 1px solid rgba(255,255,255,0.08); overflow: hidden; background: rgba(15,15,28,0.8); border-radius: 16px; }
       .cnl-image-inj img { width: 100%; display: block; object-fit: cover; filter: brightness(0.94); }
-      .cnl-status-inj { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,168,94,0.08); border: 1px solid rgba(0,168,94,0.25); padding: 6px 14px; margin-bottom: 22px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #00a85e; }
+      .cnl-status-inj { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,168,94,0.08); border: 1px solid rgba(0,168,94,0.25); padding: 6px 14px; margin-bottom: 22px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #00a85e; border-radius: 8px; }
       .cnl-status-inj::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #00a85e; animation: blink 1.5s infinite; }
-      .cnl-metrics-inj { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 28px 0 2px; }
-      .cnl-metric-inj { background: rgba(15,15,28,0.8); border: 1px solid rgba(255,255,255,0.06); padding: 16px 10px; text-align: center; }
+      .cnl-metrics-inj { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 28px 0 10px; }
+      .cnl-metric-inj { background: rgba(15,15,28,0.8); border: 1px solid rgba(255,255,255,0.06); padding: 16px 10px; text-align: center; border-radius: 12px; }
       .cnl-metric-inj div:first-child { font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700; color: #00a85e; margin-bottom: 3px; }
       .cnl-metric-inj div:last-child { font-family: "Space Mono", monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.35); }
-      .cnl-feature-inj { margin-top: 2px; padding: 14px 16px; background: rgba(15,15,28,0.62); border: 1px solid rgba(255,255,255,0.05); }
+      .cnl-feature-inj { margin-top: 10px; padding: 14px 16px; background: rgba(15,15,28,0.62); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; }
       .cnl-feature-inj div:first-child { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; }
       .cnl-feature-inj div:last-child { font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.52); }
 
-      /* ces — text left, image right (inverted from cnl) */
+      /* ces */
       .ces-grid-inj { display: grid; grid-template-columns: 1.22fr 0.78fr; gap: 74px; align-items: start; }
-      .ces-image-inj { border: 1px solid rgba(200,168,75,0.25); overflow: hidden; background: rgba(15,15,10,0.8); border-radius: 8px; }
+      .ces-image-inj { border: 1px solid rgba(200,168,75,0.25); overflow: hidden; background: rgba(15,15,10,0.8); border-radius: 16px; }
       .ces-image-inj img { width: 100%; display: block; object-fit: cover; }
-      .ces-badge-inj { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,168,75,0.08); border: 1px solid rgba(200,168,75,0.3); padding: 6px 14px; margin-bottom: 18px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #c8a84b; }
+      .ces-badge-inj { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,168,75,0.08); border: 1px solid rgba(200,168,75,0.3); padding: 6px 14px; margin-bottom: 18px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #c8a84b; border-radius: 8px; }
       .ces-badge-inj::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #c8a84b; box-shadow: 0 0 6px #c8a84b; animation: blink 2s infinite; }
       .ces-body-inj p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.68); margin-bottom: 14px; }
       .ces-body-inj p strong { color: #c8a84b; font-weight: 600; }
       .ces-pills-inj { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-      .ces-pill-inj { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border: 1px solid rgba(200,168,75,0.35); color: #c8a84b; background: rgba(200,168,75,0.06); border-radius: 3px; }
-      .ces-rule-inj { margin-top: 22px; padding: 16px 18px; background: rgba(200,168,75,0.05); border: 1px solid rgba(200,168,75,0.2); border-left: 3px solid #c8a84b; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); font-style: italic; line-height: 1.5; }
+      .ces-pill-inj { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border: 1px solid rgba(200,168,75,0.35); color: #c8a84b; background: rgba(200,168,75,0.06); border-radius: 8px; }
+      .ces-rule-inj { margin-top: 22px; padding: 16px 18px; background: rgba(200,168,75,0.05); border: 1px solid rgba(200,168,75,0.2); border-left: 3px solid #c8a84b; border-radius: 0 12px 12px 0; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); font-style: italic; line-height: 1.5; }
 
       @media (max-width: 900px) {
         .eco-grid-inj, .cnl-grid-inj, .ces-grid-inj { grid-template-columns: 1fr; gap: 32px; }
@@ -414,6 +414,10 @@ function GlobalStyles() {
       }
       @media (max-width: 560px) {
         .principles-grid-inj, .qa-row-inj, .cnl-metrics-inj { grid-template-columns: 1fr; }
+        /* Mobile: center titles */
+        .eyebrow-inj, .h2-inj { text-align: center; }
+        .copy-inj { text-align: center; }
+        .ces-pills-inj { justify-content: center; }
       }
 
       /* ── TICKER SCROLL BAR ── */
@@ -425,22 +429,22 @@ function GlobalStyles() {
       .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: #c8a84b; opacity: 0.6; flex-shrink: 0; }
 
       /* ── LICENSING SECTION ── */
-      .lic-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
-      .lic-card { background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 34px 26px; position: relative; backdrop-filter: blur(10px); transition: border-color 220ms ease, background 220ms ease; }
+      .lic-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+      .lic-card { background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 34px 26px; position: relative; backdrop-filter: blur(10px); border-radius: 16px; transition: border-color 220ms ease, background 220ms ease; }
       .lic-card:hover { background: rgba(15,15,32,0.7); border-color: rgba(255,255,255,0.16); }
       .lic-card.featured { background: rgba(26,111,255,0.06); border-color: rgba(26,111,255,0.45); }
       .lic-card.featured:hover { background: rgba(26,111,255,0.10); border-color: rgba(26,111,255,0.65); }
-      .lic-flag { position: absolute; top: -1px; right: 18px; background: #1a6fff; color: #fff; font-family: "Space Mono", monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; }
+      .lic-flag { position: absolute; top: -1px; right: 18px; background: #1a6fff; color: #fff; font-family: "Space Mono", monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 0 0 8px 8px; }
       .lic-eye { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #38bdf8; margin-bottom: 10px; font-weight: 600; }
       .lic-title { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; white-space: pre-line; }
       .lic-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
       .lic-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
       .lic-list li { font-size: 13px; color: rgba(237,241,255,0.68); display: flex; align-items: flex-start; gap: 9px; }
       .lic-list li span { color: #38bdf8; flex-shrink: 0; font-family: "Space Mono", monospace; font-size: 11px; }
-      .lic-nda { margin-top: 24px; padding: 20px 26px; background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; backdrop-filter: blur(10px); }
+      .lic-nda { margin-top: 16px; padding: 20px 26px; background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; backdrop-filter: blur(10px); border-radius: 16px; }
       .lic-nda strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
       .lic-nda p { font-size: 12px; color: rgba(255,255,255,0.5); }
-      @media (max-width: 900px) { .lic-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 900px) { .lic-grid { grid-template-columns: 1fr; gap: 12px; } }
 
       /* ── MOBILE GLOBAL FIXES ── */
       @media (max-width: 768px) {
@@ -596,6 +600,16 @@ function GlobalStyles() {
         .hero-pt-mobile { padding-top: 16px !important; }
         /* modules 1 col on mobile */
         .mods-grid-resp { grid-template-columns: 1fr !important; }
+        /* center section titles on mobile */
+        .injected-inner .eyebrow-inj,
+        .injected-inner .h2-inj,
+        .injected-inner .copy-inj { text-align: center; }
+        /* keep body text left */
+        .ces-body-inj p,
+        .detail-row-inj,
+        .qa-row-inj div { text-align: left !important; }
+        /* center pills */
+        .ces-pills-inj { justify-content: center; }
       }
     `}</style>
   );
@@ -932,38 +946,45 @@ export default function Home() {
             <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
           </div>
         </div>
-        <div className="mt-8 grid gap-4 mods-grid-resp" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+        <div className="mt-8 grid gap-4 mods-grid-resp" style={{ gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
           {ECO_MODULES.map((mod, index) => (
             <button key={index} onClick={() => setSelectedModule(mod)}
               onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
-              className="module-card-sq glass group rounded-2xl text-left transition"
-              style={{ display: "flex", flexDirection: "column", padding: 16, gap: 12, border: `1px solid rgba(255,255,255,0.1)`, background: "rgba(255,255,255,0.04)", cursor: "pointer" }}>
+              className="module-card-sq glass group text-left transition"
+              style={{
+                display: "flex", flexDirection: "column",
+                padding: 20, gap: 12,
+                border: "1px solid rgba(255,255,255,0.1)",
+                background: "rgba(255,255,255,0.04)",
+                cursor: "pointer",
+                borderRadius: 20,
+                width: "100%",
+              }}>
 
               {/* Top row: thumb + name */}
               <div className="flex items-center gap-3">
                 <div className="mod-thumb" style={{
                   width: 56, height: 56, flexShrink: 0,
-                  borderRadius: 12, overflow: "hidden",
+                  borderRadius: 14, overflow: "hidden",
                   background: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(255,255,255,0.1)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
                 }}>
                   <img src={safeSrc(mod.imgSrc)} alt={mod.acronym}
                     style={{ width: 56, height: 56, objectFit: "cover", display: "block" }} />
                 </div>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ color: mod.color, fontSize: 16, fontWeight: 700, lineHeight: 1.2 }}>{mod.acronym}</div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{mod.fullName}</div>
+                  <div style={{ color: mod.color, fontSize: 17, fontWeight: 700, lineHeight: 1.2 }}>{mod.acronym}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{mod.fullName}</div>
                 </div>
               </div>
 
-              {/* Description */}
-              <div className="mod-desc" style={{ fontSize: 12, lineHeight: 1.55, color: "rgba(255,255,255,0.68)", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+              {/* Description — grows to fill card height equally */}
+              <div className="mod-desc" style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(255,255,255,0.68)", flex: 1 }}>
                 {mod.desc}
               </div>
 
-              {/* CTA */}
-              <div className="mod-cta" style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", display: "flex", alignItems: "center", gap: 6, marginTop: "auto" }}>
+              {/* CTA always at bottom */}
+              <div className="mod-cta" style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
                 View full module details <span style={{ fontSize: 14 }}>→</span>
               </div>
             </button>
