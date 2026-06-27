@@ -480,10 +480,138 @@ function GlobalStyles() {
       .contact-entity-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.07); }
       .contact-entity-label { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 7px; }
       .contact-entity-value { font-size: 14px; font-weight: 600; color: white; line-height: 1.4; }
-      @media (max-width: 640px) {
-        .contact-new-inner { padding: 64px 20px 56px; }
-        .contact-entity-row { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
-        .contact-warning { font-size: 8px; padding: 10px 14px; }
+      /* ══════════════════════════════════════════════
+         ADVANCED MICRO-INTERACTIONS
+      ══════════════════════════════════════════════ */
+
+      /* Staggered reveal for grid children */
+      .arch-grid .arch-card:nth-child(1) { transition-delay: 0ms; }
+      .arch-grid .arch-card:nth-child(2) { transition-delay: 60ms; }
+      .arch-grid .arch-card:nth-child(3) { transition-delay: 120ms; }
+      .arch-grid .arch-card:nth-child(4) { transition-delay: 180ms; }
+      .arch-grid .arch-card:nth-child(5) { transition-delay: 240ms; }
+      .arch-grid .arch-card:nth-child(6) { transition-delay: 300ms; }
+      .arch-grid .arch-card:nth-child(7) { transition-delay: 360ms; }
+      .arch-grid .arch-card:nth-child(8) { transition-delay: 420ms; }
+
+      /* Glass cards in injected sections — darker + hover lift */
+      .principle-inj {
+        transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+      }
+      .principle-inj:hover {
+        transform: translateY(-3px);
+        background: rgba(20,20,40,0.88);
+        border-color: rgba(56,189,248,0.25);
+      }
+
+      /* CNL feature rows — hover highlight */
+      .cnl-feature-inj {
+        transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+      }
+      .cnl-feature-inj:hover {
+        background: rgba(20,20,36,0.85);
+        border-color: rgba(0,168,94,0.3);
+        transform: translateX(4px);
+      }
+
+      /* CES pills — hover bounce */
+      .ces-pill-inj {
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+      .ces-pill-inj:hover {
+        transform: translateY(-2px);
+        background: rgba(200,168,75,0.14);
+        border-color: rgba(200,168,75,0.6);
+      }
+
+      /* Licensing cards — scale + glow on hover */
+      .lic-card {
+        transition: transform 240ms cubic-bezier(.22,.7,.25,1),
+                    background 240ms ease, border-color 240ms ease,
+                    box-shadow 240ms ease;
+      }
+      .lic-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      }
+      .lic-card.featured:hover {
+        box-shadow: 0 12px 40px rgba(26,111,255,0.2);
+      }
+
+      /* Injected sections — darker background for better contrast with video */
+      .injected-section { background: rgba(4,4,14,0.72) !important; backdrop-filter: blur(16px); }
+      .injected-section.alt { background: rgba(6,6,18,0.68) !important; backdrop-filter: blur(16px); }
+      .injected-section.dim { background: rgba(3,3,10,0.76) !important; backdrop-filter: blur(16px); }
+
+      /* Scroll indicator animation */
+      @keyframes scrollBounce {
+        0%,100% { transform: translateY(0); opacity: 0.5; }
+        50% { transform: translateY(6px); opacity: 1; }
+      }
+
+      /* ══════════════════════════════════════════════
+         FOOTER — full nav + info upgrade
+      ══════════════════════════════════════════════ */
+      .footer-full {
+        position: relative; z-index: 10;
+        background: rgba(2,2,8,0.96);
+        border-top: 1px solid rgba(255,255,255,0.07);
+        backdrop-filter: blur(20px);
+      }
+      .footer-nav-row {
+        max-width: 1280px; margin: 0 auto;
+        padding: 48px 48px 32px;
+        display: grid;
+        grid-template-columns: 1.4fr repeat(3, 1fr);
+        gap: 40px;
+      }
+      .footer-brand-name {
+        font-size: 16px; font-weight: 700; color: white;
+        letter-spacing: 0.03em; margin-bottom: 8px;
+      }
+      .footer-brand-sub {
+        font-family: "Space Mono", monospace;
+        font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+        color: rgba(255,255,255,0.35); line-height: 1.7;
+      }
+      .footer-brand-badge {
+        display: inline-flex; margin-top: 14px;
+        font-family: "Space Mono", monospace;
+        font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 5px 12px; border-radius: 6px;
+        border: 1px solid rgba(56,189,248,0.3);
+        color: #38bdf8; background: rgba(56,189,248,0.06);
+      }
+      .footer-col-title {
+        font-family: "Space Mono", monospace;
+        font-size: 9px; font-weight: 700; letter-spacing: 0.16em;
+        text-transform: uppercase; color: rgba(255,255,255,0.4);
+        margin-bottom: 16px;
+      }
+      .footer-links { display: flex; flex-direction: column; gap: 10px; }
+      .footer-link {
+        font-size: 13px; color: rgba(255,255,255,0.55);
+        text-decoration: none; background: none; border: none;
+        cursor: pointer; text-align: left; padding: 0;
+        transition: color 160ms ease;
+      }
+      .footer-link:hover { color: #38bdf8; }
+      .footer-bottom {
+        max-width: 1280px; margin: 0 auto;
+        padding: 20px 48px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 10px;
+        font-family: "Space Mono", monospace;
+        font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase;
+        color: rgba(255,255,255,0.25);
+      }
+      @media (max-width: 900px) {
+        .footer-nav-row { grid-template-columns: 1fr 1fr; gap: 28px; padding: 36px 20px 24px; }
+        .footer-bottom { padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 6px; }
+      }
+      @media (max-width: 480px) {
+        .footer-nav-row { grid-template-columns: 1fr; }
       }
 
       /* ══════════════════════════════════════════════
@@ -654,71 +782,90 @@ function GlobalStyles() {
       .arch-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 40px;
+        gap: 16px;
+        margin-top: 44px;
       }
       .arch-card {
         --mod-color: #38bdf8;
         position: relative;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 16px;
-        padding: 20px 16px 16px;
+        background: rgba(6,6,18,0.82);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 18px;
+        padding: 26px 20px 20px;
         cursor: pointer;
         text-align: left;
-        transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+        transition: transform 240ms cubic-bezier(.22,.7,.25,1),
+                    background 240ms ease,
+                    border-color 240ms ease,
+                    box-shadow 240ms ease;
         overflow: hidden;
         display: flex; flex-direction: column;
+        backdrop-filter: blur(14px);
+        min-height: 180px;
       }
       .arch-card:hover {
-        transform: translateY(-3px);
-        background: rgba(255,255,255,0.07);
-        border-color: rgba(255,255,255,0.18);
+        transform: translateY(-5px) scale(1.01);
+        background: rgba(10,10,28,0.92);
+        border-color: var(--mod-color);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px var(--mod-color), inset 0 0 40px rgba(0,0,0,0.2);
       }
+      /* inner glow on hover */
+      .arch-card::after {
+        content: "";
+        position: absolute; inset: 0;
+        border-radius: 18px;
+        background: radial-gradient(circle at 30% 30%, var(--mod-color), transparent 65%);
+        opacity: 0;
+        transition: opacity 300ms ease;
+        pointer-events: none;
+      }
+      .arch-card:hover::after { opacity: 0.06; }
       .arch-top-bar {
         position: absolute; top: 0; left: 0; right: 0; height: 3px;
-        border-radius: 16px 16px 0 0;
+        border-radius: 18px 18px 0 0;
         background: var(--mod-color);
-        opacity: 0.8;
+        opacity: 0.9;
       }
       .arch-num {
         font-family: "Space Mono", monospace;
-        font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
-        color: var(--mod-color); opacity: 0.65;
-        margin-bottom: 10px;
+        font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+        color: var(--mod-color); opacity: 0.6;
+        margin-bottom: 12px;
       }
       .arch-name {
-        font-size: 15px; font-weight: 700; line-height: 1.2;
-        color: var(--mod-color); margin-bottom: 3px;
+        font-size: 16px; font-weight: 700; line-height: 1.2;
+        color: var(--mod-color); margin-bottom: 4px;
       }
       .arch-full {
-        font-size: 11px; color: rgba(255,255,255,0.42);
-        line-height: 1.45; margin-bottom: 12px; flex: 1;
+        font-size: 11px; color: rgba(255,255,255,0.48);
+        line-height: 1.5; margin-bottom: 14px; flex: 1;
       }
       .arch-badge {
         display: inline-flex; align-self: flex-start;
         font-family: "Space Mono", monospace;
         font-size: 8px; font-weight: 700;
         letter-spacing: 0.1em; text-transform: uppercase;
-        padding: 3px 8px; border-radius: 4px;
+        padding: 4px 10px; border-radius: 5px;
         border: 1px solid var(--mod-color);
-        color: var(--mod-color); opacity: 0.7;
-        margin-bottom: 10px;
+        color: var(--mod-color); opacity: 0.75;
+        margin-bottom: 12px;
+        transition: opacity 200ms ease, background 200ms ease;
       }
+      .arch-card:hover .arch-badge { opacity: 1; background: rgba(255,255,255,0.06); }
       .arch-cta {
         font-family: "Space Mono", monospace;
         font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
-        color: rgba(255,255,255,0.28);
+        color: rgba(255,255,255,0.3);
         transition: color 180ms ease; margin-top: auto;
       }
-      .arch-card:hover .arch-cta { color: rgba(255,255,255,0.6); }
+      .arch-card:hover .arch-cta { color: var(--mod-color); }
       @media (max-width: 900px) {
         .arch-grid { grid-template-columns: repeat(2, 1fr); }
         .arch-inner { padding: 60px 20px; }
       }
       @media (max-width: 480px) {
-        .arch-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-        .arch-card { padding: 14px 12px 12px; }
+        .arch-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .arch-card { padding: 18px 14px 14px; min-height: 150px; }
         .arch-full { display: none; }
       }
 
@@ -1696,16 +1843,72 @@ export default function Home() {
           </div>
         </div>
 
-        <footer style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          padding: "22px 48px",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          flexWrap: "wrap", gap: 10,
-          fontFamily: "Space Mono, monospace", fontSize: 10,
-          color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em",
-        }}>
-          <div>Copyright {new Date().getFullYear()} Causal Nexus Systems LLC · All rights reserved · Public layer only · Kernel access is NDA-first</div>
-          <div>CNS <span style={{ color: "#1A6FFF" }}>K24</span> · 32 Domains · 24,606 Records · Validation <span style={{ color: "#1A6FFF" }}>PASS</span></div>
+        <footer className="footer-full">
+          <div className="footer-nav-row">
+            {/* Brand */}
+            <div>
+              <div className="footer-brand-name">Causal Nexus Systems</div>
+              <div className="footer-brand-sub">
+                Sovereign Deterministic Ecosystem<br />
+                Orlando, Florida — USA<br />
+                admin@causalnexussystems.com
+              </div>
+              <div className="footer-brand-badge">NDA-First Access</div>
+            </div>
+
+            {/* Ecosystem nav */}
+            <div>
+              <div className="footer-col-title">Ecosystem</div>
+              <div className="footer-links">
+                {[
+                  ["Architecture", "modules"],
+                  ["CNS-RUNS", "cns-runs"],
+                  ["What is CNS", "ecosystem"],
+                  ["CNL Ledger", "cnl"],
+                  ["CES Module", "ces"],
+                ].map(([label, id]) => (
+                  <button key={id} className="footer-link" onClick={() => scrollToId(id)}>{label}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Access nav */}
+            <div>
+              <div className="footer-col-title">Access</div>
+              <div className="footer-links">
+                {[
+                  ["Licensing Model", "business"],
+                  ["Contact", "contact"],
+                  ["NDA Access", "contact"],
+                  ["Request Partnership", "contact"],
+                ].map(([label, id]) => (
+                  <button key={label} className="footer-link" onClick={() => scrollToId(id)}>{label}</button>
+                ))}
+                <a href="https://www.linkedin.com/in/causalnexus1/" target="_blank" rel="noreferrer"
+                  className="footer-link" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  LinkedIn
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Patents */}
+            <div>
+              <div className="footer-col-title">IP Protection</div>
+              <div className="footer-links">
+                <span className="footer-link" style={{ cursor: "default", color: "rgba(255,255,255,0.4)" }}>USPTO PPA</span>
+                <span className="footer-link" style={{ cursor: "default" }}>#63/896,666</span>
+                <span className="footer-link" style={{ cursor: "default" }}>#64/043,866</span>
+                <span className="footer-link" style={{ cursor: "default" }}>#64/067,492</span>
+                <span className="footer-link" style={{ cursor: "default", color: "rgba(255,255,255,0.4)", marginTop: 4 }}>Utility deadline May 2027</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <div>© {new Date().getFullYear()} Causal Nexus Systems LLC · All rights reserved · Public layer only · Kernel access is NDA-first</div>
+            <div>CNS <span style={{ color: "#38bdf8" }}>K24</span> · 32 Domains · 24,606 Records · Validation <span style={{ color: "#00a85e" }}>PASS</span></div>
+          </div>
         </footer>
       </section>
 
