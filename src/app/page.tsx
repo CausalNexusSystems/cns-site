@@ -743,8 +743,10 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
       </div>
       <div className="absolute inset-0" style={{
         opacity: intensity,
-        background: `radial-gradient(circle at ${p.x}% ${p.y}%, rgba(56,189,248,0.22), transparent 52%),
-                     radial-gradient(circle at ${Math.min(95, p.x + 35)}% ${Math.max(5, p.y - 20)}%, rgba(168,85,247,0.16), transparent 54%)`,
+        background: [
+          "radial-gradient(circle at " + p.x + "% " + p.y + "%, rgba(56,189,248,0.22), transparent 52%)",
+          "radial-gradient(circle at " + Math.min(95, p.x + 35) + "% " + Math.max(5, p.y - 20) + "%, rgba(168,85,247,0.16), transparent 54%)"
+        ].join(", "),
         transition: "all 380ms ease",
       }} />
       <div className="absolute inset-0 opacity-70" style={{ animation: "netFloat 8s ease-in-out infinite" }}>
