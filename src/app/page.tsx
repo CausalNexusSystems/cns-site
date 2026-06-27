@@ -722,6 +722,9 @@ function GlobalStyles() {
         .arch-card { padding: 14px 12px 12px; }
         .arch-full { display: none; }
       }
+    `}</style>
+  );
+}
 
 // ==================== BACKGROUND (EXACT — DO NOT TOUCH) ====================
 function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: number; focus?: SectionKey }) {
