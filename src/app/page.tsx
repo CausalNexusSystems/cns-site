@@ -323,9 +323,10 @@ function GlobalStyles() {
       .injected-section {
         position: relative; z-index: 10;
         border-top: 1px solid rgba(255, 255, 255, 0.06);
+        background: transparent;
       }
-      .injected-section.alt { background: rgba(7, 7, 16, 0.72); }
-      .injected-section.dim { background: rgba(10, 10, 22, 0.62); }
+      .injected-section.alt { background: transparent; }
+      .injected-section.dim { background: transparent; }
       .injected-inner { max-width: 1280px; margin: 0 auto; padding: 96px 48px; }
 
       .eyebrow-inj {
@@ -355,10 +356,8 @@ function GlobalStyles() {
       .status-dot-inj { width: 6px; height: 6px; border-radius: 50%; background: #00a85e; box-shadow: 0 0 6px #00a85e; animation: blink 1.5s infinite; flex-shrink: 0; }
       .status-pill-inj span { font-family: "Space Mono", monospace; font-size: 10px; color: #00a85e; letter-spacing: 0.1em; text-transform: uppercase; }
       .live-panel-inj { overflow: hidden; background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); margin-top: 14px; }
-      .live-video-inj { position: relative; aspect-ratio: 16/9; background: #050812; overflow: hidden; }
-      .live-video-inj video { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.9; }
-      .live-video-inj::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(3,3,10,0.5) 100%), linear-gradient(90deg, rgba(0,200,255,0.08) 1px, transparent 1px); background-size: 100% 100%, 28px 28px; pointer-events: none; z-index: 1; }
-      .live-video-inj::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 34%; background: linear-gradient(180deg, transparent, rgba(0,200,255,0.16), transparent); animation: scan 4.5s linear infinite; pointer-events: none; z-index: 2; }
+      .live-video-inj { position: relative; background: #050812; overflow: hidden; }
+      .live-video-inj img { width: 100%; height: auto; display: block; }
       .live-overlay-inj { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
       .live-copy-inj div:first-child { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #00c8ff; margin-bottom: 6px; }
       .live-copy-inj div:last-child { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; color: white; }
@@ -666,6 +665,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── MODULES (original — right after hero) ── */}
+      <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <div className="sectionTitle">PUBLIC MODULE LAYER</div>
+            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Modules</h2>
+            <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
+          </div>
+        </div>
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {ECO_MODULES.map((mod, index) => (
+            <button key={index} onClick={() => setSelectedModule(mod)}
+              onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
+              className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7">
+              <div className="flex items-center gap-4">
+                <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym} style={{ height: 40, width: 40, objectFit: "contain" }} />
+                </div>
+                <div className="min-w-0">
+                  <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
+                  <div className="truncate text-sm text-white/65">{mod.fullName}</div>
+                </div>
+              </div>
+              <div className="mt-4 line-clamp-3 text-sm text-white/75">{mod.desc}</div>
+              <div className="mt-5 text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
+                View full module details <span className="text-lg leading-none">→</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 1 — CNS-RUNS (32 domain run)
       ══════════════════════════════════════════════════════ */}
@@ -697,20 +728,7 @@ export default function Home() {
 
           <div className="live-panel-inj">
             <div className="live-video-inj">
-              <video src="/brand/cns_live_telemetry_panel.mp4" autoPlay loop muted playsInline preload="metadata" />
-              <div className="live-overlay-inj">
-                <div className="live-copy-inj">
-                  <div>Live telemetry intake</div>
-                  <div>CNS panel connected to multi-sector operational feeds.</div>
-                </div>
-                <div className="feed-stack-inj">
-                  {TELEMETRY_FEEDS.map(([sector, status, color]) => (
-                    <div key={sector} className="feed-row-inj">
-                      <span>{sector}</span><span style={{ color }}>{status}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <img src="/brand/CNS_Panel_Live_Ecosystem.png" alt="CNS K24 Live Public Telemetry Operations Monitor" />
             </div>
             <div className="live-caption-inj">
               <p>Live operational telemetry panel — multi-sector CNS intake across 32 active domains.</p>
@@ -800,39 +818,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── MODULES (original — untouched, only img fix) ── */}
-      <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <div className="sectionTitle">PUBLIC MODULE LAYER</div>
-            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Modules</h2>
-            <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
-          </div>
-        </div>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {ECO_MODULES.map((mod, index) => (
-            <button key={index} onClick={() => setSelectedModule(mod)}
-              onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
-              className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7">
-              <div className="flex items-center gap-4">
-                <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
-                  {/* FIX: plain <img> */}
-                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym} style={{ height: 40, width: 40, objectFit: "contain" }} />
-                </div>
-                <div className="min-w-0">
-                  <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
-                  <div className="truncate text-sm text-white/65">{mod.fullName}</div>
-                </div>
-              </div>
-              <div className="mt-4 line-clamp-3 text-sm text-white/75">{mod.desc}</div>
-              <div className="mt-5 text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
-                View full module details <span className="text-lg leading-none">→</span>
-              </div>
-            </button>
-          ))}
         </div>
       </section>
 
