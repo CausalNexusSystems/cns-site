@@ -538,10 +538,7 @@ function GlobalStyles() {
         box-shadow: 0 12px 40px rgba(26,111,255,0.2);
       }
 
-      /* Injected sections — darker background for better contrast with video */
-      .injected-section { background: rgba(4,4,14,0.72) !important; backdrop-filter: blur(16px); }
-      .injected-section.alt { background: rgba(6,6,18,0.68) !important; backdrop-filter: blur(16px); }
-      .injected-section.dim { background: rgba(3,3,10,0.76) !important; backdrop-filter: blur(16px); }
+      /* Injected sections keep original transparency */
 
       /* Scroll indicator animation */
       @keyframes scrollBounce {
@@ -788,7 +785,7 @@ function GlobalStyles() {
       .arch-card {
         --mod-color: #38bdf8;
         position: relative;
-        background: rgba(6,6,18,0.82);
+        background: rgba(5,8,28,0.92);
         border: 1px solid rgba(255,255,255,0.10);
         border-radius: 18px;
         padding: 26px 20px 20px;
@@ -805,9 +802,9 @@ function GlobalStyles() {
       }
       .arch-card:hover {
         transform: translateY(-5px) scale(1.01);
-        background: rgba(10,10,28,0.92);
+        background: rgba(8,12,36,0.96);
         border-color: var(--mod-color);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px var(--mod-color), inset 0 0 40px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px var(--mod-color), inset 0 0 40px rgba(0,0,0,0.3);
       }
       /* inner glow on hover */
       .arch-card::after {
