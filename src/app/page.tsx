@@ -722,6 +722,125 @@ function GlobalStyles() {
         .arch-card { padding: 14px 12px 12px; }
         .arch-full { display: none; }
       }
+
+      /* ══════════════════════════════════════════════
+         CUSTOM CURSOR — blue dot with trailing glow
+      ══════════════════════════════════════════════ */
+      * { cursor: none !important; }
+      .cns-cursor {
+        position: fixed; z-index: 99999;
+        pointer-events: none;
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: #38bdf8;
+        box-shadow: 0 0 12px rgba(56,189,248,0.8), 0 0 24px rgba(56,189,248,0.4);
+        transform: translate(-50%, -50%);
+        transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+        mix-blend-mode: screen;
+      }
+      .cns-cursor-trail {
+        position: fixed; z-index: 99998;
+        pointer-events: none;
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        border: 1px solid rgba(56,189,248,0.35);
+        transform: translate(-50%, -50%);
+        transition: left 0.12s ease, top 0.12s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      }
+      /* Bigger cursor on interactive elements */
+      a:hover ~ .cns-cursor, button:hover ~ .cns-cursor { width: 16px; height: 16px; }
+      @media (max-width: 768px) {
+        * { cursor: auto !important; }
+        .cns-cursor, .cns-cursor-trail { display: none; }
+      }
+
+      /* ══════════════════════════════════════════════
+         SCROLL-TRIGGERED FADE IN
+      ══════════════════════════════════════════════ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.65s ease, transform 0.65s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
+      .reveal-delay-3 { transition-delay: 0.3s; }
+      .reveal-delay-4 { transition-delay: 0.4s; }
+
+      /* ══════════════════════════════════════════════
+         SECTION SEPARATORS — glow dividers
+      ══════════════════════════════════════════════ */
+      .section-sep {
+        position: relative; z-index: 10;
+        height: 1px;
+        background: linear-gradient(90deg,
+          transparent 0%,
+          rgba(56,189,248,0.15) 20%,
+          rgba(56,189,248,0.45) 50%,
+          rgba(56,189,248,0.15) 80%,
+          transparent 100%
+        );
+        margin: 0;
+        overflow: visible;
+      }
+      .section-sep::after {
+        content: "";
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        width: 160px; height: 20px;
+        background: radial-gradient(ellipse, rgba(56,189,248,0.22) 0%, transparent 70%);
+        pointer-events: none;
+      }
+
+      /* ══════════════════════════════════════════════
+         HERO — full-width title, rocket below centered
+      ══════════════════════════════════════════════ */
+      .hero-new {
+        position: relative; z-index: 10;
+        max-width: 1280px; margin: 0 auto;
+        padding: 60px 48px 40px;
+        text-align: center;
+      }
+      .hero-title-new {
+        font-size: clamp(48px, 9vw, 110px);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        color: white;
+        margin-bottom: 20px;
+      }
+      .hero-subtitle-new {
+        font-size: clamp(13px, 1.6vw, 17px);
+        color: rgba(255,255,255,0.62);
+        max-width: 640px;
+        margin: 0 auto 32px;
+        line-height: 1.7;
+      }
+      .hero-actions-new {
+        display: flex; flex-wrap: wrap;
+        align-items: center; justify-content: center;
+        gap: 12px; margin-bottom: 48px;
+      }
+      .hero-rocket-wrap {
+        max-width: 680px; margin: 0 auto;
+      }
+      @media (max-width: 640px) {
+        .hero-new { padding: 40px 16px 32px; }
+      }
+
+      /* ══════════════════════════════════════════════
+         COUNTER ANIMATION
+      ══════════════════════════════════════════════ */
+      @keyframes countUp {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .cred-item.counted { animation: countUp 0.5s ease both; }
     `}</style>
   );
 }
@@ -984,11 +1103,89 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
   );
 }
 
+// ==================== CUSTOM CURSOR ====================
+function CursorDot() {
+  const dotRef = useRef<HTMLDivElement>(null);
+  const trailRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const dot = dotRef.current;
+    const trail = trailRef.current;
+    if (!dot || !trail) return;
+
+    let mx = -100, my = -100;
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + "px";
+      dot.style.top  = my + "px";
+    };
+
+    let rafId: number;
+    const animateTrail = () => {
+      const tx = parseFloat(trail.style.left || "0");
+      const ty = parseFloat(trail.style.top  || "0");
+      trail.style.left = (tx + (mx - tx) * 0.15) + "px";
+      trail.style.top  = (ty + (my - ty) * 0.15) + "px";
+      rafId = requestAnimationFrame(animateTrail);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    rafId = requestAnimationFrame(animateTrail);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={dotRef}   className="cns-cursor"       style={{ left: -100, top: -100 }} />
+      <div ref={trailRef} className="cns-cursor-trail" style={{ left: -100, top: -100 }} />
+    </>
+  );
+}
+
 // ==================== MAIN PAGE ====================
 export default function Home() {
   const [selectedModule, setSelectedModule] = useState<EcoModule | null>(null);
   const [hoverFocus, setHoverFocus] = useState<SectionKey | null>(null);
   const focus = hoverFocus ?? "top";
+
+  // ── Scroll reveal ──
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  // ── Animated counters in credibility strip ──
+  useEffect(() => {
+    const strip = document.querySelector(".cred-strip");
+    if (!strip) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      // animate numeric items
+      strip.querySelectorAll("[data-count]").forEach(el => {
+        const target = parseInt((el as HTMLElement).dataset.count || "0", 10);
+        const dur = 1200;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          (el as HTMLElement).textContent = Math.round(eased * target).toLocaleString();
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    io.observe(strip);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <main className="min-h-screen text-white">
@@ -1023,30 +1220,30 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── HERO (original — untouched except padding) ── */}
-      <section className="hero-pt-mobile relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 pt-8 pb-10">
-        <div className="grid gap-10 md:grid-cols-2 md:items-center">
-          <div>
-            <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
-            <h1 className="mt-4 text-4xl font-semibold leading-tight md:text-6xl">
-              CNS MEASURES CAUSE,<br />NOT EFFECT.
-            </h1>
-            <p className="mt-4 max-w-xl text-white/75">
-              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Modules →</button>
-              <button className="btnGhost"   onClick={() => scrollToId("business")}>Kernel licensing model</button>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-2 text-xs text-white/60">
-              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Public layer</span>
-              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">Sealed outputs</span>
-              <span className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10">No kernel exposure</span>
-            </div>
+      <CursorDot />
+
+      {/* ── HERO — full-width title, rocket centered below ── */}
+      <section className="hero-pt-mobile hero-new">
+        <div className="reveal">
+          <div className="sectionTitle" style={{ marginBottom: 16 }}>CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
+          <h1 className="hero-title-new">
+            CNS MEASURES CAUSE,<br />NOT EFFECT.
+          </h1>
+          <p className="hero-subtitle-new">
+            Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
+          </p>
+          <div className="hero-actions-new">
+            <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Architecture →</button>
+            <button className="btnGhost"   onClick={() => scrollToId("business")}>Kernel licensing model</button>
           </div>
-          <div onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
-            <RocketMetricsCard />
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 40 }}>
+            {["Public layer", "Sealed outputs", "No kernel exposure"].map(t => (
+              <span key={t} className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10 text-xs text-white/60">{t}</span>
+            ))}
           </div>
+        </div>
+        <div className="hero-rocket-wrap reveal reveal-delay-2" onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
+          <RocketMetricsCard />
         </div>
       </section>
 
@@ -1057,9 +1254,9 @@ export default function Home() {
         <div className="cred-inner">
           <div className="cred-item hi"><span className="cred-dot" />USPTO PPA #63/896,666</div>
           <div className="cred-sep" />
-          <div className="cred-item hi">8 Active Modules</div>
+          <div className="cred-item hi"><span data-count="8">8</span> Active Modules</div>
           <div className="cred-sep" />
-          <div className="cred-item hi">32 Telemetry Domains</div>
+          <div className="cred-item hi"><span data-count="32">32</span> Telemetry Domains</div>
           <div className="cred-sep" />
           <div className="cred-item gold">SHA-256 + Merkle</div>
           <div className="cred-sep" />
@@ -1071,16 +1268,20 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="section-sep" />
+
       {/* ══════════════════════════════════════════════════════
           ARCHITECTURE — 4×2 grid, compact, clickable to modal
       ══════════════════════════════════════════════════════ */}
       <section id="modules" className="arch-section">
         <div className="arch-inner">
-          <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
-          <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
-          <p className="copy-inj" style={{ maxWidth: 580 }}>
-            Each layer serves a precise role in the causal authority chain. Click any module to inspect it.
-          </p>
+          <div className="reveal">
+            <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
+            <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
+            <p className="copy-inj" style={{ maxWidth: 580 }}>
+              Each layer serves a precise role in the causal authority chain. Click any module to inspect it.
+            </p>
+          </div>
 
           <div className="arch-grid">
             {[
@@ -1111,13 +1312,17 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="section-sep" />
+
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 1 — CNS-RUNS (32 domain run)
       ══════════════════════════════════════════════════════ */}
       <section id="cns-runs" className="injected-section dim">
         <div className="injected-inner">
-          <div className="eyebrow-inj">Public Run Evidence</div>
-          <h2 className="h2-inj">K24 Unified Run —<br />32 Domains.</h2>
+          <div className="reveal">
+            <div className="eyebrow-inj">Public Run Evidence</div>
+            <h2 className="h2-inj">K24 Unified Run —<br />32 Domains.</h2>
+          </div>
 
           <div className="metrics-panel-inj">
             <div className="metrics-title-inj">K24 unified run - public metrics layer</div>
@@ -1152,6 +1357,8 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="section-sep" />
+
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 2 — ECOSYSTEM (What is CNS)
       ══════════════════════════════════════════════════════ */}
@@ -1159,9 +1366,9 @@ export default function Home() {
         <div className="injected-inner">
           <div className="eco-grid-inj">
             <div>
-              <div className="eyebrow-inj">What is CNS</div>
-              <h2 className="h2-inj">Not monitoring.<br />Not prediction.<br />Causal governance.</h2>
-              <p className="copy-inj" style={{ marginTop: 20 }}>
+              <div className="reveal eyebrow-inj">What is CNS</div>
+              <h2 className="reveal reveal-delay-1 h2-inj">Not monitoring.<br />Not prediction.<br />Causal governance.</h2>
+              <p className="reveal reveal-delay-2 copy-inj" style={{ marginTop: 20 }}>
                 CNS is a sovereign deterministic causal ecosystem for critical environments where operational decisions, evidence, continuity, and system trust must be structured, bounded, verifiable, and reviewable.
               </p>
               <div className="qa-list-inj">
@@ -1195,6 +1402,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 3 — CNL
       ══════════════════════════════════════════════════════ */}
+      <div className="section-sep" />
       <section id="cnl" className="injected-section dim">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Nexus Ledger</div>
@@ -1238,6 +1446,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 4 — CES (Causal Execution System)
       ══════════════════════════════════════════════════════ */}
+      <div className="section-sep" />
       <section id="ces" className="injected-section alt">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Execution System</div>
@@ -1283,6 +1492,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           LICENSING — replaces Business, matches nav "Licensing"
       ══════════════════════════════════════════════════════ */}
+      <div className="section-sep" />
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
           <div className="eyebrow-inj">Licensing Model</div>
@@ -1347,6 +1557,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           CONTACT — new design (from image), no "Kernel access is NDA-first" heading
       ══════════════════════════════════════════════════════ */}
+      <div className="section-sep" />
       <section id="contact" className="contact-new">
         <div className="contact-new-inner">
 
@@ -1383,7 +1594,17 @@ export default function Home() {
             </div>
             <div>
               <div className="contact-entity-label">Founder</div>
-              <div className="contact-entity-value">Anthony Moreno</div>
+              <div className="contact-entity-value">
+                <a href="https://www.linkedin.com/in/causalnexus1/" target="_blank" rel="noreferrer"
+                  style={{ color: "white", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "color 180ms ease" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "#38bdf8")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "white")}>
+                  Anthony Moreno
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.6 }}>
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
