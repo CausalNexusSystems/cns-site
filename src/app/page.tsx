@@ -598,22 +598,130 @@ function GlobalStyles() {
       ══════════════════════════════════════════════ */
       @media (max-width: 768px) {
         .hero-pt-mobile { padding-top: 16px !important; }
-        /* modules 1 col on mobile */
         .mods-grid-resp { grid-template-columns: 1fr !important; }
-        /* center section titles on mobile */
         .injected-inner .eyebrow-inj,
         .injected-inner .h2-inj,
         .injected-inner .copy-inj { text-align: center; }
-        /* keep body text left */
         .ces-body-inj p,
         .detail-row-inj,
         .qa-row-inj div { text-align: left !important; }
-        /* center pills */
         .ces-pills-inj { justify-content: center; }
       }
-    `}</style>
-  );
-}
+
+      /* ══════════════════════════════════════════════
+         CREDIBILITY STRIP
+      ══════════════════════════════════════════════ */
+      .cred-strip {
+        position: relative; z-index: 10;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        background: rgba(255,255,255,0.025);
+        backdrop-filter: blur(8px);
+        padding: 13px 24px;
+      }
+      .cred-inner {
+        max-width: 1280px; margin: 0 auto;
+        display: flex; align-items: center; justify-content: center;
+        flex-wrap: wrap; gap: 0;
+      }
+      .cred-item {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 4px 18px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px; font-weight: 600;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        white-space: nowrap;
+      }
+      .cred-item.hi { color: #38bdf8; }
+      .cred-item.gold { color: #c8a84b; }
+      .cred-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.5; }
+      .cred-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+      @media (max-width: 700px) {
+        .cred-item { font-size: 9px; padding: 3px 10px; }
+        .cred-hide { display: none; }
+      }
+
+      /* ══════════════════════════════════════════════
+         ARCHITECTURE — 4×2 grid
+      ══════════════════════════════════════════════ */
+      .arch-section {
+        position: relative; z-index: 10;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .arch-inner {
+        max-width: 1280px; margin: 0 auto; padding: 80px 48px;
+      }
+      .arch-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 40px;
+      }
+      .arch-card {
+        --mod-color: #38bdf8;
+        position: relative;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 20px 16px 16px;
+        cursor: pointer;
+        text-align: left;
+        transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+        overflow: hidden;
+        display: flex; flex-direction: column;
+      }
+      .arch-card:hover {
+        transform: translateY(-3px);
+        background: rgba(255,255,255,0.07);
+        border-color: rgba(255,255,255,0.18);
+      }
+      .arch-top-bar {
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        border-radius: 16px 16px 0 0;
+        background: var(--mod-color);
+        opacity: 0.8;
+      }
+      .arch-num {
+        font-family: "Space Mono", monospace;
+        font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+        color: var(--mod-color); opacity: 0.65;
+        margin-bottom: 10px;
+      }
+      .arch-name {
+        font-size: 15px; font-weight: 700; line-height: 1.2;
+        color: var(--mod-color); margin-bottom: 3px;
+      }
+      .arch-full {
+        font-size: 11px; color: rgba(255,255,255,0.42);
+        line-height: 1.45; margin-bottom: 12px; flex: 1;
+      }
+      .arch-badge {
+        display: inline-flex; align-self: flex-start;
+        font-family: "Space Mono", monospace;
+        font-size: 8px; font-weight: 700;
+        letter-spacing: 0.1em; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 4px;
+        border: 1px solid var(--mod-color);
+        color: var(--mod-color); opacity: 0.7;
+        margin-bottom: 10px;
+      }
+      .arch-cta {
+        font-family: "Space Mono", monospace;
+        font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+        transition: color 180ms ease; margin-top: auto;
+      }
+      .arch-card:hover .arch-cta { color: rgba(255,255,255,0.6); }
+      @media (max-width: 900px) {
+        .arch-grid { grid-template-columns: repeat(2, 1fr); }
+        .arch-inner { padding: 60px 20px; }
+      }
+      @media (max-width: 480px) {
+        .arch-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .arch-card { padding: 14px 12px 12px; }
+        .arch-full { display: none; }
+      }
 
 // ==================== BACKGROUND (EXACT — DO NOT TOUCH) ====================
 function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: number; focus?: SectionKey }) {
@@ -937,6 +1045,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══════════════════════════════════════════════
+          CREDIBILITY STRIP — between hero and modules
+      ══════════════════════════════════════════════ */}
+      <div className="cred-strip">
+        <div className="cred-inner">
+          <div className="cred-item hi"><span className="cred-dot" />USPTO PPA #63/896,666</div>
+          <div className="cred-sep" />
+          <div className="cred-item hi">8 Active Modules</div>
+          <div className="cred-sep" />
+          <div className="cred-item hi">32 Telemetry Domains</div>
+          <div className="cred-sep" />
+          <div className="cred-item gold">SHA-256 + Merkle</div>
+          <div className="cred-sep" />
+          <div className="cred-item cred-hide">Deterministic</div>
+          <div className="cred-sep cred-hide" />
+          <div className="cred-item gold cred-hide">NDA-First Access</div>
+          <div className="cred-sep cred-hide" />
+          <div className="cred-item cred-hide">Validation <span style={{ color: "#00a85e", marginLeft: 4 }}>PASS</span></div>
+        </div>
+      </div>
+
       {/* ── MODULES (original — right after hero) ── */}
       <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
         <div className="flex items-end justify-between gap-6">
@@ -989,6 +1118,46 @@ export default function Home() {
               </div>
             </button>
           ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          ARCHITECTURE — 4×2 grid, compact, clickable to modal
+      ══════════════════════════════════════════════════════ */}
+      <section className="arch-section">
+        <div className="arch-inner">
+          <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
+          <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
+          <p className="copy-inj" style={{ maxWidth: 580 }}>
+            Each layer serves a precise role in the causal authority chain. Click any module to inspect it.
+          </p>
+
+          <div className="arch-grid">
+            {[
+              { num: "RS", label: "K24.1-RS", full: "Runtime Sovereign Authority", badge: "Authority", color: "#8BA0C0", idx: 0 },
+              { num: "02", label: "ACDK v4.1", full: "Adaptive Causal Decision Kernel", badge: "Decision", color: "#B83232", idx: 1 },
+              { num: "03", label: "NCM v2.1", full: "Nexus Causal Module", badge: "Edge", color: "#00A85E", idx: 2 },
+              { num: "04", label: "MDFE v3.1", full: "Multi-Domain Fusion Engine", badge: "Fusion", color: "#6C32D4", idx: 3 },
+              { num: "05", label: "KECS", full: "Kinetic Entropy Coherence System", badge: "Coherence", color: "#4D94FF", idx: 4 },
+              { num: "06", label: "ADIK", full: "Deterministic Integrity Kernel", badge: "Integrity", color: "#C85A18", idx: 5 },
+              { num: "07", label: "Iron Guardian V3", full: "Runtime Enforcement & Protection", badge: "Protection", color: "#C8A84B", idx: 6 },
+              { num: "08", label: "SQS / DEEL", full: "Sealed Quality & Evidence Ledger", badge: "Evidence", color: "#007A6E", idx: 7 },
+            ].map((m) => (
+              <button
+                key={m.label}
+                className="arch-card"
+                style={{ "--mod-color": m.color } as React.CSSProperties}
+                onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
+              >
+                <div className="arch-top-bar" />
+                <div className="arch-num">LAYER {m.num}</div>
+                <div className="arch-name">{m.label}</div>
+                <div className="arch-full">{m.full}</div>
+                <div className="arch-badge">{m.badge}</div>
+                <div className="arch-cta">Open brief →</div>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
