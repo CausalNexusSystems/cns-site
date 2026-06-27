@@ -1553,7 +1553,7 @@ export default function Home() {
         <div className="injected-inner">
           <div className="reveal">
             <div className="eyebrow-inj">Public Run Evidence</div>
-            <h2 className="h2-inj">K24 Unified Run —<br />32 Domains.</h2>
+            <h2 className="h2-inj">K24 Unified Run · 32 Domains.</h2>
           </div>
 
           <div className="metrics-panel-inj">
@@ -1637,7 +1637,7 @@ export default function Home() {
       <section id="cnl" className="injected-section dim">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Nexus Ledger</div>
-          <h2 className="h2-inj" style={{ marginBottom: 48 }}>CNL v1.0 — ledger and<br />consensus validation track.</h2>
+          <h2 className="h2-inj" style={{ marginBottom: 48 }}>CNL v1.0 · Ledger and Consensus Validation Track.</h2>
           <div className="cnl-grid-inj">
             <div className="cnl-image-inj">
               {/* FIX: plain <img> */}
@@ -1681,7 +1681,7 @@ export default function Home() {
       <section id="ces" className="injected-section alt">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Execution System</div>
-          <h2 className="h2-inj" style={{ marginBottom: 48 }}>CES — Capital Module<br />of Causal Nexus Systems.</h2>
+          <h2 className="h2-inj" style={{ marginBottom: 48 }}>CES · Capital Module of Causal Nexus Systems.</h2>
           <div className="ces-grid-inj">
 
             {/* TEXT — left */}
@@ -1713,7 +1713,7 @@ export default function Home() {
 
             {/* IMAGE — right */}
             <div className="ces-image-inj">
-              <img src="/brand/CES_Causal_Execution_System.png" alt="CES — Causal Execution System" loading="lazy" />
+              <img src="/brand/CES_Causal_Execution_System.png" alt="CES Causal Execution System" loading="lazy" />
             </div>
 
           </div>
@@ -1742,7 +1742,7 @@ export default function Home() {
               <div className="lic-desc">Deploy one CNS module for a specific operational domain, use case, or mission need.</div>
               <ul className="lic-list">
                 {["One module, one operational domain", "NDA-first access agreement", "Defined license scope", "Local or sovereign deployment", "Evidence packaging included"].map(item => (
-                  <li key={item}><span>—</span>{item}</li>
+                  <li key={item}><span>·</span>{item}</li>
                 ))}
               </ul>
             </div>
@@ -1755,7 +1755,7 @@ export default function Home() {
               <div className="lic-desc">Access the integrated deterministic causal ecosystem across authority, runtime, integrity, fusion, and evidence layers.</div>
               <ul className="lic-list">
                 {["All core modules", "Unified authority path", "Multi-domain operational scope", "Public/private evidence boundary", "Dedicated institutional engagement"].map(item => (
-                  <li key={item}><span>—</span>{item}</li>
+                  <li key={item}><span>·</span>{item}</li>
                 ))}
               </ul>
             </div>
@@ -1767,7 +1767,7 @@ export default function Home() {
               <div className="lic-desc">CNS licensed at national scale for governments, defense ministries, and sovereign institutions.</div>
               <ul className="lic-list">
                 {["National-scope license", "Sovereign deployment architecture", "Air-gapped or private options", "Critical sector coverage", "Government-level engagement"].map(item => (
-                  <li key={item}><span>—</span>{item}</li>
+                  <li key={item}><span>·</span>{item}</li>
                 ))}
               </ul>
             </div>
@@ -1799,7 +1799,7 @@ export default function Home() {
           </p>
 
           <div className="contact-warning">
-            No source access — No kernel exposure — No reverse engineering permitted
+            No source access · No kernel exposure · No reverse engineering permitted
           </div>
 
           <a className="contact-email-link" href="mailto:admin@causalnexussystems.com">
@@ -1817,7 +1817,7 @@ export default function Home() {
             </div>
             <div>
               <div className="contact-entity-label">Location</div>
-              <div className="contact-entity-value">Orlando, Florida — USA</div>
+              <div className="contact-entity-value">Orlando, Florida, USA</div>
             </div>
             <div>
               <div className="contact-entity-label">Patents</div>
@@ -1847,7 +1847,7 @@ export default function Home() {
               <div className="footer-brand-name">Causal Nexus Systems</div>
               <div className="footer-brand-sub">
                 Sovereign Deterministic Ecosystem<br />
-                Orlando, Florida — USA<br />
+                Orlando, Florida, USA<br />
                 admin@causalnexussystems.com
               </div>
               <div className="footer-brand-badge">NDA-First Access</div>
