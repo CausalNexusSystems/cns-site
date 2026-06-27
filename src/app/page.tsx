@@ -358,7 +358,7 @@ function GlobalStyles() {
       .status-pill-inj span { font-family: "Space Mono", monospace; font-size: 10px; color: #00a85e; letter-spacing: 0.1em; text-transform: uppercase; }
       .live-panel-inj { overflow: hidden; background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); margin-top: 14px; border-radius: 16px; }
       .live-video-inj { position: relative; background: #050812; overflow: hidden; aspect-ratio: 16/9; border-radius: 16px 16px 0 0; }
-      .live-video-inj img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .live-video-inj video { width: 100%; height: 100%; object-fit: cover; display: block; }
       .live-overlay-inj { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
       .live-copy-inj div:first-child { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #00c8ff; margin-bottom: 6px; }
       .live-copy-inj div:last-child { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; color: white; }
@@ -1142,7 +1142,7 @@ export default function Home() {
 
           <div className="live-panel-inj">
             <div className="live-video-inj">
-              <img src="/brand/CNS_Panel_Live_Ecosystem.png" alt="CNS K24 Live Public Telemetry Operations Monitor" />
+              <video src="/brand/VIDEO_PANEL_CNS_ECOSYSTEMS.mp4" autoPlay loop muted playsInline preload="metadata" />
             </div>
             <div className="live-caption-inj">
               <p>Live operational telemetry panel — multi-sector CNS intake across 32 active domains.</p>
