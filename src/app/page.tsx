@@ -299,7 +299,8 @@ function GlobalStyles() {
         cursor: pointer;
       }
       .btnGhost:hover { transform: translateY(-1px); background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.2); }
-      .sectionTitle { font-size: 12px; letter-spacing: 0.28em; color: rgba(255, 255, 255, 0.55); }
+      /* FIX 1: sectionTitle — blue, bigger, consistent with eyebrow-inj */
+      .sectionTitle { font-size: 13px; letter-spacing: 0.22em; color: #38bdf8; font-weight: 600; }
 
       /* NAV always horizontal */
       .top-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; }
@@ -330,8 +331,8 @@ function GlobalStyles() {
       .injected-inner { max-width: 1280px; margin: 0 auto; padding: 96px 48px; }
 
       .eyebrow-inj {
-        font-family: "Space Mono", monospace; font-size: 10px;
-        letter-spacing: 0.16em; text-transform: uppercase; color: #1a6fff; margin-bottom: 14px;
+        font-family: "Space Mono", monospace; font-size: 13px;
+        letter-spacing: 0.22em; text-transform: uppercase; color: #38bdf8; font-weight: 600; margin-bottom: 14px;
       }
       .h2-inj {
         font-size: clamp(30px, 4vw, 48px); font-weight: 700; line-height: 1.1;
@@ -356,8 +357,8 @@ function GlobalStyles() {
       .status-dot-inj { width: 6px; height: 6px; border-radius: 50%; background: #00a85e; box-shadow: 0 0 6px #00a85e; animation: blink 1.5s infinite; flex-shrink: 0; }
       .status-pill-inj span { font-family: "Space Mono", monospace; font-size: 10px; color: #00a85e; letter-spacing: 0.1em; text-transform: uppercase; }
       .live-panel-inj { overflow: hidden; background: rgba(10,10,22,0.76); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(20px); margin-top: 14px; }
-      .live-video-inj { position: relative; background: #050812; overflow: hidden; }
-      .live-video-inj img { width: 100%; height: auto; display: block; }
+      .live-video-inj { position: relative; background: #050812; overflow: hidden; aspect-ratio: 16/9; }
+      .live-video-inj img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .live-overlay-inj { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 3; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
       .live-copy-inj div:first-child { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #00c8ff; margin-bottom: 6px; }
       .live-copy-inj div:last-child { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; color: white; }
@@ -556,8 +557,8 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
       <div className="glass w-full max-w-5xl rounded-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="grid md:grid-cols-5">
-          <div className="md:col-span-2 bg-black/30 p-8 flex items-center justify-center">
-            <div className="relative w-full aspect-square max-h-[420px]">
+          <div className="md:col-span-2 bg-black/30 p-4 flex items-center justify-center">
+            <div className="relative w-full" style={{ aspectRatio: "1/1", maxHeight: 520 }}>
               {/* FIX: plain <img> — no Next.js Image restrictions */}
               <img src={safeSrc(module.imgSrc)} alt={module.acronym} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </div>
@@ -572,20 +573,20 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
             </div>
             <div className="space-y-6 text-sm">
               <div>
-                <div className="text-xs tracking-[2px] text-white/50 mb-1">DEFINITION</div>
+                <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>DEFINITION</div>
                 <p className="text-white/90 leading-relaxed">{module.definition}</p>
               </div>
               <div>
-                <div className="text-xs tracking-[2px] text-white/50 mb-1">CREATED FOR</div>
+                <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>CREATED FOR</div>
                 <p className="text-white/90 leading-relaxed">{module.createdFor}</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <div className="text-xs tracking-[2px] text-white/50 mb-1">INDEPENDENT USE</div>
+                  <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>INDEPENDENT USE</div>
                   <p className="text-white/90 leading-relaxed">{module.independentUse}</p>
                 </div>
                 <div>
-                  <div className="text-xs tracking-[2px] text-white/50 mb-1">ECOSYSTEM USE</div>
+                  <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>ECOSYSTEM USE</div>
                   <p className="text-white/90 leading-relaxed">{module.ecosystemUse}</p>
                 </div>
               </div>
@@ -680,8 +681,8 @@ export default function Home() {
               onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
               className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7">
               <div className="flex items-center gap-4">
-                <div className="grid h-14 w-14 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
-                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym} style={{ height: 40, width: 40, objectFit: "contain" }} />
+                <div className="grid h-14 w-14 flex-shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
+                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym} style={{ height: 56, width: 56, objectFit: "cover", display: "block" }} />
                 </div>
                 <div className="min-w-0">
                   <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
