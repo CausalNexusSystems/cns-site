@@ -482,57 +482,120 @@ function GlobalStyles() {
         .contact-entity-row { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
         .contact-warning { font-size: 8px; padding: 10px 14px; }
       }
-        position: fixed; inset: 0; z-index: 999;
-        display: flex; align-items: center; justify-content: center;
-        background: rgba(0,0,0,0.85); padding: 16px;
+
+      /* ══════════════════════════════════════════════
+         MODAL — always fixed, always on top, scrollable
+      ══════════════════════════════════════════════ */
+      .modal-outer {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.88);
+        backdrop-filter: blur(12px);
+        padding: 20px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .modal-inner {
-        background: rgba(10,10,22,0.97);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 24px;
+        position: relative;
+        background: rgba(8,8,20,0.98);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 20px;
         overflow: hidden;
-        width: 100%; max-width: 900px;
+        width: 100%;
+        max-width: 920px;
         display: grid;
         grid-template-columns: 1fr 1.4fr;
+        max-height: calc(100vh - 40px);
+        margin: auto;
       }
       .modal-img-col {
-        background: rgba(0,0,0,0.4);
-        display: flex; align-items: center; justify-content: center;
-        padding: 24px;
-        min-height: 300px;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 28px;
       }
       .modal-img-col img {
-        width: 100%; height: 100%;
-        max-height: 480px;
-        object-fit: contain; display: block;
+        width: 100%;
+        max-height: 460px;
+        object-fit: contain;
+        display: block;
       }
       .modal-text-col {
-        padding: 32px 28px; overflow-y: auto; max-height: 85vh;
+        padding: 32px 28px;
+        overflow-y: auto;
+        max-height: calc(100vh - 40px);
+        -webkit-overflow-scrolling: touch;
       }
-      /* Mobile: stack vertically, image on top full width */
+      /* Mobile: bottom sheet */
       @media (max-width: 700px) {
-        .modal-outer { padding: 0; align-items: flex-end; }
+        .modal-outer {
+          padding: 0;
+          align-items: flex-end;
+          justify-content: stretch;
+        }
         .modal-inner {
           grid-template-columns: 1fr;
-          border-radius: 24px 24px 0 0;
-          max-height: 92vh;
+          border-radius: 20px 20px 0 0;
+          max-height: 93vh;
+          max-width: 100%;
+          border-left: none;
+          border-right: none;
+          border-bottom: none;
           overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
         }
         .modal-img-col {
-          padding: 20px;
+          padding: 16px 20px 0;
           min-height: 0;
         }
         .modal-img-col img {
-          max-height: 260px;
+          max-height: 200px;
           width: auto;
+          max-width: 100%;
           margin: 0 auto;
+          display: block;
         }
         .modal-text-col {
-          padding: 20px 16px 32px;
-          max-height: none;
+          padding: 16px 16px 40px;
           overflow-y: visible;
+          max-height: none;
         }
+      }
+
+      /* ══════════════════════════════════════════════
+         MODULE CARDS — square on mobile
+      ══════════════════════════════════════════════ */
+      @media (max-width: 640px) {
+        /* Force 1-column and square cards */
+        .modules-grid { grid-template-columns: 1fr !important; }
+        .module-card-sq {
+          display: grid !important;
+          grid-template-columns: auto 1fr !important;
+          align-items: center !important;
+          gap: 12px !important;
+          padding: 14px !important;
+        }
+        .module-card-sq .mod-thumb {
+          width: 64px !important;
+          height: 64px !important;
+          flex-shrink: 0;
+        }
+        .module-card-sq .mod-desc { display: none !important; }
+        .module-card-sq .mod-cta { display: none !important; }
+      }
+
+      /* ══════════════════════════════════════════════
+         HERO MOBILE — enough padding for dynamic header
+      ══════════════════════════════════════════════ */
+      @media (max-width: 768px) {
+        .hero-pt-mobile { padding-top: 16px !important; }
+        /* modules 1 col on mobile */
+        .mods-grid-resp { grid-template-columns: 1fr !important; }
       }
     `}</style>
   );
@@ -683,38 +746,84 @@ function RocketMetricsCard() {
 
 // ==================== MODULE MODAL (mobile-optimized) ====================
 function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: () => void }) {
+  // Lock body scroll when modal is open — critical for mobile
+  useEffect(() => {
+    if (module) {
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+    };
+  }, [module]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!module) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [module, onClose]);
+
   if (!module) return null;
+
   return (
     <div className="modal-outer" onClick={onClose}>
       <div className="modal-inner" onClick={e => e.stopPropagation()}>
-        {/* IMAGE */}
+
+        {/* IMAGE / FALLBACK */}
         <div className="modal-img-col">
-          <img src={safeSrc(module.imgSrc)} alt={module.acronym} />
+          <img
+            src={safeSrc(module.imgSrc)}
+            alt={module.acronym}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
         </div>
+
         {/* CONTENT */}
         <div className="modal-text-col">
-          <div className="flex justify-between items-start" style={{ marginBottom: 16 }}>
+          {/* Header */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
             <div>
-              <div style={{ color: module.color, fontSize: "clamp(28px,5vw,46px)", fontWeight: 700, lineHeight: 1, letterSpacing: "-1px" }}>{module.acronym}</div>
-              <div style={{ fontSize: "clamp(14px,2vw,20px)", color: "rgba(255,255,255,0.75)", marginTop: 6 }}>{module.fullName}</div>
+              <div style={{ color: module.color, fontSize: "clamp(26px,5vw,44px)", fontWeight: 700, lineHeight: 1, letterSpacing: "-1px" }}>
+                {module.acronym}
+              </div>
+              <div style={{ fontSize: "clamp(13px,2vw,18px)", color: "rgba(255,255,255,0.72)", marginTop: 6 }}>
+                {module.fullName}
+              </div>
             </div>
-            <button onClick={onClose} style={{ fontSize: 28, color: "rgba(255,255,255,0.4)", background: "none", border: "none", cursor: "pointer", lineHeight: 1, padding: "4px 8px" }}>×</button>
+            <button onClick={onClose} style={{
+              fontSize: 26, color: "rgba(255,255,255,0.45)", background: "none",
+              border: "1px solid rgba(255,255,255,0.15)", borderRadius: 8,
+              cursor: "pointer", lineHeight: 1, padding: "4px 10px", flexShrink: 0, marginLeft: 12,
+            }}>×</button>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Text sections */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {[
               ["DEFINITION",        module.definition],
               ["CREATED FOR",       module.createdFor],
               ["INDEPENDENT USE",   module.independentUse],
               ["ECOSYSTEM USE",     module.ecosystemUse],
             ].map(([title, text]) => (
-              <div key={title} style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
-                <div style={{ fontSize: 10, letterSpacing: "2px", color: module.color, opacity: 0.85, marginBottom: 6, textTransform: "uppercase" }}>{title}</div>
-                <p style={{ fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,0.72)" }}>{text}</p>
+              <div key={title} style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "14px 0" }}>
+                <div style={{ fontSize: 10, letterSpacing: "2px", color: module.color, opacity: 0.9, marginBottom: 7, textTransform: "uppercase", fontWeight: 700 }}>
+                  {title}
+                </div>
+                <p style={{ fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,0.72)", margin: 0 }}>{text}</p>
               </div>
             ))}
 
-            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+            {/* Tags grid */}
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 16 }}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {[
                   ["SECTORS",  module.sectors],
@@ -722,11 +831,18 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
                   ["OUTPUTS",  module.outputs],
                   ["EVIDENCE", module.evidence],
                 ].map(([label, items]) => (
-                  <div key={label as string} style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.06)", padding: 12 }}>
-                    <div style={{ fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: module.color, marginBottom: 8 }}>{label as string}</div>
+                  <div key={label as string} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", padding: "12px 10px", borderRadius: 8 }}>
+                    <div style={{ fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: module.color, marginBottom: 8, fontWeight: 700 }}>
+                      {label as string}
+                    </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                       {(items as string[]).map(s => (
-                        <span key={s} style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px", borderRadius: 3 }}>{s}</span>
+                        <span key={s} style={{
+                          fontSize: 11, color: "rgba(255,255,255,0.62)",
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.09)",
+                          padding: "3px 8px", borderRadius: 4,
+                        }}>{s}</span>
                       ))}
                     </div>
                   </div>
@@ -735,6 +851,7 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -780,7 +897,7 @@ export default function Home() {
       </div>
 
       {/* ── HERO (original — untouched except padding) ── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 pt-8 pb-10">
+      <section className="hero-pt-mobile relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 pt-8 pb-10">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
             <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
@@ -815,23 +932,39 @@ export default function Home() {
             <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
           </div>
         </div>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 mods-grid-resp" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
           {ECO_MODULES.map((mod, index) => (
             <button key={index} onClick={() => setSelectedModule(mod)}
               onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
-              className="glass group rounded-3xl p-5 text-left transition hover:bg-white/7">
-              <div className="flex items-center gap-4">
-                <div className="grid h-14 w-14 flex-shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
-                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym} style={{ height: 56, width: 56, objectFit: "cover", display: "block" }} />
+              className="module-card-sq glass group rounded-2xl text-left transition"
+              style={{ display: "flex", flexDirection: "column", padding: 16, gap: 12, border: `1px solid rgba(255,255,255,0.1)`, background: "rgba(255,255,255,0.04)", cursor: "pointer" }}>
+
+              {/* Top row: thumb + name */}
+              <div className="flex items-center gap-3">
+                <div className="mod-thumb" style={{
+                  width: 56, height: 56, flexShrink: 0,
+                  borderRadius: 12, overflow: "hidden",
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym}
+                    style={{ width: 56, height: 56, objectFit: "cover", display: "block" }} />
                 </div>
-                <div className="min-w-0">
-                  <div style={{ color: mod.color }} className="text-xl font-semibold">{mod.acronym}</div>
-                  <div className="truncate text-sm text-white/65">{mod.fullName}</div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ color: mod.color, fontSize: 16, fontWeight: 700, lineHeight: 1.2 }}>{mod.acronym}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{mod.fullName}</div>
                 </div>
               </div>
-              <div className="mt-4 line-clamp-3 text-sm text-white/75">{mod.desc}</div>
-              <div className="mt-5 text-xs text-white/50 group-hover:text-white/70 transition-colors flex items-center gap-2">
-                View full module details <span className="text-lg leading-none">→</span>
+
+              {/* Description */}
+              <div className="mod-desc" style={{ fontSize: 12, lineHeight: 1.55, color: "rgba(255,255,255,0.68)", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                {mod.desc}
+              </div>
+
+              {/* CTA */}
+              <div className="mod-cta" style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", display: "flex", alignItems: "center", gap: 6, marginTop: "auto" }}>
+                View full module details <span style={{ fontSize: 14 }}>→</span>
               </div>
             </button>
           ))}
