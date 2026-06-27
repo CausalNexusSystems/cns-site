@@ -31,13 +31,13 @@ type Metric = {
 
 // ==================== NAV (7 items) ====================
 const NAV_ITEMS = [
-  { id: "ecosystem", label: "ECOSYSTEMS" },
-  { id: "modules",   label: "MODULES" },
-  { id: "cns-runs",  label: "CNS" },
+  { id: "ecosystem", label: "Ecosystem" },
+  { id: "modules",   label: "Modules" },
+  { id: "cns-runs",  label: "CNS-RUNS" },
   { id: "cnl",       label: "CNL" },
   { id: "ces",       label: "CES" },
-  { id: "business",  label: "LICENSING" },
-  { id: "contact",   label: "CONTACT" },
+  { id: "business",  label: "Licensing" },
+  { id: "contact",   label: "Contact" },
 ];
 
 const METRICS: Metric[] = [
@@ -393,8 +393,20 @@ function GlobalStyles() {
       .cnl-feature-inj div:first-child { font-size: 13px; font-weight: 700; color: white; margin-bottom: 3px; }
       .cnl-feature-inj div:last-child { font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.52); }
 
+      /* ces — text left, image right (inverted from cnl) */
+      .ces-grid-inj { display: grid; grid-template-columns: 1.22fr 0.78fr; gap: 74px; align-items: start; }
+      .ces-image-inj { border: 1px solid rgba(200,168,75,0.25); overflow: hidden; background: rgba(15,15,10,0.8); border-radius: 8px; }
+      .ces-image-inj img { width: 100%; display: block; object-fit: cover; }
+      .ces-badge-inj { display: inline-flex; align-items: center; gap: 8px; background: rgba(200,168,75,0.08); border: 1px solid rgba(200,168,75,0.3); padding: 6px 14px; margin-bottom: 18px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #c8a84b; }
+      .ces-badge-inj::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #c8a84b; box-shadow: 0 0 6px #c8a84b; animation: blink 2s infinite; }
+      .ces-body-inj p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.68); margin-bottom: 14px; }
+      .ces-body-inj p strong { color: #c8a84b; font-weight: 600; }
+      .ces-pills-inj { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+      .ces-pill-inj { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 12px; border: 1px solid rgba(200,168,75,0.35); color: #c8a84b; background: rgba(200,168,75,0.06); border-radius: 3px; }
+      .ces-rule-inj { margin-top: 22px; padding: 16px 18px; background: rgba(200,168,75,0.05); border: 1px solid rgba(200,168,75,0.2); border-left: 3px solid #c8a84b; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); font-style: italic; line-height: 1.5; }
+
       @media (max-width: 900px) {
-        .eco-grid-inj, .cnl-grid-inj { grid-template-columns: 1fr; gap: 32px; }
+        .eco-grid-inj, .cnl-grid-inj, .ces-grid-inj { grid-template-columns: 1fr; gap: 32px; }
         .principles-grid-inj, .qa-row-inj, .cnl-metrics-inj { grid-template-columns: 1fr 1fr; }
         .metrics-row-inj { grid-template-columns: repeat(2, 1fr); }
         .live-overlay-inj { flex-direction: column; align-items: flex-start; }
@@ -402,6 +414,61 @@ function GlobalStyles() {
       }
       @media (max-width: 560px) {
         .principles-grid-inj, .qa-row-inj, .cnl-metrics-inj { grid-template-columns: 1fr; }
+      }
+
+      /* ── MODAL MOBILE FIX ── */
+      .modal-outer {
+        position: fixed; inset: 0; z-index: 999;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(0,0,0,0.85); padding: 16px;
+        overflow-y: auto;
+      }
+      .modal-inner {
+        background: rgba(10,10,22,0.97);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 24px;
+        overflow: hidden;
+        width: 100%; max-width: 900px;
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+      }
+      .modal-img-col {
+        background: rgba(0,0,0,0.4);
+        display: flex; align-items: center; justify-content: center;
+        padding: 24px;
+        min-height: 300px;
+      }
+      .modal-img-col img {
+        width: 100%; height: 100%;
+        max-height: 480px;
+        object-fit: contain; display: block;
+      }
+      .modal-text-col {
+        padding: 32px 28px; overflow-y: auto; max-height: 85vh;
+      }
+      /* Mobile: stack vertically, image on top full width */
+      @media (max-width: 700px) {
+        .modal-outer { padding: 0; align-items: flex-end; }
+        .modal-inner {
+          grid-template-columns: 1fr;
+          border-radius: 24px 24px 0 0;
+          max-height: 92vh;
+          overflow-y: auto;
+        }
+        .modal-img-col {
+          padding: 20px;
+          min-height: 0;
+        }
+        .modal-img-col img {
+          max-height: 260px;
+          width: auto;
+          margin: 0 auto;
+        }
+        .modal-text-col {
+          padding: 20px 16px 32px;
+          max-height: none;
+          overflow-y: visible;
+        }
       }
     `}</style>
   );
@@ -550,62 +617,56 @@ function RocketMetricsCard() {
   );
 }
 
-// ==================== MODULE MODAL (EXACT — DO NOT TOUCH) ====================
+// ==================== MODULE MODAL (mobile-optimized) ====================
 function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: () => void }) {
   if (!module) return null;
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
-      <div className="glass w-full max-w-5xl rounded-3xl overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="grid md:grid-cols-5">
-          <div className="md:col-span-2 bg-black/30 p-4 flex items-center justify-center">
-            <div className="relative w-full" style={{ aspectRatio: "1/1", maxHeight: 520 }}>
-              {/* FIX: plain <img> — no Next.js Image restrictions */}
-              <img src={safeSrc(module.imgSrc)} alt={module.acronym} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+    <div className="modal-outer" onClick={onClose}>
+      <div className="modal-inner" onClick={e => e.stopPropagation()}>
+        {/* IMAGE */}
+        <div className="modal-img-col">
+          <img src={safeSrc(module.imgSrc)} alt={module.acronym} />
+        </div>
+        {/* CONTENT */}
+        <div className="modal-text-col">
+          <div className="flex justify-between items-start" style={{ marginBottom: 16 }}>
+            <div>
+              <div style={{ color: module.color, fontSize: "clamp(28px,5vw,46px)", fontWeight: 700, lineHeight: 1, letterSpacing: "-1px" }}>{module.acronym}</div>
+              <div style={{ fontSize: "clamp(14px,2vw,20px)", color: "rgba(255,255,255,0.75)", marginTop: 6 }}>{module.fullName}</div>
             </div>
+            <button onClick={onClose} style={{ fontSize: 28, color: "rgba(255,255,255,0.4)", background: "none", border: "none", cursor: "pointer", lineHeight: 1, padding: "4px 8px" }}>×</button>
           </div>
-          <div className="md:col-span-3 p-8">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <div style={{ color: module.color }} className="text-5xl font-bold tracking-[-1.5px]">{module.acronym}</div>
-                <div className="text-2xl text-white/80 mt-1">{module.fullName}</div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {[
+              ["DEFINITION",        module.definition],
+              ["CREATED FOR",       module.createdFor],
+              ["INDEPENDENT USE",   module.independentUse],
+              ["ECOSYSTEM USE",     module.ecosystemUse],
+            ].map(([title, text]) => (
+              <div key={title} style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+                <div style={{ fontSize: 10, letterSpacing: "2px", color: module.color, opacity: 0.85, marginBottom: 6, textTransform: "uppercase" }}>{title}</div>
+                <p style={{ fontSize: 13, lineHeight: 1.65, color: "rgba(255,255,255,0.72)" }}>{text}</p>
               </div>
-              <button onClick={onClose} className="text-4xl text-white/40 hover:text-white">×</button>
-            </div>
-            <div className="space-y-6 text-sm">
-              <div>
-                <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>DEFINITION</div>
-                <p className="text-white/90 leading-relaxed">{module.definition}</p>
-              </div>
-              <div>
-                <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>CREATED FOR</div>
-                <p className="text-white/90 leading-relaxed">{module.createdFor}</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <div>
-                  <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>INDEPENDENT USE</div>
-                  <p className="text-white/90 leading-relaxed">{module.independentUse}</p>
-                </div>
-                <div>
-                  <div className="text-xs tracking-[2px] mb-1" style={{ color: module.color, opacity: 0.8 }}>ECOSYSTEM USE</div>
-                  <p className="text-white/90 leading-relaxed">{module.ecosystemUse}</p>
-                </div>
-              </div>
-              <div className="pt-4 border-t border-white/10">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                  {[
-                    { label: "SECTORS",  items: module.sectors },
-                    { label: "SIGNALS",  items: module.signals },
-                    { label: "OUTPUTS",  items: module.outputs },
-                    { label: "EVIDENCE", items: module.evidence },
-                  ].map(({ label, items }) => (
-                    <div key={label}>
-                      <div className="text-white/50 mb-2 tracking-widest">{label}</div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {items.map((s, i) => <span key={i} className="px-2.5 py-1 bg-white/5 rounded border border-white/10">{s}</span>)}
-                      </div>
+            ))}
+
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                {[
+                  ["SECTORS",  module.sectors],
+                  ["SIGNALS",  module.signals],
+                  ["OUTPUTS",  module.outputs],
+                  ["EVIDENCE", module.evidence],
+                ].map(([label, items]) => (
+                  <div key={label as string} style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.06)", padding: 12 }}>
+                    <div style={{ fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: module.color, marginBottom: 8 }}>{label as string}</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                      {(items as string[]).map(s => (
+                        <span key={s} style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", padding: "2px 7px", borderRadius: 3 }}>{s}</span>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -632,7 +693,7 @@ export default function Home() {
           <div className="flex-shrink-0 leading-tight">
             <div className="text-lg sm:text-xl font-semibold tracking-wide text-white">Causal Nexus Systems</div>
             <div className="hidden sm:block mt-0.5 text-[11px] text-white/50">
-              Public Causal Observability • Sealed Outputs • Kernel Licensing 
+              Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666
             </div>
           </div>
           <TopNav />
@@ -648,7 +709,7 @@ export default function Home() {
               CNS MEASURES CAUSE,<br />NOT EFFECT.
             </h1>
             <p className="mt-4 max-w-xl text-white/75">
-              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates Deterministic models, multilayer telemetry analysis, and cryptographic integrity tools.
+              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Modules →</button>
@@ -707,7 +768,7 @@ export default function Home() {
           <h2 className="h2-inj">K24 Unified Run —<br />32 Domains.</h2>
 
           <div className="metrics-panel-inj">
-            <div className="metrics-title-inj">K24 unified run public metrics layer</div>
+            <div className="metrics-title-inj">K24 unified run - public metrics layer</div>
             <div className="metrics-row-inj">
               {METRICS.map(m => (
                 <div key={m.l} className="metric-inj">
@@ -723,7 +784,7 @@ export default function Home() {
             </div>
             <div className="status-pill-inj">
               <span className="status-dot-inj" />
-              <span>Validation: PASS public evidence boundary</span>
+              <span>Validation: PASS - public evidence boundary</span>
             </div>
           </div>
 
@@ -732,7 +793,7 @@ export default function Home() {
               <img src="/brand/CNS_Panel_Live_Ecosystem.png" alt="CNS K24 Live Public Telemetry Operations Monitor" />
             </div>
             <div className="live-caption-inj">
-              <p>Live operational telemetry panel multi-sector CNS intake across 32 active domains.</p>
+              <p>Live operational telemetry panel — multi-sector CNS intake across 32 active domains.</p>
               <span>PC + phone ready</span>
             </div>
           </div>
@@ -818,6 +879,51 @@ export default function Home() {
                 <div key={t} className="cnl-feature-inj"><div>{t}</div><div>{d}</div></div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          INJECTED SECTION 4 — CES (Causal Execution System)
+      ══════════════════════════════════════════════════════ */}
+      <section id="ces" className="injected-section alt">
+        <div className="injected-inner">
+          <div className="eyebrow-inj">Causal Execution System</div>
+          <h2 className="h2-inj" style={{ marginBottom: 48 }}>CES — Capital Module<br />of Causal Nexus Systems.</h2>
+          <div className="ces-grid-inj">
+
+            {/* TEXT — left */}
+            <div className="ces-body-inj">
+              <div className="ces-badge-inj">Capital Execution Module</div>
+
+              <p><strong>CES (Causal Execution System) is the capital module of Causal Nexus Systems.</strong> Its purpose is to transform real-world market data into disciplined, auditable financial execution decisions governed by causal rules.</p>
+
+              <p>CES is not designed to guess market direction or operate like a traditional probabilistic bot. Its function is to analyze the cause behind a movement, validate market structure, measure risk, select an executable opportunity, and protect capital before, during, and after every decision.</p>
+
+              <p>The system interprets market data, volatility, liquidity, price structure, institutional pressure, macroeconomic events, news, sectoral behavior, and execution conditions. Based on this information, CES determines whether a trade should be monitored, validated, executed, managed, or blocked.</p>
+
+              <p>As the CNS capital module, CES performs a critical function: converting the ecosystem's causal logic into applied financial discipline. Every decision must pass through controls regarding capital, risk, evidence, contracts, liquidity, exposure, and exit parameters. <strong>If the causal chain is incomplete, CES does not execute.</strong></p>
+
+              <p>Unlike "black-box" probabilistic systems, CES prioritizes traceability, capital protection, execution governance, and auditability. Its value lies not in promising predictive certainty, but in validating when an opportunity is causally executable under real market conditions.</p>
+
+              <p>CES was designed to operate on a deterministic architecture, enabling controlled, portable, and verifiable execution logic. Its objective is to serve as an institutional layer for financial systems, market validation, execution governance, capital protection, and risk-controlled operations.</p>
+
+              <div className="ces-rule-inj">
+                CES does not chase random movements. CES validates cause, context, risk, and execution before acting.
+              </div>
+
+              <div className="ces-pills-inj">
+                {["Financial Systems", "Market-State Validation", "Execution Governance", "Capital Protection", "Risk-Controlled Operations", "Deterministic Causal", "No Cloud Dependency", "No Linux Dependency"].map(p => (
+                  <span key={p} className="ces-pill-inj">{p}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* IMAGE — right */}
+            <div className="ces-image-inj">
+              <img src="/brand/CES_Causal_Execution_System.png" alt="CES — Causal Execution System" loading="lazy" />
+            </div>
+
           </div>
         </div>
       </section>
