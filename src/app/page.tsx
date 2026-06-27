@@ -416,7 +416,31 @@ function GlobalStyles() {
         .principles-grid-inj, .qa-row-inj, .cnl-metrics-inj { grid-template-columns: 1fr; }
       }
 
-      /* ── MODAL MOBILE FIX ── */
+      /* ── TICKER SCROLL BAR ── */
+      .ticker-wrap { position: relative; z-index: 11; overflow: hidden; border-bottom: 1px solid rgba(200,168,75,0.18); background: rgba(0,0,0,0.25); backdrop-filter: blur(8px); height: 40px; display: flex; align-items: center; }
+      .ticker-track { display: flex; align-items: center; white-space: nowrap; animation: tickerScroll 28s linear infinite; }
+      .ticker-track:hover { animation-play-state: paused; }
+      @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+      .ticker-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 36px; font-family: "Space Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #c8a84b; }
+      .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: #c8a84b; opacity: 0.6; flex-shrink: 0; }
+
+      /* ── LICENSING SECTION ── */
+      .lic-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+      .lic-card { background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); padding: 34px 26px; position: relative; backdrop-filter: blur(10px); transition: border-color 220ms ease, background 220ms ease; }
+      .lic-card:hover { background: rgba(15,15,32,0.7); border-color: rgba(255,255,255,0.16); }
+      .lic-card.featured { background: rgba(26,111,255,0.06); border-color: rgba(26,111,255,0.45); }
+      .lic-card.featured:hover { background: rgba(26,111,255,0.10); border-color: rgba(26,111,255,0.65); }
+      .lic-flag { position: absolute; top: -1px; right: 18px; background: #1a6fff; color: #fff; font-family: "Space Mono", monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; }
+      .lic-eye { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #38bdf8; margin-bottom: 10px; font-weight: 600; }
+      .lic-title { font-size: 22px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; white-space: pre-line; }
+      .lic-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-bottom: 20px; }
+      .lic-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+      .lic-list li { font-size: 13px; color: rgba(237,241,255,0.68); display: flex; align-items: flex-start; gap: 9px; }
+      .lic-list li span { color: #38bdf8; flex-shrink: 0; font-family: "Space Mono", monospace; font-size: 11px; }
+      .lic-nda { margin-top: 24px; padding: 20px 26px; background: rgba(10,10,22,0.55); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; backdrop-filter: blur(10px); }
+      .lic-nda strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+      .lic-nda p { font-size: 12px; color: rgba(255,255,255,0.5); }
+      @media (max-width: 900px) { .lic-grid { grid-template-columns: 1fr; } }
       .modal-outer {
         position: fixed; inset: 0; z-index: 999;
         display: flex; align-items: center; justify-content: center;
@@ -700,8 +724,23 @@ export default function Home() {
         </div>
       </header>
 
-      {/* ── HERO (original — untouched) ── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-28 pb-10">
+      {/* ── TICKER — below header, above hero ── */}
+      <div className="ticker-wrap" style={{ marginTop: 80 }}>
+        <div className="ticker-track">
+          {/* doubled for seamless loop */}
+          {[...Array(2)].map((_, pass) =>
+            ["Deterministic Causal Ecosystems", "Sovereign Deployment Boundary", "Unified Run Ecosystems", "SHA-256 and Merkle Evidence", "Falsifiable", "Causal Observability Live Systems"].map((word, i) => (
+              <span key={`${pass}-${i}`} className="ticker-item">
+                {word}
+                <span className="ticker-dot" />
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* ── HERO (original — untouched, remove pt-28 since ticker handles spacing) ── */}
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-10 pb-10">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
             <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
@@ -928,24 +967,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── BUSINESS (original — untouched) ── */}
-      <section id="business" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
-        <div className="sectionTitle">BUSINESS</div>
-        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Kernel licensing</h2>
-        <p className="mt-3 max-w-3xl text-white/72">
-          CNS is not offered as a public SaaS platform. The Kernel operates as a licensed, cloud-hosted causal engine. Access is granted exclusively under NDA and domain-specific licensing agreements.
-        </p>
-        <div className="mt-7 grid gap-5 md:grid-cols-3">
-          {[
-            { t: "NDA-First Access",  d: "Kernel access is granted only under strict confidentiality agreements. No source access, reverse engineering, or internal inspection is permitted." },
-            { t: "Public Proofs",     d: "All public outputs are cryptographically sealed using SHA-256 + Merkle root verification without exposing private Kernel mechanics." },
-            { t: "High-Stakes Focus", d: "Designed for systems where failure is not an option: Aerospace, critical infrastructure, financial, healthcare, and security-sensitive environments." },
-          ].map((x, i) => (
-            <div key={i} className="glass rounded-3xl p-5" onMouseEnter={() => setHoverFocus("business")} onMouseLeave={() => setHoverFocus(null)}>
-              <div className="text-lg font-semibold">{x.t}</div>
-              <div className="mt-2 text-sm text-white/70">{x.d}</div>
+      {/* ══════════════════════════════════════════════════════
+          LICENSING — replaces Business, matches nav "Licensing"
+      ══════════════════════════════════════════════════════ */}
+      <section id="business" className="injected-section dim">
+        <div className="injected-inner">
+          <div className="eyebrow-inj">Licensing Model</div>
+          <h2 className="h2-inj" style={{ marginBottom: 18 }}>
+            Three paths to sovereign<br />causal governance.
+          </h2>
+          <p className="copy-inj" style={{ maxWidth: 640, marginBottom: 52 }}>
+            CNS is not positioned as public SaaS. Access is NDA-first, scoped per domain, deployment boundary, and evidence disclosure level.
+          </p>
+
+          <div className="lic-grid">
+            {/* MODULE LICENSE */}
+            <div className="lic-card">
+              <div className="lic-eye">Module License</div>
+              <div className="lic-title">Single Module{"\n"}Deployment</div>
+              <div className="lic-desc">Deploy one CNS module for a specific operational domain, use case, or mission need.</div>
+              <ul className="lic-list">
+                {["One module, one operational domain", "NDA-first access agreement", "Defined license scope", "Local or sovereign deployment", "Evidence packaging included"].map(item => (
+                  <li key={item}><span>—</span>{item}</li>
+                ))}
+              </ul>
             </div>
-          ))}
+
+            {/* ECOSYSTEM LICENSE — FLAGSHIP */}
+            <div className="lic-card featured">
+              <div className="lic-flag">FLAGSHIP</div>
+              <div className="lic-eye">Ecosystem License</div>
+              <div className="lic-title">Full CNS Ecosystem{"\n"}Platform</div>
+              <div className="lic-desc">Access the integrated deterministic causal ecosystem across authority, runtime, integrity, fusion, and evidence layers.</div>
+              <ul className="lic-list">
+                {["All core modules", "Unified authority path", "Multi-domain operational scope", "Public/private evidence boundary", "Dedicated institutional engagement"].map(item => (
+                  <li key={item}><span>—</span>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* SOVEREIGN NATION LICENSE */}
+            <div className="lic-card">
+              <div className="lic-eye">Sovereign Nation License</div>
+              <div className="lic-title">Country-Level{"\n"}Deployment</div>
+              <div className="lic-desc">CNS licensed at national scale for governments, defense ministries, and sovereign institutions.</div>
+              <ul className="lic-list">
+                {["National-scope license", "Sovereign deployment architecture", "Air-gapped or private options", "Critical sector coverage", "Government-level engagement"].map(item => (
+                  <li key={item}><span>—</span>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="lic-nda">
+            <div>
+              <strong>All technical access is NDA-first.</strong>
+              <p>No public source exposure. Public outputs show results, evidence boundaries, hashes, and review paths without exposing protected kernel logic.</p>
+            </div>
+            <button className="btnPrimary" onClick={() => scrollToId("contact")} style={{ whiteSpace: "nowrap" }}>
+              Request Access →
+            </button>
+          </div>
         </div>
       </section>
 
