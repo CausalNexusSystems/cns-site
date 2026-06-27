@@ -1071,65 +1071,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── MODULES (original — right after hero) ── */}
-      <section id="modules" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <div className="sectionTitle">PUBLIC MODULE LAYER</div>
-            <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Modules</h2>
-            <p className="mt-2 max-w-2xl text-white/70">Each module is a public window into CNS. Click a module for full technical details.</p>
-          </div>
-        </div>
-        <div className="mt-8 grid gap-4 mods-grid-resp" style={{ gridTemplateColumns: "repeat(3, 1fr)", alignItems: "stretch" }}>
-          {ECO_MODULES.map((mod, index) => (
-            <button key={index} onClick={() => setSelectedModule(mod)}
-              onMouseEnter={() => setHoverFocus("modules")} onMouseLeave={() => setHoverFocus(null)}
-              className="module-card-sq glass group text-left transition"
-              style={{
-                display: "flex", flexDirection: "column",
-                padding: 20, gap: 12,
-                border: "1px solid rgba(255,255,255,0.1)",
-                background: "rgba(255,255,255,0.04)",
-                cursor: "pointer",
-                borderRadius: 20,
-                width: "100%",
-              }}>
-
-              {/* Top row: thumb + name */}
-              <div className="flex items-center gap-3">
-                <div className="mod-thumb" style={{
-                  width: 56, height: 56, flexShrink: 0,
-                  borderRadius: 14, overflow: "hidden",
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}>
-                  <img src={safeSrc(mod.imgSrc)} alt={mod.acronym}
-                    style={{ width: 56, height: 56, objectFit: "cover", display: "block" }} />
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ color: mod.color, fontSize: 17, fontWeight: 700, lineHeight: 1.2 }}>{mod.acronym}</div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{mod.fullName}</div>
-                </div>
-              </div>
-
-              {/* Description — grows to fill card height equally */}
-              <div className="mod-desc" style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(255,255,255,0.68)", flex: 1 }}>
-                {mod.desc}
-              </div>
-
-              {/* CTA always at bottom */}
-              <div className="mod-cta" style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
-                View full module details <span style={{ fontSize: 14 }}>→</span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
       {/* ══════════════════════════════════════════════════════
           ARCHITECTURE — 4×2 grid, compact, clickable to modal
       ══════════════════════════════════════════════════════ */}
-      <section className="arch-section">
+      <section id="modules" className="arch-section">
         <div className="arch-inner">
           <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
           <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
