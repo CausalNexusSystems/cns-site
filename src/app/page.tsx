@@ -364,9 +364,8 @@ function GlobalStyles() {
       .live-copy-inj div:last-child { font-family: "Space Grotesk", sans-serif; font-size: 17px; font-weight: 700; line-height: 1.15; color: white; }
       .feed-stack-inj { display: grid; gap: 5px; min-width: 166px; }
       .feed-row-inj { display: flex; justify-content: space-between; gap: 14px; padding: 5px 8px; background: rgba(3,3,10,0.72); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; font-family: "Space Mono", monospace; font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
-      .live-caption-inj { padding: 14px 18px 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
-      .live-caption-inj p { max-width: 560px; color: rgba(255,255,255,0.56); font-size: 12px; line-height: 1.5; }
-      .live-caption-inj span { flex: 0 0 auto; font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #00c8ff; }
+      .live-caption-inj { padding: 16px 24px 18px; display: flex; justify-content: center; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+      .live-caption-inj p { color: rgba(255,255,255,0.5); font-size: 12px; line-height: 1.5; font-family: "Space Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; }
 
       /* ecosystem */
       .eco-grid-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
@@ -772,29 +771,66 @@ function GlobalStyles() {
       .reveal-delay-4 { transition-delay: 0.4s; }
 
       /* ══════════════════════════════════════════════
-         SECTION SEPARATORS — glow dividers
+         SECTION SEPARATORS — animated CNS signal lines
       ══════════════════════════════════════════════ */
       .section-sep {
         position: relative; z-index: 10;
-        height: 1px;
-        background: linear-gradient(90deg,
-          transparent 0%,
-          rgba(56,189,248,0.15) 20%,
-          rgba(56,189,248,0.45) 50%,
-          rgba(56,189,248,0.15) 80%,
-          transparent 100%
-        );
-        margin: 0;
+        height: 48px;
         overflow: visible;
+        display: flex; align-items: center; justify-content: center;
       }
-      .section-sep::after {
-        content: "";
-        position: absolute;
-        left: 50%; top: 50%;
-        transform: translate(-50%, -50%);
-        width: 160px; height: 20px;
-        background: radial-gradient(ellipse, rgba(56,189,248,0.22) 0%, transparent 70%);
-        pointer-events: none;
+      .section-sep svg { width: 100%; height: 48px; overflow: visible; }
+
+      /* Line draw animation */
+      @keyframes lineDraw {
+        0%   { stroke-dashoffset: 800; opacity: 0; }
+        15%  { opacity: 0.9; }
+        85%  { opacity: 0.9; }
+        100% { stroke-dashoffset: 0; opacity: 0.3; }
+      }
+      @keyframes linePulse {
+        0%,100% { opacity: 0.25; stroke-width: 1; }
+        50%     { opacity: 0.85; stroke-width: 1.5; }
+      }
+      @keyframes nodePulse {
+        0%,100% { r: 2; opacity: 0.4; }
+        50%     { r: 4; opacity: 1; }
+      }
+      @keyframes labelFade {
+        0%,100% { opacity: 0.35; }
+        50%     { opacity: 0.85; }
+      }
+      .sep-line {
+        fill: none;
+        stroke: rgba(56,189,248,0.55);
+        stroke-width: 1;
+        stroke-dasharray: 800;
+        animation: linePulse 3s ease-in-out infinite;
+      }
+      .sep-line-gold {
+        fill: none;
+        stroke: rgba(200,168,75,0.45);
+        stroke-width: 1;
+        stroke-dasharray: 600;
+        animation: linePulse 3.8s ease-in-out infinite reverse;
+      }
+      .sep-node {
+        fill: #38bdf8;
+        animation: nodePulse 2.5s ease-in-out infinite;
+      }
+      .sep-node-gold {
+        fill: #c8a84b;
+        animation: nodePulse 3.2s ease-in-out infinite reverse;
+      }
+      .sep-label {
+        font-family: "Space Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        fill: rgba(56,189,248,0.7);
+        animation: labelFade 3s ease-in-out infinite;
+        dominant-baseline: middle;
+        text-anchor: middle;
       }
 
       /* ══════════════════════════════════════════════
@@ -1103,6 +1139,58 @@ function ModuleModal({ module, onClose }: { module: EcoModule | null; onClose: (
   );
 }
 
+// ==================== SECTION SEPARATOR — animated CNS signal ====================
+function SectionSep({ delay = 0 }: { delay?: number }) {
+  return (
+    <div className="section-sep">
+      <svg viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true">
+        {/* Main horizontal signal line */}
+        <line x1="0" y1="24" x2="1200" y2="24" className="sep-line"
+          style={{ animationDelay: delay + "s" }} />
+
+        {/* Secondary offset line */}
+        <line x1="0" y1="28" x2="1200" y2="20" className="sep-line-gold"
+          style={{ animationDelay: (delay + 0.4) + "s" }} />
+
+        {/* Intersecting diagonal lines — the "malicious" crossings */}
+        <line x1="180" y1="0"  x2="220" y2="48" className="sep-line"
+          style={{ animationDelay: (delay + 0.2) + "s", stroke: "rgba(56,189,248,0.35)" }} />
+        <line x1="400" y1="48" x2="460" y2="0"  className="sep-line-gold"
+          style={{ animationDelay: (delay + 0.6) + "s", stroke: "rgba(200,168,75,0.3)" }} />
+        <line x1="680" y1="0"  x2="720" y2="48" className="sep-line"
+          style={{ animationDelay: (delay + 0.1) + "s", stroke: "rgba(56,189,248,0.3)" }} />
+        <line x1="900" y1="48" x2="950" y2="0"  className="sep-line-gold"
+          style={{ animationDelay: (delay + 0.8) + "s", stroke: "rgba(200,168,75,0.25)" }} />
+        <line x1="1050" y1="0" x2="1080" y2="48" className="sep-line"
+          style={{ animationDelay: (delay + 0.3) + "s", stroke: "rgba(56,189,248,0.28)" }} />
+
+        {/* Intersection nodes — where lines cross */}
+        <circle cx="200"  cy="24" r="2.5" className="sep-node"
+          style={{ animationDelay: (delay + 0.2) + "s" }} />
+        <circle cx="430"  cy="24" r="2"   className="sep-node-gold"
+          style={{ animationDelay: (delay + 0.6) + "s" }} />
+        <circle cx="700"  cy="24" r="2.5" className="sep-node"
+          style={{ animationDelay: (delay + 0.1) + "s" }} />
+        <circle cx="925"  cy="24" r="2"   className="sep-node-gold"
+          style={{ animationDelay: (delay + 0.8) + "s" }} />
+        <circle cx="1065" cy="24" r="2"   className="sep-node"
+          style={{ animationDelay: (delay + 0.3) + "s" }} />
+
+        {/* CNS label at center */}
+        <text x="600" y="24" className="sep-label"
+          style={{ animationDelay: (delay + 0.5) + "s" }}>
+          CNS
+        </text>
+
+        {/* Glow behind center label */}
+        <ellipse cx="600" cy="24" rx="48" ry="10"
+          fill="rgba(56,189,248,0.06)"
+          style={{ animation: "labelFade 3s ease-in-out infinite", animationDelay: (delay + 0.5) + "s" }} />
+      </svg>
+    </div>
+  );
+}
+
 // ==================== CUSTOM CURSOR ====================
 function CursorDot() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -1268,7 +1356,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="section-sep" />
+      <SectionSep delay={0} />
 
       {/* ══════════════════════════════════════════════════════
           ARCHITECTURE — 4×2 grid, compact, clickable to modal
@@ -1312,7 +1400,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="section-sep" />
+      <SectionSep delay={0.3} />
 
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 1 — CNS-RUNS (32 domain run)
@@ -1350,14 +1438,13 @@ export default function Home() {
               <video src="/brand/VIDEO_PANEL_CNS_ECOSYSTEMS.mp4" autoPlay loop muted playsInline preload="metadata" />
             </div>
             <div className="live-caption-inj">
-              <p>Live operational telemetry panel — multi-sector CNS intake across 32 active domains.</p>
-              <span>PC + phone ready</span>
+              <p>K24 · Live Telemetry · 32 Active Domains · Multi-Sector Causal Intake</p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="section-sep" />
+      <SectionSep delay={0.6} />
 
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 2 — ECOSYSTEM (What is CNS)
@@ -1402,7 +1489,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 3 — CNL
       ══════════════════════════════════════════════════════ */}
-      <div className="section-sep" />
+      <SectionSep delay={0.1} />
       <section id="cnl" className="injected-section dim">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Nexus Ledger</div>
@@ -1446,7 +1533,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 4 — CES (Causal Execution System)
       ══════════════════════════════════════════════════════ */}
-      <div className="section-sep" />
+      <SectionSep delay={0.4} />
       <section id="ces" className="injected-section alt">
         <div className="injected-inner">
           <div className="eyebrow-inj">Causal Execution System</div>
@@ -1492,7 +1579,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           LICENSING — replaces Business, matches nav "Licensing"
       ══════════════════════════════════════════════════════ */}
-      <div className="section-sep" />
+      <SectionSep delay={0.7} />
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
           <div className="eyebrow-inj">Licensing Model</div>
@@ -1557,7 +1644,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           CONTACT — new design (from image), no "Kernel access is NDA-first" heading
       ══════════════════════════════════════════════════════ */}
-      <div className="section-sep" />
+      <SectionSep delay={0.2} />
       <section id="contact" className="contact-new">
         <div className="contact-new-inner">
 
