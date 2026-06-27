@@ -31,13 +31,13 @@ type Metric = {
 
 // ==================== NAV (7 items) ====================
 const NAV_ITEMS = [
-  { id: "ecosystem", label: "Ecosystem" },
-  { id: "modules",   label: "Modules" },
-  { id: "cns-runs",  label: "CNS-RUNS" },
+  { id: "ecosystem", label: "ECOSYSTEMS" },
+  { id: "modules",   label: "MODULES" },
+  { id: "cns-runs",  label: "CNS" },
   { id: "cnl",       label: "CNL" },
   { id: "ces",       label: "CES" },
-  { id: "business",  label: "Licensing" },
-  { id: "contact",   label: "Contact" },
+  { id: "business",  label: "LICENSING" },
+  { id: "contact",   label: "CONTACT" },
 ];
 
 const METRICS: Metric[] = [
@@ -632,7 +632,7 @@ export default function Home() {
           <div className="flex-shrink-0 leading-tight">
             <div className="text-lg sm:text-xl font-semibold tracking-wide text-white">Causal Nexus Systems</div>
             <div className="hidden sm:block mt-0.5 text-[11px] text-white/50">
-              Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666
+              Public Causal Observability • Sealed Outputs • Kernel Licensing 
             </div>
           </div>
           <TopNav />
@@ -648,7 +648,7 @@ export default function Home() {
               CNS MEASURES CAUSE,<br />NOT EFFECT.
             </h1>
             <p className="mt-4 max-w-xl text-white/75">
-              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
+              Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates Deterministic models, multilayer telemetry analysis, and cryptographic integrity tools.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Modules →</button>
@@ -707,7 +707,7 @@ export default function Home() {
           <h2 className="h2-inj">K24 Unified Run —<br />32 Domains.</h2>
 
           <div className="metrics-panel-inj">
-            <div className="metrics-title-inj">K24 unified run - public metrics layer</div>
+            <div className="metrics-title-inj">K24 unified run public metrics layer</div>
             <div className="metrics-row-inj">
               {METRICS.map(m => (
                 <div key={m.l} className="metric-inj">
@@ -723,7 +723,7 @@ export default function Home() {
             </div>
             <div className="status-pill-inj">
               <span className="status-dot-inj" />
-              <span>Validation: PASS - public evidence boundary</span>
+              <span>Validation: PASS public evidence boundary</span>
             </div>
           </div>
 
@@ -732,7 +732,7 @@ export default function Home() {
               <img src="/brand/CNS_Panel_Live_Ecosystem.png" alt="CNS K24 Live Public Telemetry Operations Monitor" />
             </div>
             <div className="live-caption-inj">
-              <p>Live operational telemetry panel — multi-sector CNS intake across 32 active domains.</p>
+              <p>Live operational telemetry panel multi-sector CNS intake across 32 active domains.</p>
               <span>PC + phone ready</span>
             </div>
           </div>
