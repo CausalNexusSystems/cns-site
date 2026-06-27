@@ -764,7 +764,7 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
           })}
           {Array.from({ length: 34 }).map((_, i) => {
             const x = (i * 89) % 1200, y = (i * 53) % 700, r = 1.5 + (i % 4) * 0.6;
-            return <circle key={`c-${i}`} cx={x} cy={y} r={r} fill="rgba(56,189,248,0.7)" opacity="0.7" />;
+            return <circle key={"c-" + i} cx={x} cy={y} r={r} fill="rgba(56,189,248,0.7)" opacity="0.7" />;
           })}
         </svg>
         <div className="absolute left-0 top-0 h-[220%] w-full" style={{
@@ -824,7 +824,7 @@ function RocketMetricsCard() {
               { k: "FP - False Positives",               v: "0.01", d: 240 },
             ].map((x) => (
               <div key={x.k} className="flex items-center justify-between gap-10"
-                style={phase === "metrics" ? { animation: `metricFadeUp 520ms ease ${x.d}ms both` } : { opacity: 0.55 }}>
+                style={phase === "metrics" ? { animation: "metricFadeUp 520ms ease " + x.d + "ms both" } : { opacity: 0.55 }}>
                 <span className="text-white/75">{x.k}</span>
                 <span className="font-semibold text-white">{x.v}</span>
               </div>
@@ -1011,7 +1011,7 @@ export default function Home() {
           {/* doubled for seamless loop */}
           {[...Array(2)].map((_, pass) =>
             ["Deterministic Causal Ecosystems", "Sovereign Deployment Boundary", "Unified Run Ecosystems", "SHA-256 and Merkle Evidence", "Falsifiable", "Causal Observability Live Systems"].map((word, i) => (
-              <span key={`${pass}-${i}`} className="ticker-item">
+              <span key={pass + "-" + i} className="ticker-item">
                 {word}
                 <span className="ticker-dot" />
               </span>
@@ -1176,7 +1176,7 @@ export default function Home() {
             <div className="metrics-row-inj">
               {METRICS.map(m => (
                 <div key={m.l} className="metric-inj">
-                  <span className={`metric-v${m.cyan ? " cyan" : ""}`}>{m.v}</span>
+                  <span className={"metric-v" + (m.cyan ? " cyan" : "")}>{m.v}</span>
                   <span className="metric-l">{m.l}</span>
                 </div>
               ))}
