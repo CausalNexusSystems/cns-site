@@ -29,15 +29,15 @@ type Metric = {
   cyan?: boolean;
 };
 
-// ==================== NAV (7 items) ====================
+// ==================== NAV (7 items — IDs match section ids exactly) ====================
 const NAV_ITEMS = [
-  { id: "ecosystem", label: "Ecosystem" },
-  { id: "modules",   label: "Modules" },
-  { id: "cns-runs",  label: "CNS-RUNS" },
-  { id: "cnl",       label: "CNL" },
-  { id: "ces",       label: "CES" },
-  { id: "business",  label: "Licensing" },
-  { id: "contact",   label: "Contact" },
+  { id: "ecosystem", label: "Ecosystem" },   // → #ecosystem (What is CNS)
+  { id: "modules",   label: "Modules" },     // → #modules
+  { id: "cns-runs",  label: "CNS-RUNS" },   // → #cns-runs
+  { id: "cnl",       label: "CNL" },         // → #cnl
+  { id: "ces",       label: "CES" },         // → #ces
+  { id: "business",  label: "Licensing" },   // → #business (Licensing section)
+  { id: "contact",   label: "Contact" },     // → #contact
 ];
 
 const METRICS: Metric[] = [
@@ -441,7 +441,47 @@ function GlobalStyles() {
       .lic-nda strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
       .lic-nda p { font-size: 12px; color: rgba(255,255,255,0.5); }
       @media (max-width: 900px) { .lic-grid { grid-template-columns: 1fr; } }
-      .modal-outer {
+
+      /* ── MOBILE GLOBAL FIXES ── */
+      @media (max-width: 768px) {
+        /* Header — reduce height, allow nav to wrap */
+        header { height: auto !important; padding: 8px 12px !important; }
+        .top-nav { gap: 2px 8px; }
+        .top-nav button { font-size: 10px; }
+        /* Ticker flush under header */
+        .ticker-wrap { margin-top: 0 !important; }
+        /* injected padding */
+        .injected-inner { padding: 48px 16px !important; }
+        /* all 2-col injected grids → 1 col */
+        .eco-grid-inj, .cnl-grid-inj, .ces-grid-inj { grid-template-columns: 1fr !important; gap: 24px !important; }
+        /* licensing 1 col */
+        .lic-grid { grid-template-columns: 1fr !important; }
+        /* contact entity 2 col on mobile */
+        .contact-entity-row { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
+      }
+      @media (max-width: 480px) {
+        .top-nav button { font-size: 9px; }
+        .metrics-row-inj { grid-template-columns: repeat(2,1fr) !important; }
+      }
+
+      /* ── NEW CONTACT SECTION ── */
+      .contact-new { position: relative; z-index: 10; border-top: 1px solid rgba(255,255,255,0.06); }
+      .contact-new-inner { max-width: 860px; margin: 0 auto; padding: 100px 48px 80px; text-align: center; }
+      .contact-eyebrow { font-family: "Space Mono", monospace; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #38bdf8; font-weight: 600; margin-bottom: 28px; }
+      .contact-desc { font-size: 16px; color: rgba(255,255,255,0.62); line-height: 1.75; max-width: 680px; margin: 0 auto 36px; }
+      .contact-warning { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: rgba(200,168,75,0.07); border: 1px solid rgba(200,168,75,0.35); padding: 12px 24px; margin-bottom: 36px; font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #c8a84b; font-weight: 700; flex-wrap: wrap; text-align: center; }
+      .contact-email-link { display: block; font-size: clamp(16px,3vw,22px); font-weight: 700; color: white; text-decoration: none; margin-bottom: 28px; letter-spacing: 0.02em; transition: color 180ms ease; }
+      .contact-email-link:hover { color: #38bdf8; }
+      .contact-cta { display: inline-flex; align-items: center; justify-content: center; padding: 14px 44px; background: #1a6fff; color: white; font-family: "Space Mono", monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; border: none; transition: background 180ms ease, transform 180ms ease; }
+      .contact-cta:hover { background: #4d94ff; transform: translateY(-1px); }
+      .contact-entity-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.07); }
+      .contact-entity-label { font-family: "Space Mono", monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 7px; }
+      .contact-entity-value { font-size: 14px; font-weight: 600; color: white; line-height: 1.4; }
+      @media (max-width: 640px) {
+        .contact-new-inner { padding: 64px 20px 56px; }
+        .contact-entity-row { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+        .contact-warning { font-size: 8px; padding: 10px 14px; }
+      }
         position: fixed; inset: 0; z-index: 999;
         display: flex; align-items: center; justify-content: center;
         background: rgba(0,0,0,0.85); padding: 16px;
@@ -711,21 +751,21 @@ export default function Home() {
       <GlobalStyles />
       <CausalBackground intensity={0.8} focus={focus} />
 
-      {/* ── HEADER (original + fixes: transparent bg, no logo, no NDA button, always-horizontal nav) ── */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+      {/* ── HEADER — transparent, no logo, always-horizontal nav, mobile-friendly ── */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-xl border-b border-white/10" style={{ padding: "10px 24px" }}>
+        <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-3 flex-wrap">
           <div className="flex-shrink-0 leading-tight">
-            <div className="text-lg sm:text-xl font-semibold tracking-wide text-white">Causal Nexus Systems</div>
-            <div className="hidden sm:block mt-0.5 text-[11px] text-white/50">
-              Public Causal Observability • Sealed Outputs • Kernel Licensing • USPTO PPA #63/896,666
+            <div style={{ fontSize: "clamp(13px,3vw,18px)", fontWeight: 600, letterSpacing: "0.03em", color: "white" }}>Causal Nexus Systems</div>
+            <div className="hidden sm:block" style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
+              Public Causal Observability • Sealed Outputs • USPTO PPA #63/896,666
             </div>
           </div>
           <TopNav />
         </div>
       </header>
 
-      {/* ── TICKER — below header, above hero ── */}
-      <div className="ticker-wrap" style={{ marginTop: 80 }}>
+      {/* ── TICKER — directly under fixed header ── */}
+      <div className="ticker-wrap" style={{ marginTop: "clamp(52px, 10vw, 76px)" }}>
         <div className="ticker-track">
           {/* doubled for seamless loop */}
           {[...Array(2)].map((_, pass) =>
@@ -739,8 +779,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── HERO (original — untouched, remove pt-28 since ticker handles spacing) ── */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-10 pb-10">
+      {/* ── HERO (original — untouched except padding) ── */}
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 pt-8 pb-10">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
             <div className="sectionTitle">CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
@@ -1031,16 +1071,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CONTACT (original — untouched) ── */}
-      <section id="contact" className="relative z-10 mx-auto w-full max-w-6xl px-6 py-14">
-        <div className="sectionTitle">CONTACT</div>
-        <h2 className="mt-3 text-3xl font-semibold md:text-4xl">Contact</h2>
-        <p className="mt-3 max-w-3xl text-white/72">For partnerships, licensing, and high-stakes deployments. Public layer only — kernel access is NDA-first.</p>
-        <div className="glass mt-7 rounded-3xl p-6" onMouseEnter={() => setHoverFocus("contact")} onMouseLeave={() => setHoverFocus(null)}>
-          <div className="text-white/85">Email: admin@causalnexussystems.com</div>
+      {/* ══════════════════════════════════════════════════════
+          CONTACT — new design (from image), no "Kernel access is NDA-first" heading
+      ══════════════════════════════════════════════════════ */}
+      <section id="contact" className="contact-new">
+        <div className="contact-new-inner">
+
+          <div className="contact-eyebrow">Access and Partnerships</div>
+
+          <p className="contact-desc">
+            CNS is designed for high-stakes evaluation in aerospace, defense, critical infrastructure, financial systems, and sovereign institutions. Partnerships, licensing, and technical review begin under confidentiality.
+          </p>
+
+          <div className="contact-warning">
+            No source access — No kernel exposure — No reverse engineering permitted
+          </div>
+
+          <a className="contact-email-link" href="mailto:admin@causalnexussystems.com">
+            admin@causalnexussystems.com
+          </a>
+
+          <a className="contact-cta" href="mailto:admin@causalnexussystems.com">
+            Request NDA Access
+          </a>
+
+          <div className="contact-entity-row">
+            <div>
+              <div className="contact-entity-label">Entity</div>
+              <div className="contact-entity-value">Causal Nexus Systems LLC</div>
+            </div>
+            <div>
+              <div className="contact-entity-label">Location</div>
+              <div className="contact-entity-value">Orlando, Florida — USA</div>
+            </div>
+            <div>
+              <div className="contact-entity-label">Patents</div>
+              <div className="contact-entity-value">#63/896,666 · #64/043,866 · #64/067,492</div>
+            </div>
+            <div>
+              <div className="contact-entity-label">Founder</div>
+              <div className="contact-entity-value">Anthony Moreno</div>
+            </div>
+          </div>
         </div>
-        <footer className="mt-10 pb-10 text-center text-xs text-white/40">
-          © {new Date().getFullYear()} Causal Nexus Systems LLC
+
+        <footer style={{
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+          padding: "22px 48px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexWrap: "wrap", gap: 10,
+          fontFamily: "Space Mono, monospace", fontSize: 10,
+          color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em",
+        }}>
+          <div>Copyright {new Date().getFullYear()} Causal Nexus Systems LLC · All rights reserved · Public layer only · Kernel access is NDA-first</div>
+          <div>CNS <span style={{ color: "#1A6FFF" }}>K24</span> · 32 Domains · 24,606 Records · Validation <span style={{ color: "#1A6FFF" }}>PASS</span></div>
         </footer>
       </section>
 
