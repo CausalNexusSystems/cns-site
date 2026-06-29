@@ -721,7 +721,12 @@ function GlobalStyles() {
          HERO MOBILE — enough padding for dynamic header
       ══════════════════════════════════════════════ */
       @media (max-width: 768px) {
-        .hero-pt-mobile { padding-top: 16px !important; }
+        .hero-pt-mobile { padding-top: 12px !important; }
+        .hero-new { padding: 24px 16px 28px !important; }
+        .hero-title-new { font-size: clamp(28px, 8vw, 48px) !important; line-height: 1.1 !important; margin-bottom: 14px !important; }
+        .hero-subtitle-new { font-size: 14px !important; margin-bottom: 24px !important; }
+        .hero-actions-new { gap: 10px; margin-bottom: 28px !important; }
+        .hero-actions-new button { width: 100%; }
         .mods-grid-resp { grid-template-columns: 1fr !important; }
         .injected-inner .eyebrow-inj,
         .injected-inner .h2-inj,
@@ -730,6 +735,11 @@ function GlobalStyles() {
         .detail-row-inj,
         .qa-row-inj div { text-align: left !important; }
         .ces-pills-inj { justify-content: center; }
+        /* Header slimmer on mobile */
+        header { padding: 6px 14px !important; }
+        header div:first-child > div:first-child { font-size: 13px !important; }
+        /* Eyebrow/sectionTitle visible and readable */
+        .sectionTitle { font-size: 11px !important; letter-spacing: 0.16em !important; }
       }
 
       /* ══════════════════════════════════════════════
@@ -983,13 +993,13 @@ function GlobalStyles() {
       .hero-new {
         position: relative; z-index: 10;
         max-width: 1280px; margin: 0 auto;
-        padding: 60px 48px 40px;
+        padding: 48px 48px 36px;
         text-align: center;
       }
       .hero-title-new {
-        font-size: clamp(48px, 9vw, 110px);
+        font-size: clamp(32px, 7vw, 110px);
         font-weight: 700;
-        line-height: 0.95;
+        line-height: 1.05;
         letter-spacing: -0.02em;
         color: white;
         margin-bottom: 20px;
