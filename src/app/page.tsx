@@ -1024,13 +1024,63 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
-         COUNTER ANIMATION
+         SPACE CAPITAL STYLE — scroll progress effects
       ══════════════════════════════════════════════ */
-      @keyframes countUp {
-        from { opacity: 0; transform: translateY(6px); }
-        to   { opacity: 1; transform: translateY(0); }
+
+      /* Hero words reveal — each word fades + slides up sequentially */
+      .hero-word {
+        display: inline-block;
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.55s cubic-bezier(.22,.7,.25,1),
+                    transform 0.55s cubic-bezier(.22,.7,.25,1);
       }
-      .cred-item.counted { animation: countUp 0.5s ease both; }
+      .hero-word.visible { opacity: 1; transform: translateY(0); }
+
+      /* Hero subtitle fade */
+      .hero-sub-reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        transition-delay: 0.5s;
+      }
+      .hero-sub-reveal.visible { opacity: 1; transform: translateY(0); }
+
+      /* Hero actions fade */
+      .hero-actions-reveal {
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition-delay: 0.75s;
+      }
+      .hero-actions-reveal.visible { opacity: 1; transform: translateY(0); }
+
+      /* Arch cards — staggered scroll entrance */
+      .arch-card-reveal {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+        transition: opacity 0.5s cubic-bezier(.22,.7,.25,1),
+                    transform 0.5s cubic-bezier(.22,.7,.25,1);
+      }
+      .arch-card-reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
+
+      /* Arch header — split reveal */
+      .arch-header-reveal {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .arch-header-reveal.visible { opacity: 1; transform: translateX(0); }
+
+      /* Scroll-driven parallax wrapper */
+      .parallax-slow { will-change: transform; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-word, .hero-sub-reveal, .hero-actions-reveal,
+        .arch-card-reveal, .arch-header-reveal {
+          opacity: 1 !important; transform: none !important; transition: none !important;
+        }
+      }
     `}</style>
   );
 }
@@ -1404,6 +1454,59 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
+  // ── Space Capital: hero word-by-word reveal on load ──
+  useEffect(() => {
+    const words = document.querySelectorAll(".hero-word");
+    const sub   = document.querySelector(".hero-sub-reveal");
+    const acts  = document.querySelector(".hero-actions-reveal");
+
+    // stagger each word
+    words.forEach((w, i) => {
+      setTimeout(() => w.classList.add("visible"), 120 + i * 80);
+    });
+    setTimeout(() => sub?.classList.add("visible"),  120 + words.length * 80 + 100);
+    setTimeout(() => acts?.classList.add("visible"), 120 + words.length * 80 + 200);
+  }, []);
+
+  // ── Space Capital: arch cards staggered by scroll ──
+  useEffect(() => {
+    const cards = document.querySelectorAll(".arch-card-reveal");
+    const header = document.querySelector(".arch-header-reveal");
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+
+    // header
+    if (header) io.observe(header);
+
+    // stagger cards via inline transition-delay
+    cards.forEach((card, i) => {
+      (card as HTMLElement).style.transitionDelay = (i * 60) + "ms";
+      io.observe(card);
+    });
+
+    return () => io.disconnect();
+  }, []);
+
+  // ── Space Capital: parallax on scroll for hero ──
+  useEffect(() => {
+    const hero = document.querySelector(".parallax-slow") as HTMLElement | null;
+    if (!hero) return;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      hero.style.transform = "translateY(" + (y * 0.18) + "px)";
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // ── Animated counters in credibility strip ──
   useEffect(() => {
     const strip = document.querySelector(".cred-strip");
@@ -1464,27 +1567,41 @@ export default function Home() {
 
       <CursorDot />
 
-      {/* ── HERO — full-width title, rocket centered below ── */}
+      {/* ── HERO — Space Capital style: word-by-word reveal + parallax ── */}
       <section className="hero-pt-mobile hero-new">
-        <div className="reveal">
-          <div className="sectionTitle" style={{ marginBottom: 16 }}>CAUSAL OBSERVABILITY LIVE SYSTEMS</div>
+        {/* Parallax wrapper — content moves slower than scroll */}
+        <div className="parallax-slow">
+          <div className="sectionTitle" style={{ marginBottom: 16 }}>
+            {"CAUSAL OBSERVABILITY LIVE SYSTEMS".split(" ").map((w, i) => (
+              <span key={i} className="hero-word" style={{ marginRight: "0.35em" }}>{w}</span>
+            ))}
+          </div>
+
           <h1 className="hero-title-new">
-            CNS MEASURES CAUSE,<br />NOT EFFECT.
+            {["CNS", "MEASURES", "CAUSE,", "NOT", "EFFECT."].map((w, i) => (
+              <span key={i} className="hero-word" style={{ marginRight: w === "CAUSE," ? "0" : "0.22em", display: w === "NOT" ? "block" : "inline-block" }}>
+                {w === "NOT" ? <>{w} </> : w}
+              </span>
+            ))}
           </h1>
-          <p className="hero-subtitle-new">
+
+          <p className="hero-sub-reveal hero-subtitle-new">
             Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
           </p>
-          <div className="hero-actions-new">
+
+          <div className="hero-actions-reveal hero-actions-new">
             <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Architecture →</button>
             <button className="btnGhost"   onClick={() => scrollToId("business")}>Kernel licensing model</button>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 40 }}>
+
+          <div className="hero-actions-reveal" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 40 }}>
             {["Public layer", "Sealed outputs", "No kernel exposure"].map(t => (
               <span key={t} className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10 text-xs text-white/60">{t}</span>
             ))}
           </div>
         </div>
-        <div className="hero-rocket-wrap reveal reveal-delay-2" onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
+
+        <div className="hero-rocket-wrap" onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
           <RocketMetricsCard />
         </div>
       </section>
@@ -1517,7 +1634,8 @@ export default function Home() {
       ══════════════════════════════════════════════════════ */}
       <section id="modules" className="arch-section">
         <div className="arch-inner">
-          <div className="reveal">
+          {/* Header — slides in from left */}
+          <div className="arch-header-reveal" style={{ marginBottom: 44 }}>
             <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
             <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
             <p className="copy-inj" style={{ maxWidth: 580 }}>
@@ -1525,20 +1643,21 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Cards — each gets .arch-card-reveal, stagger delay set by JS */}
           <div className="arch-grid">
             {[
-              { num: "RS", label: "K24.1-RS", full: "Runtime Sovereign Authority", badge: "Authority", color: "#8BA0C0", idx: 0 },
-              { num: "02", label: "ACDK v4.1", full: "Adaptive Causal Decision Kernel", badge: "Decision", color: "#B83232", idx: 1 },
-              { num: "03", label: "NCM v2.1", full: "Nexus Causal Module", badge: "Edge", color: "#00A85E", idx: 2 },
-              { num: "04", label: "MDFE v3.1", full: "Multi-Domain Fusion Engine", badge: "Fusion", color: "#6C32D4", idx: 3 },
-              { num: "05", label: "KECS", full: "Kinetic Entropy Coherence System", badge: "Coherence", color: "#4D94FF", idx: 4 },
-              { num: "06", label: "ADIK", full: "Deterministic Integrity Kernel", badge: "Integrity", color: "#C85A18", idx: 5 },
-              { num: "07", label: "Iron Guardian V3", full: "Runtime Enforcement & Protection", badge: "Protection", color: "#C8A84B", idx: 6 },
-              { num: "08", label: "SQS / DEEL", full: "Sealed Quality & Evidence Ledger", badge: "Evidence", color: "#007A6E", idx: 7 },
+              { num: "RS", label: "K24.1-RS",       full: "Runtime Sovereign Authority",        badge: "Authority",  color: "#8BA0C0", idx: 0 },
+              { num: "02", label: "ACDK v4.1",      full: "Adaptive Causal Decision Kernel",    badge: "Decision",   color: "#B83232", idx: 1 },
+              { num: "03", label: "NCM v2.1",       full: "Nexus Causal Module",                badge: "Edge",       color: "#00A85E", idx: 2 },
+              { num: "04", label: "MDFE v3.1",      full: "Multi-Domain Fusion Engine",         badge: "Fusion",     color: "#6C32D4", idx: 3 },
+              { num: "05", label: "KECS",            full: "Kinetic Entropy Coherence System",   badge: "Coherence",  color: "#4D94FF", idx: 4 },
+              { num: "06", label: "ADIK",            full: "Deterministic Integrity Kernel",     badge: "Integrity",  color: "#C85A18", idx: 5 },
+              { num: "07", label: "Iron Guardian V3",full: "Runtime Enforcement & Protection",   badge: "Protection", color: "#C8A84B", idx: 6 },
+              { num: "08", label: "SQS / DEEL",     full: "Sealed Quality & Evidence Ledger",   badge: "Evidence",   color: "#007A6E", idx: 7 },
             ].map((m) => (
               <button
                 key={m.label}
-                className="arch-card"
+                className="arch-card arch-card-reveal"
                 style={{ "--mod-color": m.color } as React.CSSProperties}
                 onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
               >
