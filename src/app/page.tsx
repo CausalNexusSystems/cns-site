@@ -1024,90 +1024,94 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
-         SPACE CAPITAL STYLE — slow, pronounced scroll
+         SCROLL ANIMATIONS — slow, formal, elegant
       ══════════════════════════════════════════════ */
+
+      /* Easing: gentle deceleration — nothing snaps */
+      :root { --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1); }
 
       /* Base reveal — all sections */
       .sc-reveal {
         opacity: 0;
-        transform: translateY(48px);
-        transition: opacity 1.1s cubic-bezier(.16,1,.3,1),
-                    transform 1.1s cubic-bezier(.16,1,.3,1);
+        transform: translateY(32px);
+        transition: opacity 1.6s var(--ease-out),
+                    transform 1.6s var(--ease-out);
       }
       .sc-reveal.on { opacity: 1; transform: translateY(0); }
 
       /* Reveal from left */
       .sc-left {
         opacity: 0;
-        transform: translateX(-48px);
-        transition: opacity 1.0s cubic-bezier(.16,1,.3,1),
-                    transform 1.0s cubic-bezier(.16,1,.3,1);
+        transform: translateX(-32px);
+        transition: opacity 1.5s var(--ease-out),
+                    transform 1.5s var(--ease-out);
       }
       .sc-left.on { opacity: 1; transform: translateX(0); }
 
       /* Reveal from right */
       .sc-right {
         opacity: 0;
-        transform: translateX(48px);
-        transition: opacity 1.0s cubic-bezier(.16,1,.3,1),
-                    transform 1.0s cubic-bezier(.16,1,.3,1);
+        transform: translateX(32px);
+        transition: opacity 1.5s var(--ease-out),
+                    transform 1.5s var(--ease-out);
       }
       .sc-right.on { opacity: 1; transform: translateX(0); }
 
-      /* Scale up reveal — for cards */
+      /* Scale up reveal — cards */
       .sc-scale {
         opacity: 0;
-        transform: translateY(36px) scale(0.94);
-        transition: opacity 0.9s cubic-bezier(.16,1,.3,1),
-                    transform 0.9s cubic-bezier(.16,1,.3,1);
+        transform: translateY(24px) scale(0.97);
+        transition: opacity 1.4s var(--ease-out),
+                    transform 1.4s var(--ease-out);
       }
       .sc-scale.on { opacity: 1; transform: translateY(0) scale(1); }
 
-      /* Hero word — each word */
+      /* Hero single word */
       .hero-word {
         display: inline-block;
         opacity: 0;
-        transform: translateY(40px) skewY(2deg);
-        transition: opacity 0.8s cubic-bezier(.16,1,.3,1),
-                    transform 0.8s cubic-bezier(.16,1,.3,1);
+        transform: translateY(28px);
+        transition: opacity 1.2s var(--ease-out),
+                    transform 1.2s var(--ease-out);
       }
-      .hero-word.on { opacity: 1; transform: translateY(0) skewY(0deg); }
+      .hero-word.on { opacity: 1; transform: translateY(0); }
 
       /* Hero subtitle */
       .hero-sub-reveal {
         opacity: 0;
-        transform: translateY(24px);
-        transition: opacity 1s ease, transform 1s ease;
+        transform: translateY(18px);
+        transition: opacity 1.4s var(--ease-out),
+                    transform 1.4s var(--ease-out);
       }
       .hero-sub-reveal.on { opacity: 1; transform: translateY(0); }
 
       /* Hero actions */
       .hero-actions-reveal {
         opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.9s ease, transform 0.9s ease;
+        transform: translateY(14px);
+        transition: opacity 1.2s var(--ease-out),
+                    transform 1.2s var(--ease-out);
       }
       .hero-actions-reveal.on { opacity: 1; transform: translateY(0); }
 
       /* Arch header */
       .arch-header-reveal {
         opacity: 0;
-        transform: translateX(-36px);
-        transition: opacity 1s cubic-bezier(.16,1,.3,1),
-                    transform 1s cubic-bezier(.16,1,.3,1);
+        transform: translateX(-24px);
+        transition: opacity 1.5s var(--ease-out),
+                    transform 1.5s var(--ease-out);
       }
       .arch-header-reveal.on { opacity: 1; transform: translateX(0); }
 
       /* Arch card */
       .arch-card-reveal {
         opacity: 0;
-        transform: translateY(40px) scale(0.95);
-        transition: opacity 0.85s cubic-bezier(.16,1,.3,1),
-                    transform 0.85s cubic-bezier(.16,1,.3,1);
+        transform: translateY(28px) scale(0.96);
+        transition: opacity 1.2s var(--ease-out),
+                    transform 1.2s var(--ease-out);
       }
       .arch-card-reveal.on { opacity: 1; transform: translateY(0) scale(1); }
 
-      /* Parallax slow */
       .parallax-slow { will-change: transform; }
 
       @media (prefers-reduced-motion: reduce) {
@@ -1488,24 +1492,17 @@ export default function Home() {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          // stagger siblings in same parent
-          const siblings = e.target.parentElement?.querySelectorAll(selectors);
-          if (siblings && siblings.length > 1) {
-            let idx = 0;
-            siblings.forEach((s, i) => { if (s === e.target) idx = i; });
-            (e.target as HTMLElement).style.transitionDelay = (idx * 120) + "ms";
-          }
           e.target.classList.add("on");
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: "0px 0px -60px 0px" });
+    }, { threshold: 0.06, rootMargin: "0px 0px -80px 0px" });
 
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, []);
 
-  // ── Arch cards — stagger by index ──
+  // ── Arch cards — slow stagger by index ──
   useEffect(() => {
     const cards = document.querySelectorAll(".arch-card-reveal");
     const header = document.querySelector(".arch-header-reveal");
@@ -1517,41 +1514,42 @@ export default function Home() {
           io.unobserve(e.target);
         }
       });
-    }, { threshold: 0.06, rootMargin: "0px 0px -40px 0px" });
+    }, { threshold: 0.05, rootMargin: "0px 0px -40px 0px" });
 
-    if (header) { io.observe(header); }
+    if (header) io.observe(header);
 
+    // 180ms between each card — slow, deliberate
     cards.forEach((card, i) => {
-      (card as HTMLElement).style.transitionDelay = (i * 100) + "ms";
+      (card as HTMLElement).style.transitionDelay = (i * 180) + "ms";
       io.observe(card);
     });
 
     return () => io.disconnect();
   }, []);
 
-  // ── Hero word-by-word reveal on load ──
+  // ── Hero word-by-word — slow, formal ──
   useEffect(() => {
     const words = document.querySelectorAll(".hero-word");
     const sub   = document.querySelector(".hero-sub-reveal");
     const acts  = document.querySelectorAll(".hero-actions-reveal");
 
-    // start after 200ms, each word 120ms apart
+    // 300ms between words — deliberate, editorial
     words.forEach((w, i) => {
-      setTimeout(() => w.classList.add("on"), 200 + i * 120);
+      setTimeout(() => w.classList.add("on"), 400 + i * 200);
     });
-    const afterWords = 200 + words.length * 120;
-    setTimeout(() => sub?.classList.add("on"),  afterWords + 150);
+    const afterWords = 400 + words.length * 200;
+    setTimeout(() => sub?.classList.add("on"),  afterWords + 300);
     acts.forEach((a, i) => {
-      setTimeout(() => a.classList.add("on"), afterWords + 300 + i * 100);
+      setTimeout(() => a.classList.add("on"), afterWords + 600 + i * 200);
     });
   }, []);
 
-  // ── Parallax on scroll ──
+  // ── Parallax — very subtle ──
   useEffect(() => {
     const hero = document.querySelector(".parallax-slow") as HTMLElement | null;
     if (!hero) return;
     const onScroll = () => {
-      hero.style.transform = "translateY(" + (window.scrollY * 0.15) + "px)";
+      hero.style.transform = "translateY(" + (window.scrollY * 0.08) + "px)";
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -1566,7 +1564,7 @@ export default function Home() {
       io.disconnect();
       strip.querySelectorAll("[data-count]").forEach(el => {
         const target = parseInt((el as HTMLElement).dataset.count || "0", 10);
-        const dur = 1800;
+        const dur = 2400;
         const start = performance.now();
         const tick = (now: number) => {
           const p = Math.min((now - start) / dur, 1);
@@ -1759,7 +1757,7 @@ export default function Home() {
             <h2 className="h2-inj">K24 Unified Run · 32 Domains.</h2>
           </div>
 
-          <div className="sc-reveal" style={{ transitionDelay: "0.15s" }}>
+          <div className="sc-reveal" style={{ transitionDelay: "0.33s" }}>
             <div className="metrics-panel-inj">
             <div className="metrics-title-inj">K24 unified run - public metrics layer</div>
             <div className="metrics-row-inj">
@@ -1782,7 +1780,7 @@ export default function Home() {
           </div>
           </div>
 
-          <div className="sc-reveal" style={{ transitionDelay: "0.3s" }}>
+          <div className="sc-reveal" style={{ transitionDelay: "0.66s" }}>
           <div className="live-panel-inj">
             <div className="live-video-inj">
               <video src="/brand/VIDEO_PANEL_CNS_ECOSYSTEMS.mp4" autoPlay loop muted playsInline preload="metadata" />
@@ -1805,8 +1803,8 @@ export default function Home() {
           <div className="eco-grid-inj">
             <div>
               <div className="sc-left eyebrow-inj">What is CNS</div>
-              <h2 className="sc-left h2-inj" style={{ transitionDelay: "0.1s" }}>Not monitoring.<br />Not prediction.<br />Causal governance.</h2>
-              <p className="sc-left copy-inj" style={{ marginTop: 20, transitionDelay: "0.2s" }}>
+              <h2 className="sc-left h2-inj" style={{ transitionDelay: "0.22s" }}>Not monitoring.<br />Not prediction.<br />Causal governance.</h2>
+              <p className="sc-left copy-inj" style={{ marginTop: 20, transitionDelay: "0.44s" }}>
                 CNS is a sovereign deterministic causal ecosystem for critical environments where operational decisions, evidence, continuity, and system trust must be structured, bounded, verifiable, and reviewable.
               </p>
               <div className="qa-list-inj">
@@ -1848,17 +1846,17 @@ export default function Home() {
       <section id="cnl" className="injected-section dim">
         <div className="injected-inner">
           <div className="sc-reveal eyebrow-inj">Causal Nexus Ledger</div>
-          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.1s" }}>CNL v1.0 · Ledger and Consensus Validation Track.</h2>
+          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.22s" }}>CNL v1.0 · Ledger and Consensus Validation Track.</h2>
           <div className="cnl-grid-inj">
-            <div className="sc-left cnl-image-inj" style={{ transitionDelay: "0.15s" }}>
+            <div className="sc-left cnl-image-inj" style={{ transitionDelay: "0.33s" }}>
               <img src="/01-CNL.png" alt="CNL v1.0" loading="lazy" />
             </div>
             <div>
-              <div className="sc-right cnl-status-inj" style={{ transitionDelay: "0.2s" }}>Validation track - approaching production readiness</div>
-              <p className="sc-right copy-inj" style={{ marginBottom: 18, transitionDelay: "0.3s" }}>
+              <div className="sc-right cnl-status-inj" style={{ transitionDelay: "0.44s" }}>Validation track - approaching production readiness</div>
+              <p className="sc-right copy-inj" style={{ marginBottom: 18, transitionDelay: "0.66s" }}>
                 CNL is the ledger and consensus direction for extending CNS from local sovereign execution into a reviewable network state. CNL is presented as a validation track unless production evidence is published.
               </p>
-              <p className="sc-right copy-inj" style={{ transitionDelay: "0.4s" }}>
+              <p className="sc-right copy-inj" style={{ transitionDelay: "0.88s" }}>
                 The role of CNL is to preserve canonical state, commit evidence, verifier records, and recovery behavior so external review can inspect what was decided, when it was committed, and under which boundary.
               </p>
               <div className="cnl-metrics-inj">
@@ -1891,11 +1889,11 @@ export default function Home() {
       <section id="ces" className="injected-section alt">
         <div className="injected-inner">
           <div className="sc-reveal eyebrow-inj">Causal Execution System</div>
-          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.1s" }}>CES · Capital Module of Causal Nexus Systems.</h2>
+          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.22s" }}>CES · Capital Module of Causal Nexus Systems.</h2>
           <div className="ces-grid-inj">
 
             {/* TEXT — left, slides from left */}
-            <div className="sc-left ces-body-inj" style={{ transitionDelay: "0.2s" }}>
+            <div className="sc-left ces-body-inj" style={{ transitionDelay: "0.44s" }}>
               <div className="ces-badge-inj">Capital Execution Module</div>
 
               <p><strong>CES (Causal Execution System) is the capital module of Causal Nexus Systems.</strong> Its purpose is to transform real-world market data into disciplined, auditable financial execution decisions governed by causal rules.</p>
@@ -1922,7 +1920,7 @@ export default function Home() {
             </div>
 
             {/* IMAGE — right, slides from right */}
-            <div className="sc-right ces-image-inj" style={{ transitionDelay: "0.3s" }}>
+            <div className="sc-right ces-image-inj" style={{ transitionDelay: "0.66s" }}>
               <img src="/brand/CES_Causal_Execution_System.png" alt="CES Causal Execution System" loading="lazy" />
             </div>
 
@@ -1934,16 +1932,16 @@ export default function Home() {
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
           <div className="sc-left eyebrow-inj">Licensing Model</div>
-          <h2 className="sc-left h2-inj" style={{ marginBottom: 18, transitionDelay: "0.1s" }}>
+          <h2 className="sc-left h2-inj" style={{ marginBottom: 18, transitionDelay: "0.22s" }}>
             Three paths to sovereign<br />causal governance.
           </h2>
-          <p className="sc-left copy-inj" style={{ maxWidth: 640, marginBottom: 52, transitionDelay: "0.2s" }}>
+          <p className="sc-left copy-inj" style={{ maxWidth: 640, marginBottom: 52, transitionDelay: "0.44s" }}>
             CNS is not positioned as public SaaS. Access is NDA-first, scoped per domain, deployment boundary, and evidence disclosure level.
           </p>
 
           <div className="lic-grid">
             {/* MODULE LICENSE */}
-            <div className="sc-scale lic-card" style={{ transitionDelay: "0.1s" }}>
+            <div className="sc-scale lic-card" style={{ transitionDelay: "0.22s" }}>
               <div className="lic-eye">Module License</div>
               <div className="lic-title">Single Module{"\n"}Deployment</div>
               <div className="lic-desc">Deploy one CNS module for a specific operational domain, use case, or mission need.</div>
@@ -1955,7 +1953,7 @@ export default function Home() {
             </div>
 
             {/* ECOSYSTEM LICENSE — FLAGSHIP */}
-            <div className="sc-scale lic-card featured" style={{ transitionDelay: "0.22s" }}>
+            <div className="sc-scale lic-card featured" style={{ transitionDelay: "0.48s" }}>
               <div className="lic-flag">FLAGSHIP</div>
               <div className="lic-eye">Ecosystem License</div>
               <div className="lic-title">Full CNS Ecosystem{"\n"}Platform</div>
@@ -1968,7 +1966,7 @@ export default function Home() {
             </div>
 
             {/* SOVEREIGN NATION LICENSE */}
-            <div className="sc-scale lic-card" style={{ transitionDelay: "0.34s" }}>
+            <div className="sc-scale lic-card" style={{ transitionDelay: "0.75s" }}>
               <div className="lic-eye">Sovereign Nation License</div>
               <div className="lic-title">Country-Level{"\n"}Deployment</div>
               <div className="lic-desc">CNS licensed at national scale for governments, defense ministries, and sovereign institutions.</div>
@@ -1980,7 +1978,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="sc-reveal lic-nda" style={{ transitionDelay: "0.5s" }}>
+          <div className="sc-reveal lic-nda" style={{ transitionDelay: "1.1s" }}>
             <div>
               <strong>All technical access is NDA-first.</strong>
               <p>No public source exposure. Public outputs show results, evidence boundaries, hashes, and review paths without exposing protected kernel logic.</p>
