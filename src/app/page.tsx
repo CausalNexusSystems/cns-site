@@ -1658,7 +1658,7 @@ export default function Home() {
           </h1>
 
           <p className="hero-sub-reveal hero-subtitle-new">
-            Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates predictive models, multilayer telemetry analysis, and cryptographic integrity tools.
+            Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates deterministic models, multilayer telemetry analysis, and cryptographic integrity tools.
           </p>
 
           <div className="hero-actions-reveal hero-actions-new">
