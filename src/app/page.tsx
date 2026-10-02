@@ -723,7 +723,7 @@ function GlobalStyles() {
       @media (max-width: 768px) {
         .hero-pt-mobile { padding-top: 12px !important; }
         .hero-new { padding: 24px 16px 28px !important; }
-        .hero-title-new { font-size: clamp(28px, 8vw, 48px) !important; line-height: 1.1 !important; margin-bottom: 14px !important; }
+        .hero-title-new { font-size: clamp(22px, 6vw, 32px) !important; line-height: 1.25 !important; margin-bottom: 16px !important; }
         .hero-subtitle-new { font-size: 14px !important; margin-bottom: 24px !important; }
         .hero-actions-new { gap: 10px; margin-bottom: 28px !important; }
         .hero-actions-new button { width: 100%; }
@@ -997,12 +997,15 @@ function GlobalStyles() {
         text-align: center;
       }
       .hero-title-new {
-        font-size: clamp(32px, 7vw, 110px);
+        font-size: clamp(28px, 4.2vw, 56px);
         font-weight: 700;
-        line-height: 1.05;
-        letter-spacing: -0.02em;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
         color: white;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
       }
       .hero-subtitle-new {
         font-size: clamp(13px, 1.6vw, 17px);
@@ -1018,6 +1021,24 @@ function GlobalStyles() {
       }
       .hero-rocket-wrap {
         max-width: 680px; margin: 0 auto;
+      }
+      /* CNS Omega video — same max-width as the Architecture (.arch-inner = 1280px) */
+      .hero-omega-video {
+        max-width: 1280px;
+        margin: 24px auto 0;
+        padding: 0 48px;
+        width: 100%;
+      }
+      .hero-omega-video video {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      }
+      @media (max-width: 900px) {
+        .hero-omega-video { padding: 0 20px; margin-top: 16px; }
       }
       @media (max-width: 640px) {
         .hero-new { padding: 40px 16px 32px; }
@@ -1189,7 +1210,8 @@ function TopNav() {
   );
 }
 
-// ==================== ROCKET METRICS CARD (EXACT — DO NOT TOUCH) ====================
+// ==================== ROCKET METRICS CARD (kept for future use, not currently rendered) ====================
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function RocketMetricsCard() {
   const [phase, setPhase] = useState<"metrics" | "launch">("metrics");
   const t1 = useRef<number | null>(null);
@@ -1650,31 +1672,26 @@ export default function Home() {
           </div>
 
           <h1 className="hero-title-new">
-            {["CNS", "MEASURES", "CAUSE,", "NOT", "EFFECT."].map((w, i) => (
-              <span key={i} className="hero-word" style={{ marginRight: w === "CAUSE," ? "0" : "0.22em", display: w === "NOT" ? "block" : "inline-block" }}>
-                {w === "NOT" ? <>{w} </> : w}
-              </span>
+            {"CNS measures the cause; it does not wait for the effect.".split(" ").map((w, i) => (
+              <span key={i} className="hero-word" style={{ marginRight: "0.28em" }}>{w}</span>
             ))}
           </h1>
 
           <p className="hero-sub-reveal hero-subtitle-new">
             Causal Nexus Systems (CNS) is a Next Generation Causal Intelligence ecosystem that integrates deterministic models, multilayer telemetry analysis, and cryptographic integrity tools.
           </p>
-
-          <div className="hero-actions-reveal hero-actions-new">
-            <button className="btnPrimary" onClick={() => scrollToId("modules")}>Explore Architecture →</button>
-            <button className="btnGhost"   onClick={() => scrollToId("business")}>Kernel licensing model</button>
-          </div>
-
-          <div className="hero-actions-reveal" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 40 }}>
-            {["Public layer", "Sealed outputs", "No kernel exposure"].map(t => (
-              <span key={t} className="rounded-full bg-white/5 px-3 py-1 ring-1 ring-white/10 text-xs text-white/60">{t}</span>
-            ))}
-          </div>
         </div>
 
-        <div className="hero-rocket-wrap" onMouseEnter={() => setHoverFocus("top")} onMouseLeave={() => setHoverFocus(null)}>
-          <RocketMetricsCard />
+        {/* CNS Omega video — full width, matching the Architecture modules section */}
+        <div className="hero-omega-video sc-reveal">
+          <video
+            src="/brand/VIDEO_OMEGA_V3.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          />
         </div>
       </section>
 
