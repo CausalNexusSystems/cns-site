@@ -881,16 +881,16 @@ function GlobalStyles() {
       ══════════════════════════════════════════════ */
       .omega-grid {
         display: grid;
-        grid-template-columns: 800px 1fr;
+        grid-template-columns: 1fr 1fr;   /* balanced 50/50 */
         gap: 56px;
         align-items: center;   /* box centered vertically against text */
       }
       .omega-box-wrap { display: flex; flex-direction: column; align-items: center; }
       .omega-box {
         position: relative;
-        width: 800px;
-        height: 800px;
-        max-width: 100%;
+        width: 100%;
+        max-width: 480px;      /* image no longer oversized */
+        aspect-ratio: 1 / 1;
         border-radius: 20px;
         overflow: hidden;
         border: 1px solid rgba(255,255,255,0.12);
@@ -959,7 +959,8 @@ function GlobalStyles() {
         margin-bottom: 28px;
         line-height: 1.5;
       }
-      .omega-block { margin-bottom: 22px; }
+      .omega-desc { max-width: 560px; }
+      .omega-block { margin-bottom: 18px; }
       .omega-block h3 {
         font-family: "Space Mono", monospace;
         font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -967,9 +968,26 @@ function GlobalStyles() {
         margin-bottom: 7px;
       }
       .omega-block p {
-        font-size: 14px; line-height: 1.7;
+        font-size: 14px; line-height: 1.65;
         color: rgba(255,255,255,0.62);
       }
+      .omega-triad-list {
+        list-style: none;
+        display: flex; flex-direction: column; gap: 8px;
+        margin: 0; padding: 0;
+      }
+      .omega-triad-list li {
+        font-size: 14px; line-height: 1.5;
+        color: rgba(255,255,255,0.62);
+        padding-left: 14px;
+        position: relative;
+      }
+      .omega-triad-list li::before {
+        content: "—";
+        position: absolute; left: 0;
+        color: #38bdf8;
+      }
+      .omega-triad-list strong { color: rgba(255,255,255,0.92); font-weight: 600; }
 
       .omega-triad-grid {
         grid-template-columns: repeat(3, 1fr) !important;
@@ -977,10 +995,10 @@ function GlobalStyles() {
         margin-left: auto; margin-right: auto;
       }
 
-      @media (max-width: 1100px) {
+      @media (max-width: 1000px) {
         .omega-grid { grid-template-columns: 1fr; gap: 40px; justify-items: center; }
-        .omega-box { width: 100%; max-width: 560px; height: auto; aspect-ratio: 1/1; }
-        .omega-desc { max-width: 680px; }
+        .omega-box { max-width: 440px; }
+        .omega-desc { max-width: 620px; }
       }
       @media (max-width: 760px) {
         .omega-triad-grid { grid-template-columns: 1fr !important; }
@@ -1782,7 +1800,7 @@ export default function Home() {
           </div>
 
           <h1 className="hero-title-new">
-            {"CNS measures the cause; it does not wait for the effect.".split(" ").map((w, i) => (
+            {"CNS MEASURES THE CAUSE; IT DOES NOT WAIT FOR THE EFFECT.".split(" ").map((w, i) => (
               <span key={i} className="hero-word" style={{ marginRight: "0.28em" }}>{w}</span>
             ))}
           </h1>
@@ -1812,9 +1830,11 @@ export default function Home() {
         <div className="cred-inner">
           <div className="cred-item hi"><span className="cred-dot" />USPTO PPA #63/896,666</div>
           <div className="cred-sep" />
-          <div className="cred-item hi"><span data-count="8">8</span> Active Modules</div>
+          <div className="cred-item hi"><span data-count="3">3</span> Active Modules</div>
           <div className="cred-sep" />
-          <div className="cred-item hi"><span data-count="32">32</span> Telemetry Domains</div>
+          <div className="cred-item hi">Telemetry Domains</div>
+          <div className="cred-sep" />
+          <div className="cred-item gold">Offline Run</div>
           <div className="cred-sep" />
           <div className="cred-item gold">SHA-256 + Merkle</div>
           <div className="cred-sep" />
@@ -1837,7 +1857,7 @@ export default function Home() {
           {/* OMEGA — video box left, description right */}
           <div className="omega-grid">
 
-            {/* LEFT — 800x800 video box with button */}
+            {/* LEFT — video box with button */}
             <div className="sc-left omega-box-wrap">
               <div className="omega-box">
                 <video
@@ -1861,68 +1881,62 @@ export default function Home() {
 
             {/* RIGHT — description */}
             <div className="sc-right omega-desc">
-              <div className="eyebrow-inj">Adversarial Validation Framework</div>
-              <h2 className="h2-inj" style={{ marginBottom: 20 }}>OMEGA</h2>
-              <p className="omega-lead">Deterministic Adversarial Validation for High-Consequence Systems</p>
+              <h2 className="h2-inj" style={{ marginBottom: 8 }}>OMEGA</h2>
+              <p className="omega-lead">Deterministic Adversarial Validation</p>
 
               <div className="omega-block">
-                <h3>What is OMEGA?</h3>
-                <p>OMEGA is the adversarial validation framework of Causal Nexus Systems. It subjects the CNS deterministic causal architecture to hostile, degraded, contradictory and manipulated conditions to verify that decisions remain bounded, reproducible, auditable and evidence-backed.</p>
+                <p>OMEGA is the adversarial validation framework of Causal Nexus Systems. It tests whether the CNS deterministic causal architecture remains bounded, reproducible and auditable under hostile, degraded, contradictory or manipulated conditions.</p>
               </div>
 
               <div className="omega-block">
                 <h3>Why OMEGA?</h3>
-                <p>Modern automated and AI-driven systems can become difficult to trust when inputs conflict, evidence is altered, infrastructure degrades or autonomous agents behave outside expected boundaries. OMEGA was created to test those conditions before they become operational failures—measuring causal integrity rather than assuming system reliability.</p>
+                <p>Because critical systems must remain trustworthy when data conflicts, evidence is altered, infrastructure degrades or autonomous systems behave outside expected boundaries.</p>
               </div>
 
               <div className="omega-block">
-                <h3>What problems does OMEGA address?</h3>
-                <p>OMEGA is designed to expose causal contradictions, inconsistent outcomes, evidence tampering, hostile or deceptive inputs, replay divergence, degraded operating conditions and unsafe behavior at system boundaries. Its purpose is not to force a successful result, but to identify where deterministic integrity holds—and where it does not.</p>
+                <h3>OMEGA Triad</h3>
+                <ul className="omega-triad-list">
+                  <li><strong>K24.1-RS</strong> — deterministic causal decision.</li>
+                  <li><strong>Iron Guardian V3</strong> — protection and enforcement.</li>
+                  <li><strong>SQS/DEEL</strong> — evidence, lineage and cryptographic sealing.</li>
+                </ul>
               </div>
 
               <div className="omega-block">
-                <h3>Where can OMEGA operate?</h3>
-                <p>OMEGA is designed for high-consequence environments including defense and national security, cybersecurity, critical infrastructure, energy, aerospace, autonomous systems, industrial automation and AI-agent governance—particularly where repeatability, bounded execution and auditability matter.</p>
+                <p>OMEGA addresses causal contradictions, hostile inputs, evidence tampering, replay divergence, degraded environments and unsafe system behavior.</p>
               </div>
 
               <div className="omega-block">
-                <h3>What OMEGA is not</h3>
-                <p>OMEGA is not a generative AI, chatbot, EDR, sandbox or operating-system process blocker. It does not replace existing mission or enterprise systems, and it does not claim universal correctness. It is a deterministic adversarial-validation capability built to test, measure and document the behavior of the CNS causal decision stack under defined conditions.</p>
+                <p>It is designed for defense, cybersecurity, critical infrastructure, energy, aerospace, autonomous systems, industrial automation and AI governance.</p>
+              </div>
+
+              <div className="omega-block">
+                <p>OMEGA is not generative AI, a chatbot, EDR or sandbox. It does not replace existing systems; it validates the deterministic integrity of the CNS decision stack under defined conditions.</p>
               </div>
             </div>
           </div>
 
-          {/* THE OMEGA TRIAD — 3 modules */}
-          <div id="omega-triad" style={{ marginTop: 72 }}>
-            <div className="arch-header-reveal" style={{ marginBottom: 32, textAlign: "center" }}>
-              <div className="eyebrow-inj">The OMEGA Triad</div>
-              <h2 className="h2-inj" style={{ marginBottom: 8 }}>Decision → Protection → Evidence.</h2>
-              <p className="copy-inj" style={{ maxWidth: 620, marginLeft: "auto", marginRight: "auto" }}>
-                A continuous chain from decision to protection to evidence. Click any module to inspect it.
-              </p>
-            </div>
-
-            <div className="arch-grid omega-triad-grid">
-              {[
-                { num: "RS", label: "K24.1-RS",        full: "Deterministic causal decision authority",            badge: "Decision",   color: "#8BA0C0", idx: 0 },
-                { num: "IG", label: "Iron Guardian V3", full: "Runtime protection and enforcement layer",           badge: "Protection", color: "#C8A84B", idx: 6 },
-                { num: "SD", label: "SQS / DEEL",       full: "Deterministic evidence, lineage & cryptographic sealing", badge: "Evidence",   color: "#007A6E", idx: 7 },
-              ].map((m) => (
-                <button
-                  key={m.label}
-                  className="arch-card arch-card-reveal"
-                  style={{ "--mod-color": m.color } as React.CSSProperties}
-                  onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
-                >
-                  <div className="arch-top-bar" />
-                  <div className="arch-num">{m.num}</div>
-                  <div className="arch-name">{m.label}</div>
-                  <div className="arch-full">{m.full}</div>
-                  <div className="arch-badge">{m.badge}</div>
-                  <div className="arch-cta">Open brief →</div>
-                </button>
-              ))}
-            </div>
+          {/* The 3 OMEGA modules — clickable */}
+          <div id="omega-triad" className="arch-grid omega-triad-grid" style={{ marginTop: 64 }}>
+            {[
+              { num: "RS", label: "K24.1-RS",        full: "Deterministic causal decision",                           badge: "Decision",   color: "#8BA0C0", idx: 0 },
+              { num: "IG", label: "Iron Guardian V3", full: "Protection and enforcement",                             badge: "Protection", color: "#E8742C", idx: 6 },
+              { num: "SD", label: "SQS / DEEL",       full: "Evidence, lineage & cryptographic sealing",              badge: "Evidence",   color: "#007A6E", idx: 7 },
+            ].map((m) => (
+              <button
+                key={m.label}
+                className="arch-card arch-card-reveal"
+                style={{ "--mod-color": m.color } as React.CSSProperties}
+                onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
+              >
+                <div className="arch-top-bar" />
+                <div className="arch-num">{m.num}</div>
+                <div className="arch-name">{m.label}</div>
+                <div className="arch-full">{m.full}</div>
+                <div className="arch-badge">{m.badge}</div>
+                <div className="arch-cta">Open brief →</div>
+              </button>
+            ))}
           </div>
         </div>
       </section>
