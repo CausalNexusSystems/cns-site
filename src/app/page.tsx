@@ -902,42 +902,6 @@ function GlobalStyles() {
         object-fit: cover;
         display: block;
       }
-      .omega-box-overlay {
-        position: absolute; inset: 0;
-        display: flex; flex-direction: column;
-        align-items: center; justify-content: flex-end;
-        padding: 40px;
-        gap: 14px;
-        background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.75) 100%);
-        text-align: center;
-      }
-      .omega-box-title {
-        font-size: clamp(40px, 6vw, 72px);
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        color: white;
-        text-shadow: 0 2px 20px rgba(0,0,0,0.6);
-      }
-      .omega-box-sub {
-        font-family: "Space Mono", monospace;
-        font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
-        color: rgba(255,255,255,0.8);
-        margin-bottom: 6px;
-      }
-      .omega-box-btn {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 12px 24px; border-radius: 999px;
-        background: rgba(56,189,248,0.2);
-        border: 1px solid rgba(56,189,248,0.5);
-        color: white; font-size: 13px; font-weight: 600;
-        cursor: pointer;
-        transition: background 180ms ease, transform 180ms ease, border-color 180ms ease;
-      }
-      .omega-box-btn:hover {
-        background: rgba(56,189,248,0.32);
-        border-color: rgba(56,189,248,0.8);
-        transform: translateY(-2px);
-      }
       .omega-tagline {
         margin-top: 24px;
         text-align: center;
@@ -1865,13 +1829,6 @@ export default function Home() {
                   src="/brand/OMEGA_V3.1.mp4"
                   autoPlay loop muted playsInline preload="metadata"
                 />
-                <div className="omega-box-overlay">
-                  <div className="omega-box-title">OMEGA</div>
-                  <div className="omega-box-sub">Deterministic Adversarial Validation</div>
-                  <button className="omega-box-btn" onClick={() => scrollToId("omega-triad")}>
-                    View the OMEGA Triad →
-                  </button>
-                </div>
               </div>
               <div className="omega-tagline">
                 OMEGA does not assume resilience. It tests it.<br />
