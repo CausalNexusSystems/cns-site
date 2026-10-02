@@ -877,6 +877,116 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
+         OMEGA — video box + description
+      ══════════════════════════════════════════════ */
+      .omega-grid {
+        display: grid;
+        grid-template-columns: 800px 1fr;
+        gap: 56px;
+        align-items: center;   /* box centered vertically against text */
+      }
+      .omega-box-wrap { display: flex; flex-direction: column; align-items: center; }
+      .omega-box {
+        position: relative;
+        width: 800px;
+        height: 800px;
+        max-width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+      }
+      .omega-box-video {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .omega-box-overlay {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: flex-end;
+        padding: 40px;
+        gap: 14px;
+        background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.75) 100%);
+        text-align: center;
+      }
+      .omega-box-title {
+        font-size: clamp(40px, 6vw, 72px);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: white;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+      }
+      .omega-box-sub {
+        font-family: "Space Mono", monospace;
+        font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 6px;
+      }
+      .omega-box-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 24px; border-radius: 999px;
+        background: rgba(56,189,248,0.2);
+        border: 1px solid rgba(56,189,248,0.5);
+        color: white; font-size: 13px; font-weight: 600;
+        cursor: pointer;
+        transition: background 180ms ease, transform 180ms ease, border-color 180ms ease;
+      }
+      .omega-box-btn:hover {
+        background: rgba(56,189,248,0.32);
+        border-color: rgba(56,189,248,0.8);
+        transform: translateY(-2px);
+      }
+      .omega-tagline {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 15px; font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        line-height: 1.6;
+        max-width: 560px;
+      }
+      .omega-tagline span {
+        color: #38bdf8;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      /* description right */
+      .omega-lead {
+        font-size: 16px; font-weight: 600;
+        color: #38bdf8;
+        margin-bottom: 28px;
+        line-height: 1.5;
+      }
+      .omega-block { margin-bottom: 22px; }
+      .omega-block h3 {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 7px;
+      }
+      .omega-block p {
+        font-size: 14px; line-height: 1.7;
+        color: rgba(255,255,255,0.62);
+      }
+
+      .omega-triad-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        max-width: 960px;
+        margin-left: auto; margin-right: auto;
+      }
+
+      @media (max-width: 1100px) {
+        .omega-grid { grid-template-columns: 1fr; gap: 40px; justify-items: center; }
+        .omega-box { width: 100%; max-width: 560px; height: auto; aspect-ratio: 1/1; }
+        .omega-desc { max-width: 680px; }
+      }
+      @media (max-width: 760px) {
+        .omega-triad-grid { grid-template-columns: 1fr !important; }
+      }
+
+      /* ══════════════════════════════════════════════
          CUSTOM CURSOR — blue dot with trailing glow
       ══════════════════════════════════════════════ */
       * { cursor: none !important; }
@@ -1719,45 +1829,100 @@ export default function Home() {
       <SectionSep delay={0} />
 
       {/* ══════════════════════════════════════════════════════
-          ARCHITECTURE — 4×2 grid, compact, clickable to modal
+          OMEGA — adversarial validation framework
       ══════════════════════════════════════════════════════ */}
       <section id="modules" className="arch-section">
         <div className="arch-inner">
-          {/* Header — slides in from left */}
-          <div className="arch-header-reveal" style={{ marginBottom: 44 }}>
-            <div className="eyebrow-inj">Eight-Layer Sovereign Ecosystem</div>
-            <h2 className="h2-inj" style={{ marginBottom: 8 }}>Architecture.</h2>
-            <p className="copy-inj" style={{ maxWidth: 580 }}>
-              Each layer serves a precise role in the causal authority chain. Click any module to inspect it.
-            </p>
+
+          {/* OMEGA — video box left, description right */}
+          <div className="omega-grid">
+
+            {/* LEFT — 800x800 video box with button */}
+            <div className="sc-left omega-box-wrap">
+              <div className="omega-box">
+                <video
+                  className="omega-box-video"
+                  src="/brand/OMEGA_V3.1.mp4"
+                  autoPlay loop muted playsInline preload="metadata"
+                />
+                <div className="omega-box-overlay">
+                  <div className="omega-box-title">OMEGA</div>
+                  <div className="omega-box-sub">Deterministic Adversarial Validation</div>
+                  <button className="omega-box-btn" onClick={() => scrollToId("omega-triad")}>
+                    View the OMEGA Triad →
+                  </button>
+                </div>
+              </div>
+              <div className="omega-tagline">
+                OMEGA does not assume resilience. It tests it.<br />
+                <span>CNS measures the cause; it does not wait for the effect.</span>
+              </div>
+            </div>
+
+            {/* RIGHT — description */}
+            <div className="sc-right omega-desc">
+              <div className="eyebrow-inj">Adversarial Validation Framework</div>
+              <h2 className="h2-inj" style={{ marginBottom: 20 }}>OMEGA</h2>
+              <p className="omega-lead">Deterministic Adversarial Validation for High-Consequence Systems</p>
+
+              <div className="omega-block">
+                <h3>What is OMEGA?</h3>
+                <p>OMEGA is the adversarial validation framework of Causal Nexus Systems. It subjects the CNS deterministic causal architecture to hostile, degraded, contradictory and manipulated conditions to verify that decisions remain bounded, reproducible, auditable and evidence-backed.</p>
+              </div>
+
+              <div className="omega-block">
+                <h3>Why OMEGA?</h3>
+                <p>Modern automated and AI-driven systems can become difficult to trust when inputs conflict, evidence is altered, infrastructure degrades or autonomous agents behave outside expected boundaries. OMEGA was created to test those conditions before they become operational failures—measuring causal integrity rather than assuming system reliability.</p>
+              </div>
+
+              <div className="omega-block">
+                <h3>What problems does OMEGA address?</h3>
+                <p>OMEGA is designed to expose causal contradictions, inconsistent outcomes, evidence tampering, hostile or deceptive inputs, replay divergence, degraded operating conditions and unsafe behavior at system boundaries. Its purpose is not to force a successful result, but to identify where deterministic integrity holds—and where it does not.</p>
+              </div>
+
+              <div className="omega-block">
+                <h3>Where can OMEGA operate?</h3>
+                <p>OMEGA is designed for high-consequence environments including defense and national security, cybersecurity, critical infrastructure, energy, aerospace, autonomous systems, industrial automation and AI-agent governance—particularly where repeatability, bounded execution and auditability matter.</p>
+              </div>
+
+              <div className="omega-block">
+                <h3>What OMEGA is not</h3>
+                <p>OMEGA is not a generative AI, chatbot, EDR, sandbox or operating-system process blocker. It does not replace existing mission or enterprise systems, and it does not claim universal correctness. It is a deterministic adversarial-validation capability built to test, measure and document the behavior of the CNS causal decision stack under defined conditions.</p>
+              </div>
+            </div>
           </div>
 
-          {/* Cards — each gets .arch-card-reveal, stagger delay set by JS */}
-          <div className="arch-grid">
-            {[
-              { num: "RS", label: "K24.1-RS",       full: "Runtime Sovereign Authority",        badge: "Authority",  color: "#8BA0C0", idx: 0 },
-              { num: "02", label: "ACDK v4.1",      full: "Adaptive Causal Decision Kernel",    badge: "Decision",   color: "#B83232", idx: 1 },
-              { num: "03", label: "NCM v2.1",       full: "Nexus Causal Module",                badge: "Edge",       color: "#00A85E", idx: 2 },
-              { num: "04", label: "MDFE v3.1",      full: "Multi-Domain Fusion Engine",         badge: "Fusion",     color: "#6C32D4", idx: 3 },
-              { num: "05", label: "KECS",            full: "Kinetic Entropy Coherence System",   badge: "Coherence",  color: "#4D94FF", idx: 4 },
-              { num: "06", label: "ADIK",            full: "Deterministic Integrity Kernel",     badge: "Integrity",  color: "#C85A18", idx: 5 },
-              { num: "07", label: "Iron Guardian V3",full: "Runtime Enforcement & Protection",   badge: "Protection", color: "#C8A84B", idx: 6 },
-              { num: "08", label: "SQS / DEEL",     full: "Sealed Quality & Evidence Ledger",   badge: "Evidence",   color: "#007A6E", idx: 7 },
-            ].map((m) => (
-              <button
-                key={m.label}
-                className="arch-card arch-card-reveal"
-                style={{ "--mod-color": m.color } as React.CSSProperties}
-                onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
-              >
-                <div className="arch-top-bar" />
-                <div className="arch-num">LAYER {m.num}</div>
-                <div className="arch-name">{m.label}</div>
-                <div className="arch-full">{m.full}</div>
-                <div className="arch-badge">{m.badge}</div>
-                <div className="arch-cta">Open brief →</div>
-              </button>
-            ))}
+          {/* THE OMEGA TRIAD — 3 modules */}
+          <div id="omega-triad" style={{ marginTop: 72 }}>
+            <div className="arch-header-reveal" style={{ marginBottom: 32, textAlign: "center" }}>
+              <div className="eyebrow-inj">The OMEGA Triad</div>
+              <h2 className="h2-inj" style={{ marginBottom: 8 }}>Decision → Protection → Evidence.</h2>
+              <p className="copy-inj" style={{ maxWidth: 620, marginLeft: "auto", marginRight: "auto" }}>
+                A continuous chain from decision to protection to evidence. Click any module to inspect it.
+              </p>
+            </div>
+
+            <div className="arch-grid omega-triad-grid">
+              {[
+                { num: "RS", label: "K24.1-RS",        full: "Deterministic causal decision authority",            badge: "Decision",   color: "#8BA0C0", idx: 0 },
+                { num: "IG", label: "Iron Guardian V3", full: "Runtime protection and enforcement layer",           badge: "Protection", color: "#C8A84B", idx: 6 },
+                { num: "SD", label: "SQS / DEEL",       full: "Deterministic evidence, lineage & cryptographic sealing", badge: "Evidence",   color: "#007A6E", idx: 7 },
+              ].map((m) => (
+                <button
+                  key={m.label}
+                  className="arch-card arch-card-reveal"
+                  style={{ "--mod-color": m.color } as React.CSSProperties}
+                  onClick={() => setSelectedModule(ECO_MODULES[m.idx])}
+                >
+                  <div className="arch-top-bar" />
+                  <div className="arch-num">{m.num}</div>
+                  <div className="arch-name">{m.label}</div>
+                  <div className="arch-full">{m.full}</div>
+                  <div className="arch-badge">{m.badge}</div>
+                  <div className="arch-cta">Open brief →</div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
