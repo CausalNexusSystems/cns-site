@@ -26,7 +26,8 @@ type EcoModule = {
 // ==================== NAV — IDs match section ids exactly ====================
 const NAV_ITEMS = [
   { id: "ecosystem", label: "Ecosystem" },   // → #ecosystem (What is CNS)
-  { id: "modules",   label: "Architecture" },// → #modules (OMEGA / architecture)
+  { id: "modules",   label: "OMEGA" },       // → #modules (OMEGA / architecture)
+  { id: "axiom",     label: "AXIOM" },       // → #axiom
   { id: "cnl",       label: "CNL" },         // → #cnl
   { id: "ces",       label: "CES" },         // → #ces
   { id: "business",  label: "Licensing" },   // → #business (Licensing section)
@@ -999,6 +1000,196 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
+         AXIOM — distinct vanguard layout
+      ══════════════════════════════════════════════ */
+      .axiom-section {
+        position: relative; z-index: 10;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .axiom-inner {
+        max-width: 1280px; margin: 0 auto; padding: 80px 48px;
+      }
+      .axiom-head { text-align: center; margin-bottom: 44px; }
+      .axiom-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 12px; font-weight: 700;
+        letter-spacing: 0.22em; text-transform: uppercase;
+        color: #c8a84b;   /* AXIOM uses gold accent (OMEGA used blue) — visual contrast */
+        margin-bottom: 14px;
+      }
+      .axiom-title {
+        font-size: clamp(40px, 7vw, 88px);
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: white;
+        line-height: 1;
+        margin-bottom: 12px;
+      }
+      .axiom-lead {
+        font-size: clamp(15px, 2vw, 20px);
+        color: rgba(255,255,255,0.7);
+        font-weight: 500;
+      }
+
+      /* Result stat band */
+      .axiom-stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 40px;
+      }
+      .axiom-stat {
+        background: rgba(0,0,0,0.85);
+        padding: 28px 16px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+      .axiom-stat-num {
+        font-family: "Space Mono", monospace;
+        font-size: clamp(28px, 4vw, 44px);
+        font-weight: 700;
+        color: white;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .axiom-stat.ok .axiom-stat-num { color: #00c87a; }
+      .axiom-stat-label {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
+        line-height: 1.4;
+      }
+
+      /* Wide video banner */
+      .axiom-video {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 21 / 9;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(200,168,75,0.25);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+        margin-bottom: 48px;
+      }
+      .axiom-video video {
+        width: 100%; height: 100%;
+        object-fit: cover; display: block;
+      }
+      .axiom-video-tag {
+        position: absolute; bottom: 16px; left: 20px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #c8a84b;
+        background: rgba(0,0,0,0.6);
+        padding: 6px 14px; border-radius: 8px;
+        backdrop-filter: blur(6px);
+      }
+
+      /* Asymmetric columns */
+      .axiom-cols {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr;
+        gap: 48px;
+        margin-bottom: 44px;
+      }
+      .axiom-col-main p {
+        font-size: 15px; line-height: 1.75;
+        color: rgba(255,255,255,0.68);
+        margin-bottom: 18px;
+      }
+      .axiom-p-lead {
+        font-size: 16px !important;
+        color: rgba(255,255,255,0.82) !important;
+      }
+      .axiom-col-main strong { color: #c8a84b; font-weight: 600; }
+      .axiom-col-side {
+        border-left: 1px solid rgba(255,255,255,0.1);
+        padding-left: 36px;
+      }
+      .axiom-side-block { margin-bottom: 26px; }
+      .axiom-side-block h3 {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: #c8a84b;
+        margin-bottom: 10px;
+      }
+      .axiom-side-block p {
+        font-size: 14px; line-height: 1.65;
+        color: rgba(255,255,255,0.62);
+      }
+      .axiom-side-block em { color: rgba(255,255,255,0.85); font-style: italic; }
+      .axiom-fit {
+        list-style: none; margin: 0; padding: 0;
+        display: flex; flex-wrap: wrap; gap: 6px;
+      }
+      .axiom-fit li {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+        color: rgba(255,255,255,0.7);
+        background: rgba(200,168,75,0.08);
+        border: 1px solid rgba(200,168,75,0.3);
+        padding: 5px 10px; border-radius: 6px;
+      }
+      .axiom-closer {
+        padding: 16px 18px;
+        background: rgba(200,168,75,0.06);
+        border: 1px solid rgba(200,168,75,0.25);
+        border-left: 3px solid #c8a84b;
+        border-radius: 0 12px 12px 0;
+        font-size: 14px; font-weight: 600; font-style: italic;
+        color: rgba(255,255,255,0.88);
+        line-height: 1.55;
+      }
+
+      /* Repo card — gold variant */
+      .axiom-proof {
+        display: block;
+        padding: 20px 24px;
+        border-radius: 14px;
+        background: rgba(200,168,75,0.06);
+        border: 1px solid rgba(200,168,75,0.3);
+        text-decoration: none;
+        max-width: 720px; margin: 0 auto;
+        text-align: center;
+        transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+      }
+      .axiom-proof:hover {
+        background: rgba(200,168,75,0.1);
+        border-color: rgba(200,168,75,0.6);
+        transform: translateY(-2px);
+      }
+      .axiom-proof-head {
+        display: inline-flex; align-items: center; gap: 10px;
+        color: #c8a84b;
+        font-family: "Space Mono", monospace;
+        font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .axiom-proof p {
+        font-size: 13px; line-height: 1.6;
+        color: rgba(255,255,255,0.68);
+        margin-bottom: 10px;
+      }
+      .axiom-proof-link {
+        font-size: 12px; font-weight: 600; color: #c8a84b;
+      }
+
+      @media (max-width: 900px) {
+        .axiom-inner { padding: 60px 20px; }
+        .axiom-stats { grid-template-columns: repeat(3, 1fr); }
+        .axiom-cols { grid-template-columns: 1fr; gap: 32px; }
+        .axiom-col-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px; }
+        .axiom-video { aspect-ratio: 16 / 9; }
+      }
+      @media (max-width: 560px) {
+        .axiom-stats { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      /* ══════════════════════════════════════════════
          CUSTOM CURSOR — blue dot with trailing glow
       ══════════════════════════════════════════════ */
       * { cursor: none !important; }
@@ -1699,52 +1890,30 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ── Animated counters ──
+  // ── Animated counters — any [data-count] element (cred-strip + AXIOM stats) ──
   useEffect(() => {
-    const strip = document.querySelector(".cred-strip");
-    if (!strip) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      io.disconnect();
-      strip.querySelectorAll("[data-count]").forEach(el => {
-        const target = parseInt((el as HTMLElement).dataset.count || "0", 10);
-        const dur = 2400;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const p = Math.min((now - start) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          (el as HTMLElement).textContent = Math.round(eased * target).toLocaleString();
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      });
-    }, { threshold: 0.5 });
-    io.observe(strip);
-    return () => io.disconnect();
-  }, []);
+    const animate = (el: HTMLElement) => {
+      const target = parseInt(el.dataset.count || "0", 10);
+      const dur = 2000;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target).toLocaleString();
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
 
-  // ── Animated counters in credibility strip ──
-  useEffect(() => {
-    const strip = document.querySelector(".cred-strip");
-    if (!strip) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      io.disconnect();
-      // animate numeric items
-      strip.querySelectorAll("[data-count]").forEach(el => {
-        const target = parseInt((el as HTMLElement).dataset.count || "0", 10);
-        const dur = 1200;
-        const start = performance.now();
-        const tick = (now: number) => {
-          const p = Math.min((now - start) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          (el as HTMLElement).textContent = Math.round(eased * target).toLocaleString();
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll("[data-count]").forEach(el => animate(el as HTMLElement));
+        io.unobserve(entry.target);
       });
-    }, { threshold: 0.5 });
-    io.observe(strip);
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll(".cred-strip, .axiom-stats").forEach(c => io.observe(c));
     return () => io.disconnect();
   }, []);
 
@@ -1759,7 +1928,7 @@ export default function Home() {
           <div className="flex-shrink-0 leading-tight">
             <div style={{ fontSize: "clamp(13px,3vw,18px)", fontWeight: 600, letterSpacing: "0.03em", color: "white" }}>Causal Nexus Systems</div>
             <div className="hidden sm:block" style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
-              Public Causal Observability • Sealed Outputs 
+              Public Causal Observability • Sealed Outputs • USPTO PPA #63/896,666
             </div>
           </div>
           <TopNav />
@@ -1846,8 +2015,7 @@ export default function Home() {
           ARCHITECTURE BANNER
       ══════════════════════════════════════════════════════ */}
       <div className="arch-banner sc-reveal">
-        <div className="arch-banner-eyebrow">Architecture</div>
-        <h2 className="arch-banner-title">Causal Nexus Systems Ecosystem</h2>
+        <h2 className="arch-banner-title">CNS ARCHITECTURE</h2>
       </div>
 
       {/* ══════════════════════════════════════════════════════
@@ -1948,6 +2116,107 @@ export default function Home() {
               </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      <SectionSep delay={0.5} />
+
+      {/* ══════════════════════════════════════════════════════
+          AXIOM — deterministic containment (distinct layout)
+      ══════════════════════════════════════════════════════ */}
+      <section id="axiom" className="axiom-section">
+        <div className="axiom-inner">
+
+          {/* Centered header */}
+          <div className="sc-reveal axiom-head">
+            <div className="axiom-eyebrow">CNS_AXIOM</div>
+            <h2 className="axiom-title">AXIOM</h2>
+            <p className="axiom-lead">Deterministic Containment for Autonomous Agents</p>
+          </div>
+
+          {/* AEP-8000-R result band — the standout stat row */}
+          <div className="sc-scale axiom-stats">
+            <div className="axiom-stat">
+              <div className="axiom-stat-num" data-count="8000">8,000</div>
+              <div className="axiom-stat-label">Autonomous-agent instances</div>
+            </div>
+            <div className="axiom-stat">
+              <div className="axiom-stat-num" data-count="15">15</div>
+              <div className="axiom-stat-label">Attack-oriented cohorts</div>
+            </div>
+            <div className="axiom-stat ok">
+              <div className="axiom-stat-num">0</div>
+              <div className="axiom-stat-label">Breaches</div>
+            </div>
+            <div className="axiom-stat ok">
+              <div className="axiom-stat-num">0</div>
+              <div className="axiom-stat-label">Critical findings</div>
+            </div>
+            <div className="axiom-stat ok">
+              <div className="axiom-stat-num">0</div>
+              <div className="axiom-stat-label">False positives</div>
+            </div>
+          </div>
+
+          {/* Wide video banner */}
+          <div className="sc-reveal axiom-video">
+            <video src="/brand/AXIOM_V1.mp4" autoPlay loop muted playsInline preload="metadata" />
+            <div className="axiom-video-tag">AEP-8000-R · Adversarial Evaluation Protocol</div>
+          </div>
+
+          {/* Asymmetric two-column text */}
+          <div className="axiom-cols">
+            <div className="sc-left axiom-col-main">
+              <p className="axiom-p-lead">
+                AXIOM is a deterministic existence-admission kernel designed to control autonomous agents <strong>before a proposed action becomes an executed state</strong>. Rather than trying to predict every possible form of agent misbehavior, AXIOM evaluates each proposed transition against a fixed admissibility boundary and determines whether that next state is allowed to exist. A valid state is admitted and cryptographically certified; a state that violates the defined boundary is rejected through a fail-closed transition to Null.
+              </p>
+              <p>
+                This approach addresses one of the central risks of increasingly autonomous systems: an agent may remain apparently legitimate while progressively extending its authority, combining permissions, replaying prior authorization, coordinating with other agents, or attempting actions outside its intended operating boundary. AXIOM is designed to identify those unauthorized state transitions at the moment they are proposed, before they are admitted into the agent's trajectory. It does not rely on behavioral prediction, probabilistic risk scoring, or a cloud service to make that decision.
+              </p>
+              <p>
+                AXIOM has been adversarially evaluated through <strong>AEP-8000-R</strong>, a protocol involving 8,000 autonomous-agent instances across 15 attack-oriented cohorts — including authority escalation, identity substitution, multi-agent collusion, replay, concurrent races, insider knowledge, cross-agent coordination, and adaptive attacks. The referenced public evaluation reports 0 breaches, 0 critical findings, and 0 false positives, with sealed evidence available for independent verification.
+              </p>
+            </div>
+
+            <aside className="sc-right axiom-col-side">
+              <div className="axiom-side-block">
+                <h3>How it works</h3>
+                <p>AXIOM determines whether an agent's next state is admissible <em>before that state is allowed to exist</em> — not after damage is done.</p>
+              </div>
+
+              <div className="axiom-side-block">
+                <h3>Application fit</h3>
+                <ul className="axiom-fit">
+                  <li>Critical infrastructure</li>
+                  <li>Defense</li>
+                  <li>Financial systems</li>
+                  <li>Healthcare automation</li>
+                  <li>High-assurance computing</li>
+                  <li>Autonomous platforms</li>
+                </ul>
+              </div>
+
+              <div className="axiom-side-block axiom-closer">
+                AXIOM does not wait for an autonomous agent to cause damage and then classify what happened. It decides admissibility first.
+              </div>
+            </aside>
+          </div>
+
+          {/* Public repo card */}
+          <a
+            href="https://github.com/CausalNexusSystems/cns-axiom-public"
+            target="_blank"
+            rel="noreferrer"
+            className="sc-reveal axiom-proof"
+          >
+            <div className="axiom-proof-head">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+              <span>Public Repository · CNS-AXIOM</span>
+            </div>
+            <p>AEP-8000-R adversarial evaluation with sealed evidence available for independent verification.</p>
+            <span className="axiom-proof-link">View public repository on GitHub →</span>
+          </a>
+
         </div>
       </section>
 
@@ -2221,7 +2490,8 @@ export default function Home() {
               <div className="footer-col-title">Ecosystem</div>
               <div className="footer-links">
                 {[
-                  ["Architecture", "modules"],
+                  ["OMEGA", "modules"],
+                  ["AXIOM", "axiom"],
                   ["What is CNS", "ecosystem"],
                   ["CNL Ledger", "cnl"],
                   ["CES Module", "ces"],
