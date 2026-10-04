@@ -1000,7 +1000,7 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
-         AXIOM — distinct vanguard layout
+         AXIOM — text left, image right (cyan accent)
       ══════════════════════════════════════════════ */
       .axiom-section {
         position: relative; z-index: 10;
@@ -1009,26 +1009,45 @@ function GlobalStyles() {
       .axiom-inner {
         max-width: 1280px; margin: 0 auto; padding: 80px 48px;
       }
-      .axiom-head { text-align: center; margin-bottom: 44px; }
+      .axiom-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;   /* balanced 50/50 */
+        gap: 56px;
+        align-items: center;              /* image centered vertically vs text */
+      }
+      .axiom-desc { max-width: 580px; }
       .axiom-eyebrow {
         font-family: "Space Mono", monospace;
         font-size: 12px; font-weight: 700;
         letter-spacing: 0.22em; text-transform: uppercase;
-        color: #c8a84b;   /* AXIOM uses gold accent (OMEGA used blue) — visual contrast */
-        margin-bottom: 14px;
+        color: #4fd2ff;   /* AXIOM cyan accent (matches the image) */
+        margin-bottom: 12px;
       }
       .axiom-title {
-        font-size: clamp(40px, 7vw, 88px);
+        font-size: clamp(40px, 6vw, 72px);
         font-weight: 800;
         letter-spacing: 0.06em;
         color: white;
         line-height: 1;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
       .axiom-lead {
-        font-size: clamp(15px, 2vw, 20px);
-        color: rgba(255,255,255,0.7);
+        font-size: clamp(15px, 1.8vw, 19px);
+        color: rgba(255,255,255,0.72);
         font-weight: 500;
+        margin-bottom: 26px;
+      }
+      .axiom-block { margin-bottom: 18px; }
+      .axiom-block p {
+        font-size: 14px; line-height: 1.7;
+        color: rgba(255,255,255,0.66);
+      }
+      .axiom-block strong { color: #4fd2ff; font-weight: 600; }
+      .axiom-block h3 {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: #4fd2ff;
+        margin-bottom: 10px;
       }
 
       /* Result stat band */
@@ -1038,90 +1057,31 @@ function GlobalStyles() {
         gap: 1px;
         background: rgba(255,255,255,0.08);
         border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 16px;
+        border-radius: 14px;
         overflow: hidden;
-        margin-bottom: 40px;
+        margin: 22px 0;
       }
       .axiom-stat {
         background: rgba(0,0,0,0.85);
-        padding: 28px 16px;
+        padding: 18px 8px;
         text-align: center;
-        backdrop-filter: blur(10px);
       }
       .axiom-stat-num {
         font-family: "Space Mono", monospace;
-        font-size: clamp(28px, 4vw, 44px);
+        font-size: clamp(18px, 2.4vw, 26px);
         font-weight: 700;
         color: white;
         line-height: 1;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
       .axiom-stat.ok .axiom-stat-num { color: #00c87a; }
       .axiom-stat-label {
         font-family: "Space Mono", monospace;
-        font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+        font-size: 8px; letter-spacing: 0.06em; text-transform: uppercase;
         color: rgba(255,255,255,0.5);
-        line-height: 1.4;
+        line-height: 1.3;
       }
 
-      /* Wide video banner */
-      .axiom-video {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 21 / 9;
-        border-radius: 18px;
-        overflow: hidden;
-        border: 1px solid rgba(200,168,75,0.25);
-        box-shadow: 0 12px 48px rgba(0,0,0,0.5);
-        margin-bottom: 48px;
-      }
-      .axiom-video video {
-        width: 100%; height: 100%;
-        object-fit: cover; display: block;
-      }
-      .axiom-video-tag {
-        position: absolute; bottom: 16px; left: 20px;
-        font-family: "Space Mono", monospace;
-        font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-        color: #c8a84b;
-        background: rgba(0,0,0,0.6);
-        padding: 6px 14px; border-radius: 8px;
-        backdrop-filter: blur(6px);
-      }
-
-      /* Asymmetric columns */
-      .axiom-cols {
-        display: grid;
-        grid-template-columns: 1.7fr 1fr;
-        gap: 48px;
-        margin-bottom: 44px;
-      }
-      .axiom-col-main p {
-        font-size: 15px; line-height: 1.75;
-        color: rgba(255,255,255,0.68);
-        margin-bottom: 18px;
-      }
-      .axiom-p-lead {
-        font-size: 16px !important;
-        color: rgba(255,255,255,0.82) !important;
-      }
-      .axiom-col-main strong { color: #c8a84b; font-weight: 600; }
-      .axiom-col-side {
-        border-left: 1px solid rgba(255,255,255,0.1);
-        padding-left: 36px;
-      }
-      .axiom-side-block { margin-bottom: 26px; }
-      .axiom-side-block h3 {
-        font-family: "Space Mono", monospace;
-        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-        color: #c8a84b;
-        margin-bottom: 10px;
-      }
-      .axiom-side-block p {
-        font-size: 14px; line-height: 1.65;
-        color: rgba(255,255,255,0.62);
-      }
-      .axiom-side-block em { color: rgba(255,255,255,0.85); font-style: italic; }
       .axiom-fit {
         list-style: none; margin: 0; padding: 0;
         display: flex; flex-wrap: wrap; gap: 6px;
@@ -1130,43 +1090,42 @@ function GlobalStyles() {
         font-family: "Space Mono", monospace;
         font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
         color: rgba(255,255,255,0.7);
-        background: rgba(200,168,75,0.08);
-        border: 1px solid rgba(200,168,75,0.3);
+        background: rgba(79,210,255,0.08);
+        border: 1px solid rgba(79,210,255,0.3);
         padding: 5px 10px; border-radius: 6px;
       }
       .axiom-closer {
+        margin: 22px 0;
         padding: 16px 18px;
-        background: rgba(200,168,75,0.06);
-        border: 1px solid rgba(200,168,75,0.25);
-        border-left: 3px solid #c8a84b;
+        background: rgba(79,210,255,0.06);
+        border: 1px solid rgba(79,210,255,0.25);
+        border-left: 3px solid #4fd2ff;
         border-radius: 0 12px 12px 0;
         font-size: 14px; font-weight: 600; font-style: italic;
         color: rgba(255,255,255,0.88);
         line-height: 1.55;
       }
 
-      /* Repo card — gold variant */
+      /* Repo card — cyan variant */
       .axiom-proof {
         display: block;
-        padding: 20px 24px;
+        padding: 18px 20px;
         border-radius: 14px;
-        background: rgba(200,168,75,0.06);
-        border: 1px solid rgba(200,168,75,0.3);
+        background: rgba(79,210,255,0.06);
+        border: 1px solid rgba(79,210,255,0.3);
         text-decoration: none;
-        max-width: 720px; margin: 0 auto;
-        text-align: center;
         transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
       }
       .axiom-proof:hover {
-        background: rgba(200,168,75,0.1);
-        border-color: rgba(200,168,75,0.6);
+        background: rgba(79,210,255,0.1);
+        border-color: rgba(79,210,255,0.6);
         transform: translateY(-2px);
       }
       .axiom-proof-head {
-        display: inline-flex; align-items: center; gap: 10px;
-        color: #c8a84b;
+        display: flex; align-items: center; gap: 9px;
+        color: #4fd2ff;
         font-family: "Space Mono", monospace;
-        font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
         margin-bottom: 10px;
       }
       .axiom-proof p {
@@ -1175,18 +1134,32 @@ function GlobalStyles() {
         margin-bottom: 10px;
       }
       .axiom-proof-link {
-        font-size: 12px; font-weight: 600; color: #c8a84b;
+        font-size: 12px; font-weight: 600; color: #4fd2ff;
       }
 
-      @media (max-width: 900px) {
+      /* Image right — slightly larger than OMEGA box */
+      .axiom-img-wrap { display: flex; justify-content: center; align-items: center; }
+      .axiom-img {
+        width: 100%;
+        max-width: 540px;
+        aspect-ratio: 1 / 1;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(79,210,255,0.25);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 60px rgba(79,210,255,0.08);
+      }
+      .axiom-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      @media (max-width: 1000px) {
         .axiom-inner { padding: 60px 20px; }
-        .axiom-stats { grid-template-columns: repeat(3, 1fr); }
-        .axiom-cols { grid-template-columns: 1fr; gap: 32px; }
-        .axiom-col-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px; }
-        .axiom-video { aspect-ratio: 16 / 9; }
+        .axiom-grid { grid-template-columns: 1fr; gap: 40px; justify-items: center; }
+        .axiom-desc { max-width: 620px; order: 2; }
+        .axiom-img-wrap { order: 1; }
+        .axiom-img { max-width: 460px; }
       }
       @media (max-width: 560px) {
-        .axiom-stats { grid-template-columns: repeat(2, 1fr); }
+        .axiom-stats { grid-template-columns: repeat(5, 1fr); }
+        .axiom-stat { padding: 12px 4px; }
       }
 
       /* ══════════════════════════════════════════════
@@ -2127,64 +2100,48 @@ export default function Home() {
       <section id="axiom" className="axiom-section">
         <div className="axiom-inner">
 
-          {/* Centered header */}
-          <div className="sc-reveal axiom-head">
-            <div className="axiom-eyebrow">CNS_AXIOM</div>
-            <h2 className="axiom-title">AXIOM</h2>
-            <p className="axiom-lead">Deterministic Containment for Autonomous Agents</p>
-          </div>
+          {/* text left, image right — balanced & centered */}
+          <div className="axiom-grid">
 
-          {/* AEP-8000-R result band — the standout stat row */}
-          <div className="sc-scale axiom-stats">
-            <div className="axiom-stat">
-              <div className="axiom-stat-num" data-count="8000">8,000</div>
-              <div className="axiom-stat-label">Autonomous-agent instances</div>
-            </div>
-            <div className="axiom-stat">
-              <div className="axiom-stat-num" data-count="15">15</div>
-              <div className="axiom-stat-label">Attack-oriented cohorts</div>
-            </div>
-            <div className="axiom-stat ok">
-              <div className="axiom-stat-num">0</div>
-              <div className="axiom-stat-label">Breaches</div>
-            </div>
-            <div className="axiom-stat ok">
-              <div className="axiom-stat-num">0</div>
-              <div className="axiom-stat-label">Critical findings</div>
-            </div>
-            <div className="axiom-stat ok">
-              <div className="axiom-stat-num">0</div>
-              <div className="axiom-stat-label">False positives</div>
-            </div>
-          </div>
+            {/* LEFT — text */}
+            <div className="sc-left axiom-desc">
+              <div className="axiom-eyebrow">CNS_AXIOM</div>
+              <h2 className="axiom-title">AXIOM</h2>
+              <p className="axiom-lead">Deterministic Containment for Autonomous Agents</p>
 
-          {/* Wide video banner */}
-          <div className="sc-reveal axiom-video">
-            <video src="/brand/AXIOM_V1.mp4" autoPlay loop muted playsInline preload="metadata" />
-            <div className="axiom-video-tag">AEP-8000-R · Adversarial Evaluation Protocol</div>
-          </div>
-
-          {/* Asymmetric two-column text */}
-          <div className="axiom-cols">
-            <div className="sc-left axiom-col-main">
-              <p className="axiom-p-lead">
-                AXIOM is a deterministic existence-admission kernel designed to control autonomous agents <strong>before a proposed action becomes an executed state</strong>. Rather than trying to predict every possible form of agent misbehavior, AXIOM evaluates each proposed transition against a fixed admissibility boundary and determines whether that next state is allowed to exist. A valid state is admitted and cryptographically certified; a state that violates the defined boundary is rejected through a fail-closed transition to Null.
-              </p>
-              <p>
-                This approach addresses one of the central risks of increasingly autonomous systems: an agent may remain apparently legitimate while progressively extending its authority, combining permissions, replaying prior authorization, coordinating with other agents, or attempting actions outside its intended operating boundary. AXIOM is designed to identify those unauthorized state transitions at the moment they are proposed, before they are admitted into the agent's trajectory. It does not rely on behavioral prediction, probabilistic risk scoring, or a cloud service to make that decision.
-              </p>
-              <p>
-                AXIOM has been adversarially evaluated through <strong>AEP-8000-R</strong>, a protocol involving 8,000 autonomous-agent instances across 15 attack-oriented cohorts — including authority escalation, identity substitution, multi-agent collusion, replay, concurrent races, insider knowledge, cross-agent coordination, and adaptive attacks. The referenced public evaluation reports 0 breaches, 0 critical findings, and 0 false positives, with sealed evidence available for independent verification.
-              </p>
-            </div>
-
-            <aside className="sc-right axiom-col-side">
-              <div className="axiom-side-block">
-                <h3>How it works</h3>
-                <p>AXIOM determines whether an agent's next state is admissible <em>before that state is allowed to exist</em> — not after damage is done.</p>
+              <div className="axiom-block">
+                <p>AXIOM is a deterministic existence-admission kernel designed to control autonomous agents <strong>before a proposed action becomes an executed state</strong>. Rather than trying to predict every possible form of agent misbehavior, AXIOM evaluates each proposed transition against a fixed admissibility boundary and determines whether that next state is allowed to exist. A valid state is admitted and cryptographically certified; a state that violates the defined boundary is rejected through a fail-closed transition to Null.</p>
               </div>
 
-              <div className="axiom-side-block">
+              <div className="axiom-block">
+                <p>An agent may remain apparently legitimate while progressively extending its authority, combining permissions, replaying prior authorization, coordinating with other agents, or attempting actions outside its intended operating boundary. AXIOM identifies those unauthorized state transitions at the moment they are proposed, before they are admitted into the agent's trajectory. It does not rely on behavioral prediction, probabilistic risk scoring, or a cloud service.</p>
+              </div>
+
+              {/* AEP-8000-R result band */}
+              <div className="axiom-stats">
+                <div className="axiom-stat">
+                  <div className="axiom-stat-num" data-count="8000">8,000</div>
+                  <div className="axiom-stat-label">Agent instances</div>
+                </div>
+                <div className="axiom-stat">
+                  <div className="axiom-stat-num" data-count="15">15</div>
+                  <div className="axiom-stat-label">Attack cohorts</div>
+                </div>
+                <div className="axiom-stat ok">
+                  <div className="axiom-stat-num">0</div>
+                  <div className="axiom-stat-label">Breaches</div>
+                </div>
+                <div className="axiom-stat ok">
+                  <div className="axiom-stat-num">0</div>
+                  <div className="axiom-stat-label">Critical</div>
+                </div>
+                <div className="axiom-stat ok">
+                  <div className="axiom-stat-num">0</div>
+                  <div className="axiom-stat-label">False pos.</div>
+                </div>
+              </div>
+
+              <div className="axiom-block">
                 <h3>Application fit</h3>
                 <ul className="axiom-fit">
                   <li>Critical infrastructure</li>
@@ -2196,27 +2153,34 @@ export default function Home() {
                 </ul>
               </div>
 
-              <div className="axiom-side-block axiom-closer">
-                AXIOM does not wait for an autonomous agent to cause damage and then classify what happened. It decides admissibility first.
+              <div className="axiom-closer">
+                AXIOM does not wait for an autonomous agent to cause damage and then classify what happened. It decides whether the agent's next state is admissible before that state is allowed to exist.
               </div>
-            </aside>
-          </div>
 
-          {/* Public repo card */}
-          <a
-            href="https://github.com/CausalNexusSystems/cns-axiom-public"
-            target="_blank"
-            rel="noreferrer"
-            className="sc-reveal axiom-proof"
-          >
-            <div className="axiom-proof-head">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
-              <span>Public Repository · CNS-AXIOM</span>
+              {/* Public repo card */}
+              <a
+                href="https://github.com/CausalNexusSystems/cns-axiom-public"
+                target="_blank"
+                rel="noreferrer"
+                className="axiom-proof"
+              >
+                <div className="axiom-proof-head">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+                  <span>Public Repository · CNS-AXIOM</span>
+                </div>
+                <p>AEP-8000-R adversarial evaluation with sealed evidence available for independent verification.</p>
+                <span className="axiom-proof-link">View public repository on GitHub →</span>
+              </a>
             </div>
-            <p>AEP-8000-R adversarial evaluation with sealed evidence available for independent verification.</p>
-            <span className="axiom-proof-link">View public repository on GitHub →</span>
-          </a>
 
+            {/* RIGHT — video */}
+            <div className="sc-right axiom-img-wrap">
+              <div className="axiom-img">
+                <video src="/brand/CNS_AXIOM.mp4" autoPlay loop muted playsInline preload="metadata" />
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
