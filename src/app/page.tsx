@@ -23,46 +23,14 @@ type EcoModule = {
   evidence: string[];
 };
 
-type Metric = {
-  v: string;
-  l: string;
-  cyan?: boolean;
-};
-
-// ==================== NAV (7 items — IDs match section ids exactly) ====================
+// ==================== NAV — IDs match section ids exactly ====================
 const NAV_ITEMS = [
   { id: "ecosystem", label: "Ecosystem" },   // → #ecosystem (What is CNS)
-  { id: "modules",   label: "Modules" },     // → #modules
-  { id: "cns-runs",  label: "CNS-RUNS" },   // → #cns-runs
+  { id: "modules",   label: "Architecture" },// → #modules (OMEGA / architecture)
   { id: "cnl",       label: "CNL" },         // → #cnl
   { id: "ces",       label: "CES" },         // → #ces
   { id: "business",  label: "Licensing" },   // → #business (Licensing section)
   { id: "contact",   label: "Contact" },     // → #contact
-];
-
-const METRICS: Metric[] = [
-  { v: "8/8",     l: "Active Modules" },
-  { v: "32",      l: "Telemetry Domains" },
-  { v: "24,606",  l: "Records Processed" },
-  { v: "196,848", l: "Module Rows" },
-  { v: "PASS",    l: "Validation Status", cyan: true },
-];
-
-const RUN_DETAILS = [
-  ["Run ID",      "CNS_K24_TRUE_GLOBAL_CRITICAL_INFRASTRUCTURE_ENTROPY_32_DOMAIN"],
-  ["Authority",   "K24.1-RS"],
-  ["Runtime",     "Iron Guardian V3"],
-  ["Records",     "24,606"],
-  ["Module Rows", "196,848"],
-  ["Validation",  "PASS"],
-];
-
-const TELEMETRY_FEEDS = [
-  ["Energy Grid",        "LIVE", "#00A85E"],
-  ["Aerospace",          "LIVE", "#00C8FF"],
-  ["Industrial Control", "LIVE", "#C8A84B"],
-  ["Cyber Physical",     "LIVE", "#B83232"],
-  ["Logistics",          "LIVE", "#8BA0C0"],
 ];
 
 const ECO_MODULES: EcoModule[] = [
@@ -874,6 +842,34 @@ function GlobalStyles() {
         .arch-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .arch-card { padding: 18px 14px 14px; min-height: 150px; }
         .arch-full { display: none; }
+      }
+
+      /* ══════════════════════════════════════════════
+         ARCHITECTURE BANNER
+      ══════════════════════════════════════════════ */
+      .arch-banner {
+        position: relative; z-index: 10;
+        text-align: center;
+        padding: 40px 24px 8px;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      .arch-banner-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 12px; font-weight: 600;
+        letter-spacing: 0.28em; text-transform: uppercase;
+        color: #38bdf8;
+        margin-bottom: 10px;
+      }
+      .arch-banner-title {
+        font-size: clamp(24px, 3.4vw, 40px);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: white;
+        line-height: 1.2;
+      }
+      @media (max-width: 640px) {
+        .arch-banner { padding: 28px 16px 4px; }
       }
 
       /* ══════════════════════════════════════════════
@@ -1847,6 +1843,14 @@ export default function Home() {
       <SectionSep delay={0} />
 
       {/* ══════════════════════════════════════════════════════
+          ARCHITECTURE BANNER
+      ══════════════════════════════════════════════════════ */}
+      <div className="arch-banner sc-reveal">
+        <div className="arch-banner-eyebrow">Architecture</div>
+        <h2 className="arch-banner-title">Causal Nexus Systems Ecosystem</h2>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════
           OMEGA — adversarial validation framework
       ══════════════════════════════════════════════════════ */}
       <section id="modules" className="arch-section">
@@ -1948,54 +1952,6 @@ export default function Home() {
       </section>
 
       <SectionSep delay={0.3} />
-
-      {/* ══════════════════════════════════════════════════════
-          INJECTED SECTION 1 — CNS-RUNS (32 domain run)
-      ══════════════════════════════════════════════════════ */}
-      <section id="cns-runs" className="injected-section dim">
-        <div className="injected-inner">
-          <div className="sc-left">
-            <div className="eyebrow-inj">Public Run Evidence</div>
-            <h2 className="h2-inj">K24 Unified Run · 32 Domains.</h2>
-          </div>
-
-          <div className="sc-reveal" style={{ transitionDelay: "0.33s" }}>
-            <div className="metrics-panel-inj">
-            <div className="metrics-title-inj">K24 unified run - public metrics layer</div>
-            <div className="metrics-row-inj">
-              {METRICS.map(m => (
-                <div key={m.l} className="metric-inj">
-                  <span className={"metric-v" + (m.cyan ? " cyan" : "")}>{m.v}</span>
-                  <span className="metric-l">{m.l}</span>
-                </div>
-              ))}
-            </div>
-            <div className="detail-list-inj">
-              {RUN_DETAILS.map(([k, v]) => (
-                <div key={k} className="detail-row-inj"><span>{k}</span><span>{v}</span></div>
-              ))}
-            </div>
-            <div className="status-pill-inj">
-              <span className="status-dot-inj" />
-              <span>Validation: PASS - public evidence boundary</span>
-            </div>
-          </div>
-          </div>
-
-          <div className="sc-reveal" style={{ transitionDelay: "0.66s" }}>
-          <div className="live-panel-inj">
-            <div className="live-video-inj">
-              <video src="/brand/VIDEO_PANEL_CNS_ECOSYSTEMS.mp4" autoPlay loop muted playsInline preload="metadata" />
-            </div>
-            <div className="live-caption-inj">
-              <p>K24 · Live Telemetry · 32 Active Domains · Multi-Sector Causal Intake</p>
-            </div>
-          </div>
-          </div>
-        </div>
-      </section>
-
-      <SectionSep delay={0.6} />
 
       {/* ══════════════════════════════════════════════════════
           INJECTED SECTION 2 — ECOSYSTEM (What is CNS)
@@ -2266,7 +2222,6 @@ export default function Home() {
               <div className="footer-links">
                 {[
                   ["Architecture", "modules"],
-                  ["CNS-RUNS", "cns-runs"],
                   ["What is CNS", "ecosystem"],
                   ["CNL Ledger", "cnl"],
                   ["CES Module", "ces"],
