@@ -24,15 +24,19 @@ type EcoModule = {
 };
 
 // ==================== NAV — IDs match section ids exactly ====================
-const NAV_ITEMS = [
-  { id: "ecosystem", label: "Ecosystem" },   // → #ecosystem (What is CNS)
-  { id: "modules",   label: "OMEGA" },       // → #modules (OMEGA / architecture)
-  { id: "axiom",     label: "AXIOM" },       // → #axiom
-  { id: "cnl",       label: "CNL" },         // → #cnl
-  { id: "ces",       label: "CES" },         // → #ces
-  { id: "business",  label: "Licensing" },   // → #business (Licensing section)
-  { id: "contact",   label: "Contact" },     // → #contact
+// Architecture dropdown — scroll targets vs modal targets
+// action "scroll" → smooth-scroll to that section id on the page
+// action "modal"  → open CNL/CES in a modal (not in the page scroll)
+const ARCH_ITEMS = [
+  { label: "OMEGA",  action: "scroll", target: "modules" },
+  { label: "AXIOM",  action: "scroll", target: "axiom" },
+  { label: "CRATOS", action: "scroll", target: "cratos" },
+  { label: "ARCHÉ",  action: "scroll", target: "arche" },
+  { label: "CNL",    action: "modal",  target: "cnl" },
+  { label: "CES",    action: "modal",  target: "ces" },
 ];
+
+
 
 const ECO_MODULES: EcoModule[] = [
   {
@@ -282,6 +286,59 @@ function GlobalStyles() {
       @media (max-width: 640px) {
         .top-nav { gap: 3px 10px; }
         .top-nav button { font-size: 11px; }
+      }
+
+      /* ── Architecture dropdown ── */
+      .nav-dropdown { position: relative; }
+      .nav-dropdown-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75);
+        white-space: nowrap; background: none; border: none; cursor: pointer;
+        padding: 4px 0; transition: color 180ms ease;
+      }
+      .nav-dropdown-btn:hover { color: #fff; }
+      .nav-caret { font-size: 9px; transition: transform 200ms ease; display: inline-block; }
+      .nav-caret.open { transform: rotate(180deg); }
+      .nav-dropdown-menu {
+        position: absolute; top: calc(100% + 10px); left: 50%;
+        transform: translateX(-50%);
+        min-width: 190px;
+        background: rgba(6,8,18,0.98);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 14px;
+        padding: 8px;
+        display: flex; flex-direction: column; gap: 2px;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+        backdrop-filter: blur(20px);
+        z-index: 300;
+        animation: ddFade 180ms ease both;
+      }
+      @keyframes ddFade {
+        from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+        to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+      .nav-dropdown-item {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%;
+        font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.8);
+        background: none; border: none; cursor: pointer;
+        padding: 10px 14px; border-radius: 9px; text-align: left;
+        transition: background 160ms ease, color 160ms ease;
+      }
+      .nav-dropdown-item:hover { background: rgba(56,189,248,0.12); color: #fff; }
+      .nav-dropdown-tag {
+        font-family: "Space Mono", monospace;
+        font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+        color: #38bdf8; opacity: 0.7;
+      }
+      @media (max-width: 640px) {
+        .nav-dropdown-btn { font-size: 11px; }
+        .nav-dropdown-menu { right: 0; left: auto; transform: none; }
+        @keyframes ddFade {
+          from { opacity: 0; transform: translateY(-6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
       }
 
       /* ── Injected sections styles ── */
@@ -621,6 +678,44 @@ function GlobalStyles() {
       /* ══════════════════════════════════════════════
          MODAL — always fixed, always on top, scrollable
       ══════════════════════════════════════════════ */
+      /* ── INFO MODAL (CNL / CES) ── */
+      .info-modal-outer {
+        position: fixed; inset: 0; z-index: 9999;
+        display: flex; align-items: flex-start; justify-content: center;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(14px);
+        padding: 40px 20px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .info-modal-inner {
+        position: relative;
+        width: 100%; max-width: 860px;
+        margin: auto;
+        background: rgba(6,8,18,0.98);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 44px 40px;
+        box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      }
+      .info-modal-close {
+        position: absolute; top: 18px; right: 20px;
+        width: 40px; height: 40px;
+        font-size: 24px; line-height: 1;
+        color: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px; cursor: pointer;
+        transition: color 160ms ease, background 160ms ease;
+      }
+      .info-modal-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+      .info-modal-body .cnl-image-inj img,
+      .info-modal-body .ces-image-inj img { width: 100%; display: block; }
+      @media (max-width: 640px) {
+        .info-modal-outer { padding: 20px 12px; }
+        .info-modal-inner { padding: 36px 20px 28px; }
+      }
+
       .modal-outer {
         position: fixed;
         inset: 0;
@@ -1524,12 +1619,44 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
 }
 
 // ==================== TOP NAV (always horizontal) ====================
-function TopNav() {
+function TopNav({ onOpenModal }: { onOpenModal: (which: "cnl" | "ces") => void }) {
+  const [archOpen, setArchOpen] = useState(false);
+
+  const handleArchClick = (item: typeof ARCH_ITEMS[number]) => {
+    setArchOpen(false);
+    if (item.action === "modal") {
+      onOpenModal(item.target as "cnl" | "ces");
+    } else {
+      scrollToId(item.target);
+    }
+  };
+
   return (
     <nav className="top-nav">
-      {NAV_ITEMS.map((item) => (
-        <button key={item.id} onClick={() => scrollToId(item.id)}>{item.label}</button>
-      ))}
+      {/* Architecture — dropdown */}
+      <div
+        className="nav-dropdown"
+        onMouseEnter={() => setArchOpen(true)}
+        onMouseLeave={() => setArchOpen(false)}
+      >
+        <button className="nav-dropdown-btn" onClick={() => setArchOpen(o => !o)}>
+          Architecture <span className={"nav-caret" + (archOpen ? " open" : "")}>▾</span>
+        </button>
+        {archOpen && (
+          <div className="nav-dropdown-menu">
+            {ARCH_ITEMS.map((item) => (
+              <button key={item.label} className="nav-dropdown-item" onClick={() => handleArchClick(item)}>
+                {item.label}
+                {item.action === "modal" && <span className="nav-dropdown-tag">view</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Licensing + Contact */}
+      <button onClick={() => scrollToId("business")}>Licensing</button>
+      <button onClick={() => scrollToId("contact")}>Contact</button>
     </nav>
   );
 }
@@ -1827,6 +1954,7 @@ function CursorDot() {
 // ==================== MAIN PAGE ====================
 export default function Home() {
   const [selectedModule, setSelectedModule] = useState<EcoModule | null>(null);
+  const [infoModal, setInfoModal] = useState<"cnl" | "ces" | null>(null);
   const [hoverFocus, setHoverFocus] = useState<SectionKey | null>(null);
   const focus = hoverFocus ?? "top";
 
@@ -1942,7 +2070,7 @@ export default function Home() {
               Public Causal Observability • Sealed Outputs • USPTO PPA #63/896,666
             </div>
           </div>
-          <TopNav />
+          <TopNav onOpenModal={(which) => setInfoModal(which)} />
         </div>
       </header>
 
@@ -2021,6 +2149,72 @@ export default function Home() {
       </div>
 
       <SectionSep delay={0} />
+
+      {/* ══════════════════════════════════════════════════════
+          WHAT IS CNS — after video, before architecture
+      ══════════════════════════════════════════════════════ */}
+      <section id="ecosystem" className="injected-section alt">
+        <div className="injected-inner">
+
+          {/* Intro — what CNS is */}
+          <div className="whatis-head">
+            <div className="sc-reveal eyebrow-inj">What is CNS</div>
+            <h2 className="sc-reveal h2-inj" style={{ transitionDelay: "0.22s", marginBottom: 20 }}>
+              A deterministic causal ecosystem.
+            </h2>
+            <p className="sc-reveal copy-inj whatis-lead" style={{ transitionDelay: "0.44s" }}>
+              Causal Nexus Systems is a sovereign, deterministic causal-intelligence ecosystem for environments where a decision, its evidence, and its boundaries must be reproducible, bounded and auditable. It does not predict outcomes or score risk probabilistically — it evaluates the causal structure of a decision before that decision becomes an executed state, and seals the result as reviewable evidence.
+            </p>
+          </div>
+
+          {/* Problems it solves today */}
+          <div className="whatis-block">
+            <div className="sc-reveal whatis-label">Problems it solves today</div>
+            <div className="whatis-cards">
+              {[
+                ["Autonomous systems acting outside their boundary", "Agents can extend authority, combine permissions or act beyond intended scope. CNS decides whether the next state is admissible before it is allowed to exist."],
+                ["Decisions that can't be trusted after the fact", "When data conflicts, evidence is altered or infrastructure degrades, CNS keeps decisions bounded and produces a sealed, replayable evidence chain."],
+                ["Probabilistic systems with no accountability", "Instead of opaque risk scores, CNS classifies outputs into controlled operational states with an explicit, traceable authority path."],
+              ].map(([t, d], i) => (
+                <div key={t} className="sc-scale whatis-card" style={{ transitionDelay: (0.1 + i * 0.1) + "s" }}>
+                  <div className="whatis-card-t">{t}</div>
+                  <div className="whatis-card-d">{d}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Who it's for + properties */}
+          <div className="whatis-grid2">
+            <div className="sc-left whatis-sectors">
+              <div className="whatis-label">Built for — dual-use</div>
+              <p className="whatis-sub">CNS is designed for high-consequence environments where repeatability, bounded execution and auditability matter.</p>
+              <div className="whatis-pills">
+                {["Defense & national security", "Critical infrastructure", "Energy", "Aerospace", "Financial systems", "Healthcare automation", "Autonomous platforms", "Industrial automation", "AI-agent governance"].map(s => (
+                  <span key={s} className="whatis-pill">{s}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="sc-right whatis-props">
+              <div className="whatis-label">How it operates</div>
+              {[
+                ["Deterministic", "Same validated input and boundary produce the same reviewable output."],
+                ["Sovereign · no cloud dependency", "Runs locally, private, air-gapped or embedded. No cloud service and no Linux dependency required to decide."],
+                ["Falsifiable", "Outputs are sealed with hashes, manifests and Merkle roots for independent verification."],
+              ].map(([t, d]) => (
+                <div key={t} className="whatis-prop">
+                  <div className="whatis-prop-t">{t}</div>
+                  <div className="whatis-prop-d">{d}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <SectionSep delay={0.3} />
 
       {/* ══════════════════════════════════════════════════════
           ARCHITECTURE BANNER
@@ -2222,161 +2416,6 @@ export default function Home() {
         </div>
       </section>
 
-      <SectionSep delay={0.3} />
-
-      {/* ══════════════════════════════════════════════════════
-          INJECTED SECTION 2 — ECOSYSTEM (What is CNS)
-      ══════════════════════════════════════════════════════ */}
-      <section id="ecosystem" className="injected-section alt">
-        <div className="injected-inner">
-
-          {/* Intro — what CNS is */}
-          <div className="whatis-head">
-            <div className="sc-reveal eyebrow-inj">What is CNS</div>
-            <h2 className="sc-reveal h2-inj" style={{ transitionDelay: "0.22s", marginBottom: 20 }}>
-              A deterministic causal ecosystem.
-            </h2>
-            <p className="sc-reveal copy-inj whatis-lead" style={{ transitionDelay: "0.44s" }}>
-              Causal Nexus Systems is a sovereign, deterministic causal-intelligence ecosystem for environments where a decision, its evidence, and its boundaries must be reproducible, bounded and auditable. It does not predict outcomes or score risk probabilistically — it evaluates the causal structure of a decision before that decision becomes an executed state, and seals the result as reviewable evidence.
-            </p>
-          </div>
-
-          {/* Problems it solves today */}
-          <div className="whatis-block">
-            <div className="sc-reveal whatis-label">Problems it solves today</div>
-            <div className="whatis-cards">
-              {[
-                ["Autonomous systems acting outside their boundary", "Agents can extend authority, combine permissions or act beyond intended scope. CNS decides whether the next state is admissible before it is allowed to exist."],
-                ["Decisions that can't be trusted after the fact", "When data conflicts, evidence is altered or infrastructure degrades, CNS keeps decisions bounded and produces a sealed, replayable evidence chain."],
-                ["Probabilistic systems with no accountability", "Instead of opaque risk scores, CNS classifies outputs into controlled operational states with an explicit, traceable authority path."],
-              ].map(([t, d], i) => (
-                <div key={t} className="sc-scale whatis-card" style={{ transitionDelay: (0.1 + i * 0.1) + "s" }}>
-                  <div className="whatis-card-t">{t}</div>
-                  <div className="whatis-card-d">{d}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Who it's for + properties */}
-          <div className="whatis-grid2">
-            <div className="sc-left whatis-sectors">
-              <div className="whatis-label">Built for — dual-use</div>
-              <p className="whatis-sub">CNS is designed for high-consequence environments where repeatability, bounded execution and auditability matter.</p>
-              <div className="whatis-pills">
-                {["Defense & national security", "Critical infrastructure", "Energy", "Aerospace", "Financial systems", "Healthcare automation", "Autonomous platforms", "Industrial automation", "AI-agent governance"].map(s => (
-                  <span key={s} className="whatis-pill">{s}</span>
-                ))}
-              </div>
-            </div>
-
-            <div className="sc-right whatis-props">
-              <div className="whatis-label">How it operates</div>
-              {[
-                ["Deterministic", "Same validated input and boundary produce the same reviewable output."],
-                ["Sovereign · no cloud dependency", "Runs locally, private, air-gapped or embedded. No cloud service and no Linux dependency required to decide."],
-                ["Falsifiable", "Outputs are sealed with hashes, manifests and Merkle roots for independent verification."],
-              ].map(([t, d]) => (
-                <div key={t} className="whatis-prop">
-                  <div className="whatis-prop-t">{t}</div>
-                  <div className="whatis-prop-d">{d}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          INJECTED SECTION 3 — CNL
-      ══════════════════════════════════════════════════════ */}
-      <SectionSep delay={0.1} />
-      <section id="cnl" className="injected-section dim">
-        <div className="injected-inner">
-          <div className="sc-reveal eyebrow-inj">Causal Nexus Ledger</div>
-          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.22s" }}>CNL v1.0 · Ledger and Consensus Validation Track.</h2>
-          <div className="cnl-grid-inj">
-            <div className="sc-left cnl-image-inj" style={{ transitionDelay: "0.33s" }}>
-              <img src="/01-CNL.png" alt="CNL v1.0" loading="lazy" />
-            </div>
-            <div>
-              <div className="sc-right cnl-status-inj" style={{ transitionDelay: "0.44s" }}>Validation track - approaching production readiness</div>
-              <p className="sc-right copy-inj" style={{ marginBottom: 18, transitionDelay: "0.66s" }}>
-                CNL is the ledger and consensus direction for extending CNS from local sovereign execution into a reviewable network state. CNL is presented as a validation track unless production evidence is published.
-              </p>
-              <p className="sc-right copy-inj" style={{ transitionDelay: "0.88s" }}>
-                The role of CNL is to preserve canonical state, commit evidence, verifier records, and recovery behavior so external review can inspect what was decided, when it was committed, and under which boundary.
-              </p>
-              <div className="cnl-metrics-inj">
-                {[
-                  ["<50ms",  "Commit latency target"],
-                  ["1K+",    "Batches/min target"],
-                  ["<500ms", "Finalization target"],
-                  ["Rust",   "Verifier path"],
-                ].map(([v, l], i) => (
-                  <div key={l} className="sc-scale cnl-metric-inj" style={{ transitionDelay: (0.35 + i * 0.08) + "s" }}><div>{v}</div><div>{l}</div></div>
-                ))}
-              </div>
-              {[
-                ["Deterministic commit design",    "CNL is framed around bounded commit certificates and reproducible ledger state rather than probabilistic public-chain language."],
-                ["Canonical ledger boundary",      "The ledger becomes the reviewable source of committed state once the deployment scope and verifier package are defined."],
-                ["Recovery and partition behavior", "Recovery claims should be tied to testnet evidence, multi-machine runs, and documented failure scenarios."],
-                ["External verification",           "Rust verifier artifacts can be positioned as the independent review path when the verifier package is included in the evidence boundary."],
-              ].map(([t, d], i) => (
-                <div key={t} className="sc-reveal cnl-feature-inj" style={{ transitionDelay: (0.5 + i * 0.1) + "s" }}><div>{t}</div><div>{d}</div></div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          INJECTED SECTION 4 — CES (Causal Execution System)
-      ══════════════════════════════════════════════════════ */}
-      <SectionSep delay={0.4} />
-      <section id="ces" className="injected-section alt">
-        <div className="injected-inner">
-          <div className="sc-reveal eyebrow-inj">Causal Execution System</div>
-          <h2 className="sc-reveal h2-inj" style={{ marginBottom: 48, transitionDelay: "0.22s" }}>CES · Capital Module of Causal Nexus Systems.</h2>
-          <div className="ces-grid-inj">
-
-            {/* TEXT — left, slides from left */}
-            <div className="sc-left ces-body-inj" style={{ transitionDelay: "0.44s" }}>
-              <div className="ces-badge-inj">Capital Execution Module</div>
-
-              <p><strong>CES (Causal Execution System) is the capital module of Causal Nexus Systems.</strong> Its purpose is to transform real-world market data into disciplined, auditable financial execution decisions governed by causal rules.</p>
-
-              <p>CES is not designed to guess market direction or operate like a traditional probabilistic bot. Its function is to analyze the cause behind a movement, validate market structure, measure risk, select an executable opportunity, and protect capital before, during, and after every decision.</p>
-
-              <p>The system interprets market data, volatility, liquidity, price structure, institutional pressure, macroeconomic events, news, sectoral behavior, and execution conditions. Based on this information, CES determines whether a trade should be monitored, validated, executed, managed, or blocked.</p>
-
-              <p>As the CNS capital module, CES performs a critical function: converting the ecosystem's causal logic into applied financial discipline. Every decision must pass through controls regarding capital, risk, evidence, contracts, liquidity, exposure, and exit parameters. <strong>If the causal chain is incomplete, CES does not execute.</strong></p>
-
-              <p>Unlike "black-box" probabilistic systems, CES prioritizes traceability, capital protection, execution governance, and auditability. Its value lies not in promising predictive certainty, but in validating when an opportunity is causally executable under real market conditions.</p>
-
-              <p>CES was designed to operate on a deterministic architecture, enabling controlled, portable, and verifiable execution logic. Its objective is to serve as an institutional layer for financial systems, market validation, execution governance, capital protection, and risk-controlled operations.</p>
-
-              <div className="ces-rule-inj">
-                CES does not chase random movements. CES validates cause, context, risk, and execution before acting.
-              </div>
-
-              <div className="ces-pills-inj">
-                {["Financial Systems", "Market-State Validation", "Execution Governance", "Capital Protection", "Risk-Controlled Operations", "Deterministic Causal", "No Cloud Dependency", "No Linux Dependency"].map(p => (
-                  <span key={p} className="ces-pill-inj">{p}</span>
-                ))}
-              </div>
-            </div>
-
-            {/* IMAGE — right, slides from right */}
-            <div className="sc-right ces-image-inj" style={{ transitionDelay: "0.66s" }}>
-              <img src="/brand/CES_Causal_Execution_System.png" alt="CES Causal Execution System" loading="lazy" />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       <SectionSep delay={0.7} />
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
@@ -2511,15 +2550,11 @@ export default function Home() {
             <div>
               <div className="footer-col-title">Ecosystem</div>
               <div className="footer-links">
-                {[
-                  ["OMEGA", "modules"],
-                  ["AXIOM", "axiom"],
-                  ["What is CNS", "ecosystem"],
-                  ["CNL Ledger", "cnl"],
-                  ["CES Module", "ces"],
-                ].map(([label, id]) => (
-                  <button key={id} className="footer-link" onClick={() => scrollToId(id)}>{label}</button>
-                ))}
+                <button className="footer-link" onClick={() => scrollToId("ecosystem")}>What is CNS</button>
+                <button className="footer-link" onClick={() => scrollToId("modules")}>OMEGA</button>
+                <button className="footer-link" onClick={() => scrollToId("axiom")}>AXIOM</button>
+                <button className="footer-link" onClick={() => setInfoModal("cnl")}>CNL Ledger</button>
+                <button className="footer-link" onClick={() => setInfoModal("ces")}>CES Module</button>
               </div>
             </div>
 
@@ -2564,6 +2599,93 @@ export default function Home() {
       </section>
 
       <ModuleModal module={selectedModule} onClose={() => setSelectedModule(null)} />
+      <InfoModal which={infoModal} onClose={() => setInfoModal(null)} />
     </main>
+  );
+}
+
+// ==================== INFO MODAL — CNL / CES ====================
+function InfoModal({ which, onClose }: { which: "cnl" | "ces" | null; onClose: () => void }) {
+  useEffect(() => {
+    if (which) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
+  }, [which, onClose]);
+
+  if (!which) return null;
+
+  return (
+    <div className="info-modal-outer" onClick={onClose}>
+      <div className="info-modal-inner" onClick={e => e.stopPropagation()}>
+        <button className="info-modal-close" onClick={onClose}>×</button>
+
+        {which === "cnl" && (
+          <div className="info-modal-body">
+            <div className="eyebrow-inj">Causal Nexus Ledger</div>
+            <h2 className="h2-inj" style={{ marginBottom: 24 }}>CNL v1.0 · Ledger and Consensus Validation Track.</h2>
+            <div className="cnl-image-inj" style={{ marginBottom: 24, maxWidth: 420 }}>
+              <img src="/01-CNL.png" alt="CNL v1.0" loading="lazy" />
+            </div>
+            <div className="cnl-status-inj">Validation track - approaching production readiness</div>
+            <p className="copy-inj" style={{ marginBottom: 18 }}>
+              CNL is the ledger and consensus direction for extending CNS from local sovereign execution into a reviewable network state. CNL is presented as a validation track unless production evidence is published.
+            </p>
+            <p className="copy-inj">
+              The role of CNL is to preserve canonical state, commit evidence, verifier records, and recovery behavior so external review can inspect what was decided, when it was committed, and under which boundary.
+            </p>
+            <div className="cnl-metrics-inj">
+              {[
+                ["<50ms",  "Commit latency target"],
+                ["1K+",    "Batches/min target"],
+                ["<500ms", "Finalization target"],
+                ["Rust",   "Verifier path"],
+              ].map(([v, l]) => (
+                <div key={l} className="cnl-metric-inj"><div>{v}</div><div>{l}</div></div>
+              ))}
+            </div>
+            {[
+              ["Deterministic commit design",    "CNL is framed around bounded commit certificates and reproducible ledger state rather than probabilistic public-chain language."],
+              ["Canonical ledger boundary",      "The ledger becomes the reviewable source of committed state once the deployment scope and verifier package are defined."],
+              ["Recovery and partition behavior", "Recovery claims should be tied to testnet evidence, multi-machine runs, and documented failure scenarios."],
+              ["External verification",           "Rust verifier artifacts can be positioned as the independent review path when the verifier package is included in the evidence boundary."],
+            ].map(([t, d]) => (
+              <div key={t} className="cnl-feature-inj"><div>{t}</div><div>{d}</div></div>
+            ))}
+          </div>
+        )}
+
+        {which === "ces" && (
+          <div className="info-modal-body">
+            <div className="eyebrow-inj">Causal Execution System</div>
+            <h2 className="h2-inj" style={{ marginBottom: 24 }}>CES · Capital Module of Causal Nexus Systems.</h2>
+            <div className="ces-image-inj" style={{ marginBottom: 24, maxWidth: 460 }}>
+              <img src="/brand/CES_Causal_Execution_System.png" alt="CES Causal Execution System" loading="lazy" />
+            </div>
+            <div className="ces-body-inj">
+              <div className="ces-badge-inj">Capital Execution Module</div>
+              <p><strong>CES (Causal Execution System) is the capital module of Causal Nexus Systems.</strong> Its purpose is to transform real-world market data into disciplined, auditable financial execution decisions governed by causal rules.</p>
+              <p>CES is not designed to guess market direction or operate like a traditional probabilistic bot. Its function is to analyze the cause behind a movement, validate market structure, measure risk, select an executable opportunity, and protect capital before, during, and after every decision.</p>
+              <p>The system interprets market data, volatility, liquidity, price structure, institutional pressure, macroeconomic events, news, sectoral behavior, and execution conditions. Based on this information, CES determines whether a trade should be monitored, validated, executed, managed, or blocked.</p>
+              <p>As the CNS capital module, CES performs a critical function: converting the ecosystem's causal logic into applied financial discipline. Every decision must pass through controls regarding capital, risk, evidence, contracts, liquidity, exposure, and exit parameters. <strong>If the causal chain is incomplete, CES does not execute.</strong></p>
+              <p>Unlike "black-box" probabilistic systems, CES prioritizes traceability, capital protection, execution governance, and auditability. Its value lies not in promising predictive certainty, but in validating when an opportunity is causally executable under real market conditions.</p>
+              <p>CES was designed to operate on a deterministic architecture, enabling controlled, portable, and verifiable execution logic. Its objective is to serve as an institutional layer for financial systems, market validation, execution governance, capital protection, and risk-controlled operations.</p>
+              <div className="ces-rule-inj">
+                CES does not chase random movements. CES validates cause, context, risk, and execution before acting.
+              </div>
+              <div className="ces-pills-inj">
+                {["Financial Systems", "Market-State Validation", "Execution Governance", "Capital Protection", "Risk-Controlled Operations", "Deterministic Causal", "No Cloud Dependency", "No Linux Dependency"].map(p => (
+                  <span key={p} className="ces-pill-inj">{p}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
