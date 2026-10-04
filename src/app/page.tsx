@@ -1759,7 +1759,7 @@ export default function Home() {
           <div className="flex-shrink-0 leading-tight">
             <div style={{ fontSize: "clamp(13px,3vw,18px)", fontWeight: 600, letterSpacing: "0.03em", color: "white" }}>Causal Nexus Systems</div>
             <div className="hidden sm:block" style={{ fontSize: 10, color: "rgba(255,255,255,0.45)", marginTop: 2 }}>
-              Public Causal Observability • Sealed Outputs • USPTO PPA #63/896,666
+              Public Causal Observability • Sealed Outputs 
             </div>
           </div>
           <TopNav />
