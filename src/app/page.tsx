@@ -300,7 +300,7 @@ function GlobalStyles() {
       .nav-caret { font-size: 9px; transition: transform 200ms ease; display: inline-block; }
       .nav-caret.open { transform: rotate(180deg); }
       .nav-dropdown-menu {
-        position: absolute; top: calc(100% + 10px); left: 50%;
+        position: absolute; top: calc(100% + 4px); left: 50%;
         transform: translateX(-50%);
         min-width: 190px;
         background: rgba(6,8,18,0.98);
@@ -1296,6 +1296,91 @@ function GlobalStyles() {
       }
 
       /* ══════════════════════════════════════════════
+         CRATOS — image left, text right (crimson accent)
+      ══════════════════════════════════════════════ */
+      .cratos-section {
+        position: relative; z-index: 10;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .cratos-inner { max-width: 1280px; margin: 0 auto; padding: 80px 48px; }
+      .cratos-grid {
+        display: grid; grid-template-columns: 1fr 1fr;
+        gap: 56px; align-items: center;
+      }
+      .cratos-img-wrap { display: flex; justify-content: center; align-items: center; }
+      .cratos-img {
+        width: 100%; max-width: 540px; aspect-ratio: 1 / 1;
+        border-radius: 20px; overflow: hidden;
+        border: 1px solid rgba(220,70,70,0.3);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 60px rgba(220,70,70,0.08);
+      }
+      .cratos-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .cratos-desc { max-width: 580px; }
+      .cratos-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 12px; font-weight: 700;
+        letter-spacing: 0.22em; text-transform: uppercase;
+        color: #e05252; margin-bottom: 12px;
+      }
+      .cratos-title {
+        font-size: clamp(40px, 6vw, 72px); font-weight: 800;
+        letter-spacing: 0.06em; color: white; line-height: 1; margin-bottom: 10px;
+      }
+      .cratos-lead {
+        font-size: clamp(15px, 1.8vw, 19px);
+        color: rgba(255,255,255,0.72); font-weight: 500; margin-bottom: 26px;
+      }
+      .cratos-block { margin-bottom: 18px; }
+      .cratos-block p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.66); }
+      .cratos-block strong { color: #e05252; font-weight: 600; }
+      .cratos-block h3 {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: #e05252; margin-bottom: 10px;
+      }
+      .cratos-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+      .cratos-pill {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+        color: rgba(255,255,255,0.7);
+        background: rgba(220,70,70,0.08); border: 1px solid rgba(220,70,70,0.3);
+        padding: 5px 10px; border-radius: 6px;
+      }
+      .cratos-closer {
+        margin: 22px 0;
+        padding: 16px 18px;
+        background: rgba(220,70,70,0.06);
+        border: 1px solid rgba(220,70,70,0.25);
+        border-left: 3px solid #e05252;
+        border-radius: 0 12px 12px 0;
+        font-size: 14px; font-weight: 600; font-style: italic;
+        color: rgba(255,255,255,0.88); line-height: 1.55;
+      }
+      .cratos-proof {
+        display: block; padding: 18px 20px; border-radius: 14px;
+        background: rgba(220,70,70,0.06); border: 1px solid rgba(220,70,70,0.3);
+        text-decoration: none;
+        transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+      }
+      .cratos-proof:hover {
+        background: rgba(220,70,70,0.1); border-color: rgba(220,70,70,0.6);
+        transform: translateY(-2px);
+      }
+      .cratos-proof-head {
+        display: flex; align-items: center; gap: 9px; color: #e05252;
+        font-family: "Space Mono", monospace;
+        font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .cratos-proof-link { font-size: 12px; font-weight: 600; color: #e05252; }
+      @media (max-width: 1000px) {
+        .cratos-inner { padding: 60px 20px; }
+        .cratos-grid { grid-template-columns: 1fr; gap: 40px; justify-items: center; }
+        .cratos-desc { max-width: 620px; }
+        .cratos-img { max-width: 460px; }
+      }
+
+      /* ══════════════════════════════════════════════
          CUSTOM CURSOR — blue dot with trailing glow
       ══════════════════════════════════════════════ */
       * { cursor: none !important; }
@@ -1621,6 +1706,19 @@ function CausalBackground({ intensity = 0.8, focus = "top" }: { intensity?: numb
 // ==================== TOP NAV (always horizontal) ====================
 function TopNav({ onOpenModal }: { onOpenModal: (which: "cnl" | "ces") => void }) {
   const [archOpen, setArchOpen] = useState(false);
+  const ddRef = useRef<HTMLDivElement>(null);
+
+  // Close when clicking outside the dropdown
+  useEffect(() => {
+    if (!archOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (ddRef.current && !ddRef.current.contains(e.target as Node)) {
+        setArchOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [archOpen]);
 
   const handleArchClick = (item: typeof ARCH_ITEMS[number]) => {
     setArchOpen(false);
@@ -1634,11 +1732,7 @@ function TopNav({ onOpenModal }: { onOpenModal: (which: "cnl" | "ces") => void }
   return (
     <nav className="top-nav">
       {/* Architecture — dropdown */}
-      <div
-        className="nav-dropdown"
-        onMouseEnter={() => setArchOpen(true)}
-        onMouseLeave={() => setArchOpen(false)}
-      >
+      <div className="nav-dropdown" ref={ddRef}>
         <button className="nav-dropdown-btn" onClick={() => setArchOpen(o => !o)}>
           Architecture <span className={"nav-caret" + (archOpen ? " open" : "")}>▾</span>
         </button>
@@ -2416,6 +2510,67 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionSep delay={0.4} />
+
+      {/* ══════════════════════════════════════════════════════
+          CRATOS — execution-authority kernel (image left, text right)
+      ══════════════════════════════════════════════════════ */}
+      <section id="cratos" className="cratos-section">
+        <div className="cratos-inner">
+          <div className="cratos-grid">
+
+            {/* LEFT — video */}
+            <div className="sc-left cratos-img-wrap">
+              <div className="cratos-img">
+                <video src="/brand/CNS_CRATOS.mp4" autoPlay loop muted playsInline preload="metadata" />
+              </div>
+            </div>
+
+            {/* RIGHT — text */}
+            <div className="sc-right cratos-desc">
+              <div className="cratos-eyebrow">CNS_CRATOS</div>
+              <h2 className="cratos-title">CRATOS</h2>
+              <p className="cratos-lead">Deterministic Execution-Authority Kernel</p>
+
+              <div className="cratos-block">
+                <p>CRATOS is a deterministic execution-authority kernel designed for autonomous and high-assurance systems. It governs whether a proposed effect is permitted to materialize within an established operational authority boundary, providing a <strong>fail-closed and independently verifiable decision layer before execution</strong>.</p>
+              </div>
+
+              <div className="cratos-block">
+                <p>Unlike systems that rely primarily on prediction or post-event detection, CRATOS operates before execution, enforcing deterministic authority at the point where software decisions become real effects.</p>
+              </div>
+
+              <div className="cratos-block">
+                <h3>Designed for</h3>
+                <div className="cratos-pills">
+                  {["Defense", "Aerospace", "Critical infrastructure", "Industrial control", "Embedded systems", "Autonomous software"].map(p => (
+                    <span key={p} className="cratos-pill">{p}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="cratos-closer">
+                CRATOS establishes whether an effect has the authority to become real.
+              </div>
+
+              <a
+                href="https://github.com/CausalNexusSystems/cratos-admission-kernel-poc"
+                target="_blank"
+                rel="noreferrer"
+                className="cratos-proof"
+              >
+                <div className="cratos-proof-head">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+                  <span>Public Repository · CRATOS Admission Kernel (PoC)</span>
+                </div>
+                <span className="cratos-proof-link">View public repository on GitHub →</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <SectionSep delay={0.7} />
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
@@ -2553,6 +2708,7 @@ export default function Home() {
                 <button className="footer-link" onClick={() => scrollToId("ecosystem")}>What is CNS</button>
                 <button className="footer-link" onClick={() => scrollToId("modules")}>OMEGA</button>
                 <button className="footer-link" onClick={() => scrollToId("axiom")}>AXIOM</button>
+                <button className="footer-link" onClick={() => scrollToId("cratos")}>CRATOS</button>
                 <button className="footer-link" onClick={() => setInfoModal("cnl")}>CNL Ledger</button>
                 <button className="footer-link" onClick={() => setInfoModal("ces")}>CES Module</button>
               </div>
