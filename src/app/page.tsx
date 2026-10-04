@@ -342,6 +342,44 @@ function GlobalStyles() {
       .qa-row-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
       .qa-row-inj div:first-child { font-size: 13px; font-weight: 600; color: white; }
       .qa-row-inj div:last-child { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.55; }
+      /* ── WHAT IS CNS (consolidated) ── */
+      .whatis-head { max-width: 820px; margin: 0 auto 48px; text-align: center; }
+      .whatis-head .eyebrow-inj, .whatis-head .h2-inj { text-align: center; }
+      .whatis-lead { font-size: 16px !important; line-height: 1.75 !important; color: rgba(255,255,255,0.72) !important; }
+      .whatis-label {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+        color: #38bdf8; margin-bottom: 18px;
+      }
+      .whatis-block { margin-bottom: 48px; }
+      .whatis-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      .whatis-card {
+        background: rgba(0,0,0,0.78); border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px; padding: 24px 22px; backdrop-filter: blur(10px);
+        transition: border-color 220ms ease, transform 220ms ease;
+      }
+      .whatis-card:hover { border-color: rgba(56,189,248,0.35); transform: translateY(-3px); }
+      .whatis-card-t { font-size: 15px; font-weight: 700; color: white; line-height: 1.3; margin-bottom: 10px; }
+      .whatis-card-d { font-size: 13px; line-height: 1.65; color: rgba(255,255,255,0.6); }
+      .whatis-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+      .whatis-sub { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.62); margin-bottom: 20px; }
+      .whatis-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+      .whatis-pill {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+        color: rgba(255,255,255,0.72);
+        background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.28);
+        padding: 6px 11px; border-radius: 6px;
+      }
+      .whatis-prop { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .whatis-prop:last-child { border-bottom: none; }
+      .whatis-prop-t { font-size: 14px; font-weight: 700; color: #38bdf8; margin-bottom: 5px; }
+      .whatis-prop-d { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.6); }
+      @media (max-width: 900px) {
+        .whatis-cards { grid-template-columns: 1fr; }
+        .whatis-grid2 { grid-template-columns: 1fr; gap: 32px; }
+      }
+
       .principles-grid-inj { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
       .principle-inj { background: rgba(0,0,0,0.78); border: 1px solid rgba(255,255,255,0.08); padding: 22px; border-radius: 16px; }
       .principle-inj div:first-child { font-family: "Space Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #1a6fff; margin-bottom: 8px; }
@@ -2191,42 +2229,62 @@ export default function Home() {
       ══════════════════════════════════════════════════════ */}
       <section id="ecosystem" className="injected-section alt">
         <div className="injected-inner">
-          <div className="eco-grid-inj">
-            <div>
-              <div className="sc-left eyebrow-inj">What is CNS</div>
-              <h2 className="sc-left h2-inj" style={{ transitionDelay: "0.22s" }}>Not monitoring.<br />Not prediction.<br />Causal governance.</h2>
-              <p className="sc-left copy-inj" style={{ marginTop: 20, transitionDelay: "0.44s" }}>
-                CNS is a sovereign deterministic causal ecosystem for critical environments where operational decisions, evidence, continuity, and system trust must be structured, bounded, verifiable, and reviewable.
-              </p>
-              <div className="qa-list-inj">
-                {[
-                  ["Is the system state coherent?",  "CNS evaluates whether the operational state remains causally aligned and structurally valid."],
-                  ["Is the system bounded?",          "CNS classifies outputs into controlled operational states rather than opaque reactions."],
-                  ["Is runtime trustworthy?",         "CNS validates execution path, module context, and deployment state before action."],
-                  ["Is the result reviewable?",       "CNS generates evidence packages for replay, audit, and institutional review."],
-                  ["Can evidence be trusted later?",  "CNS supports hash-based integrity, sealed packages, and reviewable chain-of-custody."],
-                ].map(([q, a], i) => (
-                  <div key={q} className="sc-reveal qa-row-inj" style={{ transitionDelay: (0.3 + i * 0.1) + "s" }}>
-                    <div>{q}</div><div>{a}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="principles-grid-inj">
+
+          {/* Intro — what CNS is */}
+          <div className="whatis-head">
+            <div className="sc-reveal eyebrow-inj">What is CNS</div>
+            <h2 className="sc-reveal h2-inj" style={{ transitionDelay: "0.22s", marginBottom: 20 }}>
+              A deterministic causal ecosystem.
+            </h2>
+            <p className="sc-reveal copy-inj whatis-lead" style={{ transitionDelay: "0.44s" }}>
+              Causal Nexus Systems is a sovereign, deterministic causal-intelligence ecosystem for environments where a decision, its evidence, and its boundaries must be reproducible, bounded and auditable. It does not predict outcomes or score risk probabilistically — it evaluates the causal structure of a decision before that decision becomes an executed state, and seals the result as reviewable evidence.
+            </p>
+          </div>
+
+          {/* Problems it solves today */}
+          <div className="whatis-block">
+            <div className="sc-reveal whatis-label">Problems it solves today</div>
+            <div className="whatis-cards">
               {[
-                ["Deterministic", "Same validated input and same execution boundary should produce the same reviewable output."],
-                ["Bounded",       "Outputs are classified into controlled operational states with explicit review boundaries."],
-                ["Sovereign",     "Designed for local, private, air-gapped, or embedded deployment profiles under defined scope."],
-                ["Falsifiable",   "Evidence can be packaged through hashes, manifests, Merkle roots, and replay artifacts."],
-                ["Traceable",     "Module-level contribution records preserve the authority path from signal to runtime posture."],
-                ["Modular",       "Each module can be scoped independently or integrated into the CNS ecosystem."],
-              ].map(([title, desc], i) => (
-                <div key={title} className="sc-scale principle-inj" style={{ transitionDelay: (0.1 + i * 0.1) + "s" }}>
-                  <div>{title}</div><div>{desc}</div>
+                ["Autonomous systems acting outside their boundary", "Agents can extend authority, combine permissions or act beyond intended scope. CNS decides whether the next state is admissible before it is allowed to exist."],
+                ["Decisions that can't be trusted after the fact", "When data conflicts, evidence is altered or infrastructure degrades, CNS keeps decisions bounded and produces a sealed, replayable evidence chain."],
+                ["Probabilistic systems with no accountability", "Instead of opaque risk scores, CNS classifies outputs into controlled operational states with an explicit, traceable authority path."],
+              ].map(([t, d], i) => (
+                <div key={t} className="sc-scale whatis-card" style={{ transitionDelay: (0.1 + i * 0.1) + "s" }}>
+                  <div className="whatis-card-t">{t}</div>
+                  <div className="whatis-card-d">{d}</div>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Who it's for + properties */}
+          <div className="whatis-grid2">
+            <div className="sc-left whatis-sectors">
+              <div className="whatis-label">Built for — dual-use</div>
+              <p className="whatis-sub">CNS is designed for high-consequence environments where repeatability, bounded execution and auditability matter.</p>
+              <div className="whatis-pills">
+                {["Defense & national security", "Critical infrastructure", "Energy", "Aerospace", "Financial systems", "Healthcare automation", "Autonomous platforms", "Industrial automation", "AI-agent governance"].map(s => (
+                  <span key={s} className="whatis-pill">{s}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="sc-right whatis-props">
+              <div className="whatis-label">How it operates</div>
+              {[
+                ["Deterministic", "Same validated input and boundary produce the same reviewable output."],
+                ["Sovereign · no cloud dependency", "Runs locally, private, air-gapped or embedded. No cloud service and no Linux dependency required to decide."],
+                ["Falsifiable", "Outputs are sealed with hashes, manifests and Merkle roots for independent verification."],
+              ].map(([t, d]) => (
+                <div key={t} className="whatis-prop">
+                  <div className="whatis-prop-t">{t}</div>
+                  <div className="whatis-prop-d">{d}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
