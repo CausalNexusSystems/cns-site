@@ -2717,11 +2717,6 @@ export default function Home() {
                 <p>AI is moving into decisions where a mistake costs lives, missions or critical infrastructure: sensor fusion, navigation integrity, spoofing detection and autonomous agents. Today, trust in these systems rests mostly on the vendor's own word and on benchmarks that cannot be reproduced. Before an autonomous system is fielded, someone must answer with proof: does it do what is claimed, under real conditions, and where does it break? AETRA answers that question deterministically, independently and with evidence that survives scrutiny.</p>
               </div>
 
-              <div className="aetra-demo">
-                <div className="aetra-demo-label">Demonstrated</div>
-                <p>Evaluation on real public aircraft surveillance data (ADS-B) with sealed spoofing attacks. Bit-for-bit reproducible results across processor architectures, and the same sealed results with and without a network connection.</p>
-              </div>
-
               <div className="aetra-closer">
                 AETRA determines, with proof, whether an AI system does what is claimed — and exactly where it breaks.
               </div>
