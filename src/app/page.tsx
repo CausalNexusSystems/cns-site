@@ -31,6 +31,7 @@ const ARCH_ITEMS = [
   { label: "OMEGA",  action: "scroll", target: "modules" },
   { label: "AXIOM",  action: "scroll", target: "axiom" },
   { label: "CRATOS", action: "scroll", target: "cratos" },
+  { label: "AETRA",  action: "scroll", target: "aetra" },
   { label: "ARCHÉ",  action: "scroll", target: "arche" },
   { label: "CNL",    action: "modal",  target: "cnl" },
   { label: "CES",    action: "modal",  target: "ces" },
@@ -1311,8 +1312,8 @@ function GlobalStyles() {
       .cratos-img {
         width: 100%; max-width: 540px; aspect-ratio: 1 / 1;
         border-radius: 20px; overflow: hidden;
-        border: 1px solid rgba(220,70,70,0.3);
-        box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 60px rgba(220,70,70,0.08);
+        border: 1px solid rgba(0,200,122,0.3);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 60px rgba(0,200,122,0.08);
       }
       .cratos-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
       .cratos-desc { max-width: 580px; }
@@ -1320,7 +1321,7 @@ function GlobalStyles() {
         font-family: "Space Mono", monospace;
         font-size: 12px; font-weight: 700;
         letter-spacing: 0.22em; text-transform: uppercase;
-        color: #e05252; margin-bottom: 12px;
+        color: #00c87a; margin-bottom: 12px;
       }
       .cratos-title {
         font-size: clamp(40px, 6vw, 72px); font-weight: 800;
@@ -1332,52 +1333,149 @@ function GlobalStyles() {
       }
       .cratos-block { margin-bottom: 18px; }
       .cratos-block p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.66); }
-      .cratos-block strong { color: #e05252; font-weight: 600; }
+      .cratos-block strong { color: #00c87a; font-weight: 600; }
       .cratos-block h3 {
         font-family: "Space Mono", monospace;
         font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-        color: #e05252; margin-bottom: 10px;
+        color: #00c87a; margin-bottom: 10px;
       }
       .cratos-pills { display: flex; flex-wrap: wrap; gap: 6px; }
       .cratos-pill {
         font-family: "Space Mono", monospace;
         font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase;
         color: rgba(255,255,255,0.7);
-        background: rgba(220,70,70,0.08); border: 1px solid rgba(220,70,70,0.3);
+        background: rgba(0,200,122,0.08); border: 1px solid rgba(0,200,122,0.3);
         padding: 5px 10px; border-radius: 6px;
       }
       .cratos-closer {
         margin: 22px 0;
         padding: 16px 18px;
-        background: rgba(220,70,70,0.06);
-        border: 1px solid rgba(220,70,70,0.25);
-        border-left: 3px solid #e05252;
+        background: rgba(0,200,122,0.06);
+        border: 1px solid rgba(0,200,122,0.25);
+        border-left: 3px solid #00c87a;
         border-radius: 0 12px 12px 0;
         font-size: 14px; font-weight: 600; font-style: italic;
         color: rgba(255,255,255,0.88); line-height: 1.55;
       }
       .cratos-proof {
         display: block; padding: 18px 20px; border-radius: 14px;
-        background: rgba(220,70,70,0.06); border: 1px solid rgba(220,70,70,0.3);
+        background: rgba(0,200,122,0.06); border: 1px solid rgba(0,200,122,0.3);
         text-decoration: none;
         transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
       }
       .cratos-proof:hover {
-        background: rgba(220,70,70,0.1); border-color: rgba(220,70,70,0.6);
+        background: rgba(0,200,122,0.1); border-color: rgba(0,200,122,0.6);
         transform: translateY(-2px);
       }
       .cratos-proof-head {
-        display: flex; align-items: center; gap: 9px; color: #e05252;
+        display: flex; align-items: center; gap: 9px; color: #00c87a;
         font-family: "Space Mono", monospace;
         font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
         margin-bottom: 8px;
       }
-      .cratos-proof-link { font-size: 12px; font-weight: 600; color: #e05252; }
+      .cratos-proof-link { font-size: 12px; font-weight: 600; color: #00c87a; }
       @media (max-width: 1000px) {
         .cratos-inner { padding: 60px 20px; }
         .cratos-grid { grid-template-columns: 1fr; gap: 40px; justify-items: center; }
         .cratos-desc { max-width: 620px; }
         .cratos-img { max-width: 460px; }
+      }
+
+      /* ══════════════════════════════════════════════
+         AETRA — text left, image right (amber accent)
+      ══════════════════════════════════════════════ */
+      .aetra-section {
+        position: relative; z-index: 10;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .aetra-inner { max-width: 1280px; margin: 0 auto; padding: 80px 48px; }
+      .aetra-grid {
+        display: grid; grid-template-columns: 1.1fr 0.9fr;
+        gap: 56px; align-items: start;
+      }
+      .aetra-desc { max-width: 640px; }
+      .aetra-eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 12px; font-weight: 700;
+        letter-spacing: 0.22em; text-transform: uppercase;
+        color: #5a9fe8; margin-bottom: 12px;
+      }
+      .aetra-title {
+        font-size: clamp(40px, 6vw, 72px); font-weight: 800;
+        letter-spacing: 0.06em; color: white; line-height: 1; margin-bottom: 10px;
+      }
+      .aetra-lead {
+        font-size: clamp(15px, 1.8vw, 19px);
+        color: rgba(255,255,255,0.72); font-weight: 500; margin-bottom: 10px;
+      }
+      .aetra-motto {
+        display: inline-block;
+        font-family: "Space Mono", monospace;
+        font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: #5a9fe8;
+        background: rgba(90,159,232,0.08); border: 1px solid rgba(90,159,232,0.3);
+        padding: 6px 14px; border-radius: 8px; margin-bottom: 26px;
+      }
+      .aetra-block { margin-bottom: 22px; }
+      .aetra-block h3 {
+        font-family: "Space Mono", monospace;
+        font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+        color: #5a9fe8; margin-bottom: 10px;
+      }
+      .aetra-block p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.66); }
+      .aetra-block strong { color: rgba(255,255,255,0.92); font-weight: 600; }
+      .aetra-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+      .aetra-list li {
+        font-size: 13.5px; line-height: 1.6; color: rgba(255,255,255,0.62);
+        padding-left: 16px; position: relative;
+      }
+      .aetra-list li::before {
+        content: "—"; position: absolute; left: 0; color: #5a9fe8;
+      }
+      .aetra-list strong { color: #5a9fe8; font-weight: 600; }
+      .aetra-demo {
+        margin: 24px 0;
+        padding: 18px 20px;
+        background: rgba(90,159,232,0.06);
+        border: 1px solid rgba(90,159,232,0.25);
+        border-radius: 12px;
+      }
+      .aetra-demo-label {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+        color: #5a9fe8; margin-bottom: 8px;
+      }
+      .aetra-demo p { font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.68); }
+      .aetra-closer {
+        margin: 22px 0;
+        padding: 16px 18px;
+        background: rgba(90,159,232,0.06);
+        border: 1px solid rgba(90,159,232,0.25);
+        border-left: 3px solid #5a9fe8;
+        border-radius: 0 12px 12px 0;
+        font-size: 14px; font-weight: 600; font-style: italic;
+        color: rgba(255,255,255,0.88); line-height: 1.55;
+      }
+      .aetra-patent {
+        font-family: "Space Mono", monospace;
+        font-size: 10px; letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.4); line-height: 1.6;
+      }
+      /* image right — sticky so it follows the long text */
+      .aetra-img-wrap { position: sticky; top: 100px; display: flex; justify-content: center; }
+      .aetra-img {
+        width: 100%; max-width: 480px; aspect-ratio: 1 / 1;
+        border-radius: 20px; overflow: hidden;
+        border: 1px solid rgba(90,159,232,0.3);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 60px rgba(90,159,232,0.08);
+      }
+      .aetra-img video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      @media (max-width: 1000px) {
+        .aetra-inner { padding: 60px 20px; }
+        .aetra-grid { grid-template-columns: 1fr; gap: 40px; }
+        .aetra-img-wrap { position: static; order: -1; }
+        .aetra-img { max-width: 440px; }
+        .aetra-desc { max-width: 100%; }
       }
 
       /* ══════════════════════════════════════════════
@@ -2571,6 +2669,79 @@ export default function Home() {
         </div>
       </section>
 
+      <SectionSep delay={0.2} />
+
+      {/* ══════════════════════════════════════════════════════
+          AETRA — AI evaluation & assurance authority (text left, image right)
+      ══════════════════════════════════════════════════════ */}
+      <section id="aetra" className="aetra-section">
+        <div className="aetra-inner">
+          <div className="aetra-grid">
+
+            {/* LEFT — text */}
+            <div className="sc-left aetra-desc">
+              <div className="aetra-eyebrow">CNS_AETRA</div>
+              <h2 className="aetra-title">AETRA</h2>
+              <p className="aetra-lead">Deterministic AI Evaluation and Assurance Authority</p>
+              <div className="aetra-motto">No evidence, no claim.</div>
+
+              <div className="aetra-block">
+                <h3>What it is</h3>
+                <p>AETRA is an independent authority that decides whether an AI system has earned the trust claimed for it. It is not a model or a dashboard — it is a <strong>deterministic evaluation engine</strong>. It turns an AI system's behavior into sealed evidence and issues verdicts that anyone can check.</p>
+              </div>
+
+              <div className="aetra-block">
+                <h3>What it does</h3>
+                <ul className="aetra-list">
+                  <li><strong>Claims are fixed before testing.</strong> Each claim — accuracy, robustness under attack, calibration, drift, timing or explanation quality — is registered with its bounds before any data is examined.</li>
+                  <li><strong>One of three verdicts per claim.</strong> Admitted if the evidence supports it, Refuted if it contradicts it, Open if there is not enough evidence. AETRA never admits a claim it cannot support.</li>
+                  <li><strong>It finds the breaking point.</strong> AETRA reports where a system can be trusted and exactly where it fails.</li>
+                  <li><strong>Anyone can verify the results.</strong> Every decision is cryptographically sealed and can be re-derived by a separate verifier without trusting AETRA, CNS or the vendor.</li>
+                  <li><strong>It runs fully offline.</strong> The same inputs give the same sealed results on any machine, with or without a network.</li>
+                </ul>
+              </div>
+
+              <div className="aetra-block">
+                <h3>What problems it solves</h3>
+                <ul className="aetra-list">
+                  <li><strong>Claims nobody can check.</strong> Vendor-reported accuracy and robustness become claims that stand or fall on verifiable evidence.</li>
+                  <li><strong>Retrying until the numbers look good.</strong> Every evaluation attempt is recorded and sealed, so none can be hidden.</li>
+                  <li><strong>Averages that hide blind spots.</strong> AETRA certifies where a system works and shows where it breaks.</li>
+                  <li><strong>Evidence that can be quietly changed.</strong> Altered logs, swapped datasets or re-labeled results are detected.</li>
+                  <li><strong>Dependence on the cloud.</strong> Results are reproducible and auditable entirely offline.</li>
+                </ul>
+              </div>
+
+              <div className="aetra-block">
+                <h3>Why AETRA is necessary</h3>
+                <p>AI is moving into decisions where a mistake costs lives, missions or critical infrastructure: sensor fusion, navigation integrity, spoofing detection and autonomous agents. Today, trust in these systems rests mostly on the vendor's own word and on benchmarks that cannot be reproduced. Before an autonomous system is fielded, someone must answer with proof: does it do what is claimed, under real conditions, and where does it break? AETRA answers that question deterministically, independently and with evidence that survives scrutiny.</p>
+              </div>
+
+              <div className="aetra-demo">
+                <div className="aetra-demo-label">Demonstrated</div>
+                <p>Evaluation on real public aircraft surveillance data (ADS-B) with sealed spoofing attacks. Bit-for-bit reproducible results across processor architectures, and the same sealed results with and without a network connection.</p>
+              </div>
+
+              <div className="aetra-closer">
+                AETRA determines, with proof, whether an AI system does what is claimed — and exactly where it breaks.
+              </div>
+
+              <div className="aetra-patent">
+                Causal Nexus Systems LLC · Orlando, FL · Patent pending (U.S. Provisional #64/169,631)
+              </div>
+            </div>
+
+            {/* RIGHT — video */}
+            <div className="sc-right aetra-img-wrap">
+              <div className="aetra-img">
+                <video src="/brand/CNS_AETRA.mp4" autoPlay loop muted playsInline preload="metadata" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <SectionSep delay={0.7} />
       <section id="business" className="injected-section dim">
         <div className="injected-inner">
@@ -2709,6 +2880,7 @@ export default function Home() {
                 <button className="footer-link" onClick={() => scrollToId("modules")}>OMEGA</button>
                 <button className="footer-link" onClick={() => scrollToId("axiom")}>AXIOM</button>
                 <button className="footer-link" onClick={() => scrollToId("cratos")}>CRATOS</button>
+                <button className="footer-link" onClick={() => scrollToId("aetra")}>AETRA</button>
                 <button className="footer-link" onClick={() => setInfoModal("cnl")}>CNL Ledger</button>
                 <button className="footer-link" onClick={() => setInfoModal("ces")}>CES Module</button>
               </div>
